@@ -64,8 +64,19 @@ export type RecentlyUnfollowedProfiles = {
   relationships_unfollowed_users: UserData[];
 };
 
-
 // 被使用者移除的「推薦用戶」
-export type RemovedSuggestions={
+export type RemovedSuggestions = {
   relationships_dismissed_suggested_users: UserData[];
 };
+
+export type InstagramData =
+  | Followers
+  | Following
+  | CloseFriends
+  | FollowingHashtags
+  | BlockedUsers
+  | HideStoriesFrom
+  | PendingFollowRequests
+  | RecentFollowRequests
+  | RecentlyUnfollowedProfiles
+  | RemovedSuggestions;

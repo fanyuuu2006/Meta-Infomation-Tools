@@ -1,9 +1,7 @@
-import { Followers, Following, UserData } from "./DataTypes";
+import { Followers, Following, InstagramData, UserData } from "./DataTypes";
 // FileReader 是異步操作
-export const HandleJsonFile = (event: any): Promise<any> => {
+export const HandleJsonFile = (file: File): Promise<InstagramData> => {
   return new Promise((resolve, reject) => {
-    const file: File = event.target.files?.[0];
-
     if (!file) {
       reject(new Error("檔案未選擇"));
       return;
@@ -55,5 +53,3 @@ export const NoFollowBackUsers = (
     );
   return FilteredUserData;
 };
-
-

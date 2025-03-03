@@ -1,0 +1,26 @@
+@import url(./globals.css);
+
+.FileUpload-Div{
+    border: 3px solid var(--border-color);
+    border-radius: 10%;
+    padding: var(--padding-large) var(--padding-ultra);
+}
+
+.FileUpload-Title{
+    font-size: var(--title-size);  
+    border-bottom: 1px solid var(--border-color);
+    text-wrap: nowrap;
+    padding-bottom: var(--padding-medium);
+}
+
+.FileUpload-Label{
+    font-size: var(--label-size);    
+    text-wrap: nowrap;
+}
+
+.FileUpload-FileButton{
+    font-size: var(--content-size);    
+    text-wrap: nowrap;
+    border: 1px solid var(--border-color);;
+    padding: 0 var(--padding-large);
+}
