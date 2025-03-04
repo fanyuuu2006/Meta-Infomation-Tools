@@ -7,10 +7,6 @@
   --space-medium: 10px;
   --space-large: 20px;
   --space-ultra: 30px;
-
-  --title-size: 25px;
-  --label-size: 20px;
-  --content-size: 16px;
 }
 
 * {
@@ -44,4 +40,24 @@ a {
 a:hover{
     color: #0000FF;
     text-decoration: underline;
+}
+
+.Title{
+    font-size: 25;  
+    text-wrap: nowrap;
+}
+
+.Label{
+    font-size: 20;     
+    text-wrap: nowrap;
+}
+
+.Content{
+    font-size: 16;    
+    text-wrap: nowrap;
+}
+
+.Note{
+    font-size: 14;    
+    text-wrap: nowrap;
 }

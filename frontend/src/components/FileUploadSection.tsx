@@ -37,8 +37,8 @@ export const FileUploadSection = () => {
 
       setData(
         NoFollowBackUsers(
-          FollowersFile as Followers,
-          FollowingFile as Following
+          FollowingFile as Following,
+          FollowersFile as Followers
         )
       );
     } catch (error) {
@@ -59,8 +59,8 @@ export const FileUploadSection = () => {
         className="FileUpload-Div"
         size={"small"}
       >
-        <div className="FileUpload-Title BottomLine">上傳你的 JSON 檔案</div>
-        <div className="FileUpload-Label">Followers 檔案</div>
+        <div className="Title BottomLine">上傳你的 JSON 檔案</div>
+        <div className="Label">Followers 檔案</div>
         <Upload
           showUploadList={false}
           multiple={false} // 只能選擇一個檔案
@@ -68,11 +68,11 @@ export const FileUploadSection = () => {
           onChange={handleChange1}
           beforeUpload={() => false}
         >
-          <Button className="FileUpload-FileButton" icon={<UploadOutlined />}>
+          <Button className="FileUpload-FileButton Content" icon={<UploadOutlined />}>
             選擇檔案
           </Button>
         </Upload>
-        <div className="FileUpload-Label">Following 檔案</div>
+        <div className="Label">Following 檔案</div>
 
         <Upload
           showUploadList={false}
@@ -81,7 +81,7 @@ export const FileUploadSection = () => {
           onChange={handleChange2}
           beforeUpload={() => false}
         >
-          <Button className="FileUpload-FileButton" icon={<UploadOutlined />}>
+          <Button className="FileUpload-FileButton Content" icon={<UploadOutlined />}>
             選擇檔案
           </Button>
         </Upload>
@@ -98,14 +98,16 @@ export const FileUploadSection = () => {
             wrap={false}
             className="FileUpload-Div"
           >
-            <div className="FileUpload-Label BottomLine">你追蹤而沒回追你的名單</div>
+            <div className="Label BottomLine">
+              你追蹤而沒回追你的名單
+            </div>
             <table>
               <tbody>
                 {Data.map((user: UserData) => {
                   return (
                     <tr
                       key={user.string_list_data[0].value}
-                      className="FileUpload-Content "
+                      className="Note"
                     >
                       <OutsideLink href={user.string_list_data[0].href}>
                         {user.string_list_data[0].value}

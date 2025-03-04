@@ -14,24 +14,7 @@
     margin: var(--space-medium);
 }
 
-.FileUpload-Title{
-    font-size: var(--title-size);  
-    text-wrap: nowrap;
-}
-
-.FileUpload-Label{
-    font-size: var(--label-size);     
-    text-wrap: nowrap;
-}
-
-.FileUpload-Content{
-    font-size: var(--content-size);    
-    text-wrap: nowrap;
-}
-
 .FileUpload-FileButton{
-    font-size: var(--content-size);    
-    text-wrap: nowrap;
     border: 1px solid var(--border-color);;
     padding: 0 var(--space-large);
 }
