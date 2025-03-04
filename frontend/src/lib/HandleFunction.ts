@@ -1,4 +1,10 @@
-import { Followers, Following, InstagramData, UserData } from "./DataTypes";
+import {
+  Followers,
+  Following,
+  InstagramData,
+  TimeStamp,
+  UserData,
+} from "./DataTypes";
 // FileReader 是異步操作
 export const HandleJsonFile = (file: File): Promise<InstagramData> => {
   return new Promise((resolve, reject) => {
@@ -30,7 +36,7 @@ export const HandleJsonFile = (file: File): Promise<InstagramData> => {
 
 export const NoFollowBackUsers = (
   FollowingFile: Following,
-  FollowersFile: Followers,
+  FollowersFile: Followers
 ): UserData[] => {
   if (
     FollowersFile[0].string_list_data === undefined ||
@@ -56,7 +62,7 @@ export const NoFollowBackUsers = (
 
 export const NoFollowingBackUsers = (
   FollowersFile: Followers,
-  FollowingFile: Following,
+  FollowingFile: Following
 ): UserData[] => {
   if (
     FollowersFile[0].string_list_data === undefined ||
@@ -78,4 +84,9 @@ export const NoFollowingBackUsers = (
       }
     );
   return FilteredUserData;
+};
+
+export const DateFromTimeStamp = (timestamp: TimeStamp): string => {
+  const date = new Date(timestamp * 1000)
+  return date.toUTCString();
 };

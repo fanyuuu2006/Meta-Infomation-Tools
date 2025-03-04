@@ -44,10 +44,6 @@
   padding: var(--space-small) var(--space-medium);
 }
 
-.FileUpload-Table-Data {
-    
-}
-
 @media (max-width: 768px) {
   .FileUpload-Div {
     width: 100%;
