@@ -1,22 +1,31 @@
-@import url(./globals.css);
+@import url(../globals.css);
+
+.FileUpload-Container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
 
 .FileUpload-Div{
     background-color: var(--div-background-color);
     border: 3px solid var(--border-color);
-    border-radius: 10%;
+    border-radius: 10px;
     padding: var(--space-large) var(--space-ultra);
-    margin: var(--space-large);
+    margin: var(--space-medium);
 }
 
 .FileUpload-Title{
     font-size: var(--title-size);  
-    border-bottom: 1px solid var(--border-color);
     text-wrap: nowrap;
-    padding-bottom: var(--space-medium);
 }
 
 .FileUpload-Label{
-    font-size: var(--label-size);    
+    font-size: var(--label-size);     
+    text-wrap: nowrap;
+}
+
+.FileUpload-Content{
+    font-size: var(--content-size);    
     text-wrap: nowrap;
 }
 

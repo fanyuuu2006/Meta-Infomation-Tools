@@ -27,3 +27,21 @@ body {
   background-color: var(--background-color);
   padding: 1em;
 }
+
+
+.BottomLine{
+    padding-bottom: var(--space-small);
+    border-bottom: 1px solid var(--border-color);
+}
+
+a {
+    color: #0069FF;
+    cursor: pointer;
+    text-decoration: none; /* 移除底線 */
+  }
+
+
+a:hover{
+    color: #0000FF;
+    text-decoration: underline;
+}

@@ -1,11 +1,11 @@
 "use client";
-import { FileUploadDiv } from "@/components/common/FileUploadDiv";
+import { FileUploadSection } from "@/components/FileUploadSection";
 
 export default function Index() {
   
   return (
     <>
-      <FileUploadDiv />
+      <FileUploadSection />
     </>
   );
 }
