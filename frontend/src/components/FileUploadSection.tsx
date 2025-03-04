@@ -1,6 +1,6 @@
 import "@/styles/Index/FileUploadSection.css";
 import React, { useState } from "react";
-import { Upload, Button, message, UploadFile, Space } from "antd";
+import { Upload, Button, UploadFile, Space } from "antd";
 import { UploadOutlined } from "@ant-design/icons";
 
 import { HandleJsonFile, NoFollowBackUsers } from "@/lib/HandleFunction";
@@ -8,6 +8,7 @@ import { Followers, Following, InstagramData, UserData } from "@/lib/DataTypes";
 
 import { OutsideLink } from "./common/OutsideLink";
 import { DateFromTimeStamp } from "../lib/HandleFunction";
+import { Toast } from "./common/Swal";
 
 export const FileUploadSection = () => {
   const [Data, setData] = useState<UserData[]>([]);
@@ -25,8 +26,10 @@ export const FileUploadSection = () => {
   const UploadFiles = async () => {
     if ([...fileList1, ...fileList2].length === 0) {
       console.log("請先選擇檔案");
-
-      message.error("請先選擇檔案");
+      Toast.fire({
+        icon: "error",
+        title: "請先選擇檔案",
+      });
       return;
     }
 
@@ -47,10 +50,18 @@ export const FileUploadSection = () => {
       );
       setFileList1([]);
       setFileList2([]);
+      Toast.fire({
+        icon: "success",
+        title: "上傳成功",
+      });
     } catch (error) {
       console.log(error);
 
-      message.error(`${error}`);
+      Toast.fire({
+        icon: "error",
+        title: "解析檔案錯誤",
+        text: "請檢查檔案格式是否正確",
+      });
     }
   };
 

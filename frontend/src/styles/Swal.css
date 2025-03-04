@@ -1,21 +1,24 @@
-/* SweetAlert2 自訂 toast-color  樣式 */
-.toast-color .swal2-icon-success {
+/* SweetAlert2 自訂 toast-color 樣式 */
+.swal2-icon-content {
+  justify-content: center;
+}
+
+.toast-color.swal2-icon-success {
   background-color: #17c600 !important;
 }
 
-.toast-color .swal2-icon-error {
-  background-color: #ff0000 !important;
+.toast-color.swal2-icon-error {
+  background-color: #ff3300 !important;
 }
 
-.toast-color .swal2-icon-warning {
+.toast-color.swal2-icon-warning {
   background-color: #eb7e01 !important;
 }
 
-.toast-color .swal2-icon-info {
+.toast-color.swal2-icon-info {
   background-color: #005fcc !important;
 }
 
-.toast-color .swal2-icon-question {
+.toast-color.swal2-icon-question {
   background-color: #5d5d5d !important;
 }
-

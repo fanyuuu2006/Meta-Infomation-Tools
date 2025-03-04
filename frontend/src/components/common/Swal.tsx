@@ -5,11 +5,12 @@ export const Toast = Swal.mixin({
   toast: true,
   position: "center",
   iconColor: "white",
+  color: "#FFFFFF",
   showConfirmButton: false,
   customClass: {
     popup: "toast-color",
   },
-  timer: 300000,
+  timer: 3000,
   timerProgressBar: true,
 });
 
