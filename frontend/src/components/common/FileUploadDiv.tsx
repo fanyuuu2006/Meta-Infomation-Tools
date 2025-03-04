@@ -1,15 +1,18 @@
 import "@/styles/FileUploadDiv.css";
-import React, { useState } from "react";
+import React, { Dispatch, SetStateAction, useState } from "react";
 import { Upload, Button, message, UploadFile, Space } from "antd";
 import { UploadOutlined } from "@ant-design/icons";
 
 import { HandleJsonFile, NoFollowBackUsers } from "@/lib/HandleFunction";
 import { Followers, Following, InstagramData, UserData } from "@/lib/DataTypes";
 
-export const FileUploadDiv = () => {
+export const FileUploadDiv = ({
+  setData,
+}: {
+  setData: Dispatch<SetStateAction<UserData[]>>;
+}) => {
   const [fileList1, setFileList1] = useState<UploadFile[]>([]);
   const [fileList2, setFileList2] = useState<UploadFile[]>([]);
-  const [Data, setData] = useState<UserData[]>([]);
   const handleChange1 = ({ fileList }: { fileList: UploadFile[] }) => {
     setFileList1(fileList);
   };
