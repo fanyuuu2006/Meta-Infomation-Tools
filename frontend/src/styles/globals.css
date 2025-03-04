@@ -2,7 +2,7 @@
   --background-color: #f8f8f8;
   --div-background-color: #ffffff;
   --border-color: #888888;
-  
+
   --space-small: 5px;
   --space-medium: 10px;
   --space-large: 20px;
@@ -15,49 +15,57 @@
   margin: 0;
   scroll-behavior: smooth;
   scroll-margin: 4em;
+  flex-wrap: nowrap;
 }
 
 body {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
   width: 100%;
   overflow-x: hidden;
   background-color: var(--background-color);
   padding: 1em;
 }
 
-
-.BottomLine{
-    padding-bottom: var(--space-small);
-    border-bottom: 1px solid var(--border-color);
+div {
+  width: 100%;
+  max-width: 1200px;
 }
 
 a {
-    color: #0069FF;
-    cursor: pointer;
-    text-decoration: none; /* 移除底線 */
-  }
-
-
-a:hover{
-    color: #0000FF;
-    text-decoration: underline;
+  color: #0069ff;
+  cursor: pointer;
+  text-decoration: none; /* 移除底線 */
 }
 
-.Title{
-    font-size: 25;  
-    text-wrap: nowrap;
+a:hover {
+  color: #0000ff;
+  text-decoration: underline;
 }
 
-.Label{
-    font-size: 20;     
-    text-wrap: nowrap;
+.Title {
+  font-size: 25;
+  text-wrap: nowrap;
 }
 
-.Content{
-    font-size: 16;    
-    text-wrap: nowrap;
+.Label {
+  font-size: 20;
+  text-wrap: nowrap;
 }
 
-.Note{
-    font-size: 14;    
-    text-wrap: nowrap;
+.Content {
+  font-size: 16;
+  text-wrap: nowrap;
+}
+
+.Note {
+  font-size: 14;
+  text-wrap: nowrap;
+}
+
+.BottomLine {
+  padding-bottom: var(--space-small);
+  border-bottom: 1px solid var(--border-color);
 }

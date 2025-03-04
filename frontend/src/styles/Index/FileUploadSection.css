@@ -1,20 +1,45 @@
 @import url(../globals.css);
 
-.FileUpload-Container{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+.FileUpload-Container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
-.FileUpload-Div{
-    background-color: var(--div-background-color);
-    border: 3px solid var(--border-color);
-    border-radius: 10px;
-    padding: var(--space-large) var(--space-ultra);
-    margin: var(--space-medium);
+.FileUpload-Div {
+  width: 80%;
+  background-color: var(--div-background-color);
+  border: 3px solid var(--border-color);
+  border-radius: 10px;
+  padding: var(--space-large) var(--space-ultra);
+  margin: var(--space-medium);
 }
 
-.FileUpload-FileButton{
-    border: 1px solid var(--border-color);;
-    padding: 0 var(--space-large);
+.FileUpload-File-Div {
+  display: flex;
+  align-items: center;
+  background-color: lightgray;
+  border: 1px solid var(--border-color);
+  border-radius: 7px;
+  gap: 1%;
 }
+
+.FileUpload-File-Button {
+  border: 1px solid var(--border-color);
+  padding: 0 var(--space-large);
+}
+
+.FileUpload-Table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.FileUpload-Table-Data {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--border-color);
+  padding: var(--space-small) var(--space-medium);
+}
+

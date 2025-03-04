@@ -12,12 +12,13 @@ export const FileUploadSection = () => {
   const [Data, setData] = useState<UserData[]>([]);
   const [fileList1, setFileList1] = useState<UploadFile[]>([]);
   const [fileList2, setFileList2] = useState<UploadFile[]>([]);
+
   const handleChange1 = ({ fileList }: { fileList: UploadFile[] }) => {
-    setFileList1(fileList);
+    setFileList1(fileList.slice(-1)); // 只保留最後一個
   };
 
   const handleChange2 = ({ fileList }: { fileList: UploadFile[] }) => {
-    setFileList2(fileList);
+    setFileList2(fileList.slice(-1)); // 只保留最後一個
   };
 
   const UploadFiles = async () => {
@@ -41,51 +42,61 @@ export const FileUploadSection = () => {
           FollowersFile as Followers
         )
       );
+      setFileList1([]);
+      setFileList2([]);
     } catch (error) {
       console.log(error);
 
       message.error(`${error}`);
     }
-    setFileList1([]);
-    setFileList2([]);
   };
 
   return (
     <div className="FileUpload-Container">
       <Space
         direction="vertical"
-        align="center"
+        align="start"
         wrap={false}
         className="FileUpload-Div"
         size={"small"}
       >
         <div className="Title BottomLine">上傳你的 JSON 檔案</div>
         <div className="Label">Followers 檔案</div>
-        <Upload
-          showUploadList={false}
-          multiple={false} // 只能選擇一個檔案
-          fileList={fileList1}
-          onChange={handleChange1}
-          beforeUpload={() => false}
-        >
-          <Button className="FileUpload-FileButton Content" icon={<UploadOutlined />}>
-            選擇檔案
-          </Button>
-        </Upload>
+        <div className="FileUpload-File-Div">
+          <Upload
+            showUploadList={false}
+            multiple={false} // 只能選擇一個檔案
+            fileList={fileList1}
+            onChange={handleChange1}
+            beforeUpload={() => false}
+          >
+            <Button
+              className="FileUpload-File-Button Content"
+              icon={<UploadOutlined />}
+            >
+              選擇檔案
+            </Button>
+          </Upload>
+          {fileList1[0]?.name ?? "尚未上傳任何檔案"}
+        </div>
         <div className="Label">Following 檔案</div>
-
-        <Upload
-          showUploadList={false}
-          multiple={false} // 只能選擇一個檔案
-          fileList={fileList2}
-          onChange={handleChange2}
-          beforeUpload={() => false}
-        >
-          <Button className="FileUpload-FileButton Content" icon={<UploadOutlined />}>
-            選擇檔案
-          </Button>
-        </Upload>
-
+        <div className="FileUpload-File-Div">
+          <Upload
+            showUploadList={false}
+            multiple={false} // 只能選擇一個檔案
+            fileList={fileList2}
+            onChange={handleChange2}
+            beforeUpload={() => false}
+          >
+            <Button
+              className="FileUpload-File-Button Content"
+              icon={<UploadOutlined />}
+            >
+              選擇檔案
+            </Button>
+          </Upload>
+          {fileList2[0]?.name ?? "尚未上傳任何檔案"}
+        </div>
         <Button type="primary" onClick={UploadFiles}>
           開始搜尋
         </Button>
@@ -94,29 +105,35 @@ export const FileUploadSection = () => {
         <>
           <Space
             direction="vertical"
-            align="center"
+            align="start"
             wrap={false}
             className="FileUpload-Div"
           >
-            <div className="Label BottomLine">
-              你追蹤而沒回追你的名單
-            </div>
-            <table>
+            <div className="Label BottomLine">你追蹤而沒回追你的名單</div>
+            <table className="FileUpload-Table">
               <tbody>
-                {Data.map((user: UserData) => {
+                {Data.map((user: UserData, index: number) => {
                   return (
-                    <tr
-                      key={user.string_list_data[0].value}
-                      className="Note"
-                    >
-                      <OutsideLink href={user.string_list_data[0].href}>
-                        {user.string_list_data[0].value}
-                      </OutsideLink>
+                    <tr key={index} className="Content">
+                      <td className="FileUpload-Table-Data">
+                        <OutsideLink href={user.string_list_data[0].href}>
+                          {user.string_list_data[0].value}
+                        </OutsideLink>
+                        <span>{user.string_list_data[0].timestamp ?? ""}</span>
+                      </td>
                     </tr>
                   );
                 })}
               </tbody>
             </table>
+            <Button
+              type="default"
+              onClick={() => {
+                setData([]);
+              }}
+            >
+              關閉
+            </Button>
           </Space>
         </>
       )}
