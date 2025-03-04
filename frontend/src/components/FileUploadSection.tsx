@@ -6,50 +6,46 @@ import { UploadOutlined } from "@ant-design/icons";
 import { HandleJsonFile, NoFollowBackUsers } from "@/lib/HandleFunction";
 import { Followers, Following, InstagramData, UserData } from "@/lib/DataTypes";
 
+import { Toast } from "./common/Swal";
 import { OutsideLink } from "./common/OutsideLink";
 import { DateFromTimeStamp } from "../lib/HandleFunction";
-import { Toast } from "./common/Swal";
 
 export const FileUploadSection = () => {
   const [Data, setData] = useState<UserData[]>([]);
-  const [fileList1, setFileList1] = useState<UploadFile[]>([]);
-  const [fileList2, setFileList2] = useState<UploadFile[]>([]);
+  const [File1, setFile1] = useState<InstagramData>();
+  const [File2, setFile2] = useState<InstagramData>();
+  const [FileList1, setFileList1] = useState<UploadFile[]>([]);
+  const [FileList2, setFileList2] = useState<UploadFile[]>([]);
 
-  const handleChange1 = ({ fileList }: { fileList: UploadFile[] }) => {
-    setFileList1(fileList.slice(-1)); // 只保留最後一個
-  };
+  const handleChange1 = async ({ fileList }: { fileList: UploadFile[] }) => {
+    try {
+      setFileList1(fileList.slice(-1)); // 只保留最後一個
+      const file: InstagramData = await HandleJsonFile(
+        FileList1[0].originFileObj as File
+      );
+      setFile1(file);
+      Toast.fire({
+        icon: "success",
+        title: "上傳成功",
+      });
+    } catch (error) {
+      console.log(error);
 
-  const handleChange2 = ({ fileList }: { fileList: UploadFile[] }) => {
-    setFileList2(fileList.slice(-1)); // 只保留最後一個
-  };
-
-  const UploadFiles = async () => {
-    if ([...fileList1, ...fileList2].length === 0) {
-      console.log("請先選擇檔案");
       Toast.fire({
         icon: "error",
-        title: "請先選擇檔案",
+        title: "解析檔案錯誤",
+        text: "請重新上傳",
       });
-      return;
     }
+  };
 
+  const handleChange2 = async ({ fileList }: { fileList: UploadFile[] }) => {
     try {
-      setData([]);
-      const FollowersFile: InstagramData = await HandleJsonFile(
-        fileList1[0].originFileObj as File
+      setFileList2(fileList.slice(-1)); // 只保留最後一個
+      const file: InstagramData = await HandleJsonFile(
+        FileList2[0].originFileObj as File
       );
-      const FollowingFile: InstagramData = await HandleJsonFile(
-        fileList2[0].originFileObj as File
-      );
-
-      setData(
-        NoFollowBackUsers(
-          FollowingFile as Following,
-          FollowersFile as Followers
-        )
-      );
-      setFileList1([]);
-      setFileList2([]);
+      setFile2(file);
       Toast.fire({
         icon: "success",
         title: "上傳成功",
@@ -61,6 +57,31 @@ export const FileUploadSection = () => {
         icon: "error",
         title: "解析檔案錯誤",
         text: "請檢查檔案格式是否正確",
+      });
+    }
+  };
+
+  const UploadFiles = async () => {
+    if ([...FileList1, ...FileList2].length === 0) {
+      console.log("請先選擇檔案");
+      Toast.fire({
+        icon: "error",
+        title: "請先選擇檔案",
+      });
+      return;
+    }
+
+    try {
+      setData([]);
+      setData(NoFollowBackUsers(File1 as Followers, File2 as Following));
+      setFileList1([]);
+      setFileList2([]);
+    } catch (error) {
+      console.log(error);
+
+      Toast.fire({
+        icon: "error",
+        title: "搜尋失敗！請確認檔案是否正確",
       });
     }
   };
@@ -80,7 +101,7 @@ export const FileUploadSection = () => {
           <Upload
             showUploadList={false}
             multiple={false} // 只能選擇一個檔案
-            fileList={fileList1}
+            fileList={FileList1}
             onChange={handleChange1}
             beforeUpload={() => false}
           >
@@ -91,14 +112,14 @@ export const FileUploadSection = () => {
               選擇檔案
             </Button>
           </Upload>
-          {fileList1[0]?.name ?? "尚未上傳任何檔案"}
+          {FileList1[0]?.name ?? "尚未上傳任何檔案"}
         </div>
         <div className="Label">Following 檔案</div>
         <div className="FileUpload-File-Div">
           <Upload
             showUploadList={false}
             multiple={false} // 只能選擇一個檔案
-            fileList={fileList2}
+            fileList={FileList2}
             onChange={handleChange2}
             beforeUpload={() => false}
           >
@@ -109,7 +130,7 @@ export const FileUploadSection = () => {
               選擇檔案
             </Button>
           </Upload>
-          {fileList2[0]?.name ?? "尚未上傳任何檔案"}
+          {FileList2[0]?.name ?? "尚未上傳任何檔案"}
         </div>
         <Button type="primary" onClick={UploadFiles}>
           開始搜尋

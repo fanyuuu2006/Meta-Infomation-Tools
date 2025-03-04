@@ -35,8 +35,8 @@ export const HandleJsonFile = (file: File): Promise<InstagramData> => {
 };
 
 export const NoFollowBackUsers = (
+  FollowersFile: Followers,
   FollowingFile: Following,
-  FollowersFile: Followers
 ): UserData[] => {
   if (
     FollowersFile[0].string_list_data === undefined ||
@@ -61,8 +61,8 @@ export const NoFollowBackUsers = (
 };
 
 export const NoFollowingBackUsers = (
+  FollowingFile: Following,
   FollowersFile: Followers,
-  FollowingFile: Following
 ): UserData[] => {
   if (
     FollowersFile[0].string_list_data === undefined ||
