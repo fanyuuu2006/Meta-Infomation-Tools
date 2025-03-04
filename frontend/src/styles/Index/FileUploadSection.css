@@ -32,8 +32,10 @@
 
 .FileUpload-Table {
   width: 100%;
+  table-layout: fixed;
   border-collapse: collapse;
 }
+
 
 .FileUpload-Table-Data {
   width: 100%;

@@ -87,6 +87,18 @@ export const NoFollowingBackUsers = (
 };
 
 export const DateFromTimeStamp = (timestamp: TimeStamp): string => {
-  const date = new Date(timestamp * 1000)
-  return date.toUTCString();
+  const date = new Date(timestamp * 1000);
+
+  // "2025/03/04 21:00:00"
+  const formatter = new Intl.DateTimeFormat("zh-TW", {
+    year: "numeric", // 完整年分 
+    month: "2-digit", 
+    day: "2-digit",
+    hour: "2-digit",
+    minute: "2-digit",
+    second: "2-digit",
+    hour12: false, // 24 小時制制
+  });
+
+  return formatter.format(date);
 };

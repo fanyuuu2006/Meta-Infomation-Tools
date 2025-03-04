@@ -7,6 +7,7 @@ import { HandleJsonFile, NoFollowBackUsers } from "@/lib/HandleFunction";
 import { Followers, Following, InstagramData, UserData } from "@/lib/DataTypes";
 
 import { OutsideLink } from "./common/OutsideLink";
+import { DateFromTimeStamp } from "../lib/HandleFunction";
 
 export const FileUploadSection = () => {
   const [Data, setData] = useState<UserData[]>([]);
@@ -28,7 +29,9 @@ export const FileUploadSection = () => {
       message.error("請先選擇檔案");
       return;
     }
+
     try {
+      setData([]);
       const FollowersFile: InstagramData = await HandleJsonFile(
         fileList1[0].originFileObj as File
       );
@@ -60,7 +63,7 @@ export const FileUploadSection = () => {
         className="FileUpload-Div"
         size={"small"}
       >
-        <div className="Title BottomLine">上傳你的 JSON 檔案</div>
+        <div className="Title BottomLine">上傳您的 JSON 檔案</div>
         <div className="Label">Followers 檔案</div>
         <div className="FileUpload-File-Div">
           <Upload
@@ -109,17 +112,23 @@ export const FileUploadSection = () => {
             wrap={false}
             className="FileUpload-Div"
           >
-            <div className="Label BottomLine">你追蹤而沒回追你的名單</div>
+            <div className="Label BottomLine">您追蹤而沒回追您的名單</div>
             <table className="FileUpload-Table">
               <tbody>
                 {Data.map((user: UserData, index: number) => {
                   return (
-                    <tr key={index} className="Content">
+                    <tr key={index} className="FileUpload-Table-Row Content">
                       <td className="FileUpload-Table-Data">
                         <OutsideLink href={user.string_list_data[0].href}>
                           {user.string_list_data[0].value}
                         </OutsideLink>
-                        <span>{user.string_list_data[0].timestamp ?? ""}</span>
+                        <span className="Hint">
+                          {user.string_list_data[0].timestamp
+                            ? `您於 ${DateFromTimeStamp(
+                                user.string_list_data[0].timestamp
+                              )} 追蹤了此用戶`
+                            : ""}
+                        </span>
                       </td>
                     </tr>
                   );
