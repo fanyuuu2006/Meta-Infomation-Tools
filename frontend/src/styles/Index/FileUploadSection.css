@@ -36,14 +36,17 @@
   border-collapse: collapse;
 }
 
-
-.FileUpload-Table-Data {
+.FileUpload-Table-Row {
   width: 100%;
   display: flex;
   justify-content: space-between;
   align-items: center;
   border-bottom: 1px solid var(--border-color);
-  padding: var(--space-small) var(--space-medium);
+}
+
+.FileUpload-Table-Data {
+  width: auto;
+  padding: var(--space-small);
 }
 
 @media (max-width: 768px) {

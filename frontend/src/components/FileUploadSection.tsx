@@ -118,17 +118,18 @@ export const FileUploadSection = () => {
                 {Data.map((user: UserData, index: number) => {
                   return (
                     <tr key={index} className="FileUpload-Table-Row Content">
+                      <td>{index + 1}. </td>
                       <td className="FileUpload-Table-Data">
                         <OutsideLink href={user.string_list_data[0].href}>
                           {user.string_list_data[0].value}
                         </OutsideLink>
-                        <span className="Hint">
-                          {user.string_list_data[0].timestamp
-                            ? `您於 ${DateFromTimeStamp(
-                                user.string_list_data[0].timestamp
-                              )} 追蹤了此用戶`
-                            : ""}
-                        </span>
+                      </td>
+                      <td className="FileUpload-Table-Data Hint">
+                        {user.string_list_data[0].timestamp
+                          ? `您於 ${DateFromTimeStamp(
+                              user.string_list_data[0].timestamp
+                            )} 追蹤了此用戶`
+                          : ""}
                       </td>
                     </tr>
                   );
