@@ -9,12 +9,15 @@
   --space-ultra: 30px;
 }
 
+
+
 * {
   font-weight: bold;
   padding: 0;
   margin: 0;
   scroll-behavior: smooth;
   scroll-margin: 4em;
+  text-wrap: nowrap;
   flex-wrap: nowrap;
 }
 
@@ -68,4 +71,38 @@ a:hover {
 .BottomLine {
   padding-bottom: var(--space-small);
   border-bottom: 1px solid var(--border-color);
+}
+
+@media (max-width: 768px) {
+    :root {
+        --background-color: #f8f8f8;
+        --div-background-color: #ffffff;
+        --border-color: #888888;
+      
+        --space-small: 5px;
+        --space-medium: 10px;
+        --space-large: 20px;
+        --space-ultra: 30px;
+      }
+    
+      .Title {
+        font-size: 24;
+      }
+      
+      .Label {
+        font-size: 20;
+      }
+      
+      .Content {
+        font-size: 14;
+      }
+      
+      .Note {
+        font-size: 12;
+      }
+      
+      .BottomLine {
+        padding-bottom: var(--space-small);
+        border-bottom: 1px solid var(--border-color);
+      }
 }
