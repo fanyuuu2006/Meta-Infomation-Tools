@@ -1,16 +1,13 @@
 import "@/styles/FileUploadDiv.css";
-import React, { Dispatch, SetStateAction, useState } from "react";
+import React, { useState } from "react";
 import { Upload, Button, message, UploadFile, Space } from "antd";
 import { UploadOutlined } from "@ant-design/icons";
 
 import { HandleJsonFile, NoFollowBackUsers } from "@/lib/HandleFunction";
 import { Followers, Following, InstagramData, UserData } from "@/lib/DataTypes";
 
-export const FileUploadDiv = ({
-  setData,
-}: {
-  setData: Dispatch<SetStateAction<UserData[]>>;
-}) => {
+export const FileUploadDiv = () => {
+  const [Data, setData] = useState<UserData[]>([]);
   const [fileList1, setFileList1] = useState<UploadFile[]>([]);
   const [fileList2, setFileList2] = useState<UploadFile[]>([]);
   const handleChange1 = ({ fileList }: { fileList: UploadFile[] }) => {
@@ -42,6 +39,8 @@ export const FileUploadDiv = ({
           FollowingFile as Following
         )
       );
+      setFileList1([]);
+      setFileList2([]);
     } catch (error) {
       console.log(error);
 
@@ -50,42 +49,45 @@ export const FileUploadDiv = ({
   };
 
   return (
-    <Space
-      direction="vertical"
-      align="center"
-      wrap={false}
-      className="FileUpload-Div"
-    >
-      <div className="FileUpload-Title">上傳你的 JSON 檔案</div>
-      <div className="FileUpload-Label">Followers 檔案</div>
-      <Upload
-        showUploadList={false}
-        multiple={false} // 只能選擇一個檔案
-        fileList={fileList1}
-        onChange={handleChange1}
-        beforeUpload={() => false}
+    <div>
+      <Space
+        direction="vertical"
+        align="center"
+        wrap={false}
+        className="FileUpload-Div"
       >
-        <Button className="FileUpload-FileButton" icon={<UploadOutlined />}>
-          選擇檔案
-        </Button>
-      </Upload>
-      <div className="FileUpload-Label">Following 檔案</div>
+        <div className="FileUpload-Title">上傳你的 JSON 檔案</div>
+        <div className="FileUpload-Label">Followers 檔案</div>
+        <Upload
+          showUploadList={false}
+          multiple={false} // 只能選擇一個檔案
+          fileList={fileList1}
+          onChange={handleChange1}
+          beforeUpload={() => false}
+        >
+          <Button className="FileUpload-FileButton" icon={<UploadOutlined />}>
+            選擇檔案
+          </Button>
+        </Upload>
+        <div className="FileUpload-Label">Following 檔案</div>
 
-      <Upload
-        showUploadList={false}
-        multiple={false} // 只能選擇一個檔案
-        fileList={fileList2}
-        onChange={handleChange2}
-        beforeUpload={() => false}
-      >
-        <Button className="FileUpload-FileButton" icon={<UploadOutlined />}>
-          選擇檔案
-        </Button>
-      </Upload>
+        <Upload
+          showUploadList={false}
+          multiple={false} // 只能選擇一個檔案
+          fileList={fileList2}
+          onChange={handleChange2}
+          beforeUpload={() => false}
+        >
+          <Button className="FileUpload-FileButton" icon={<UploadOutlined />}>
+            選擇檔案
+          </Button>
+        </Upload>
 
-      <Button type="primary" onClick={UploadFiles}>
-        開始搜尋
-      </Button>
-    </Space>
+        <Button type="primary" onClick={UploadFiles}>
+          開始搜尋
+        </Button>
+      </Space>
+      {Data.length !== 0}
+    </div>
   );
 };
