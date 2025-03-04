@@ -112,7 +112,7 @@ export const FileUploadSection = () => {
             wrap={false}
             className="FileUpload-Div"
           >
-            <div className="Label BottomLine">您追蹤而沒回追您的名單</div>
+            <div className="Label BottomLine">尚未回追您的用戶名單</div>
             <table className="FileUpload-Table">
               <tbody>
                 {Data.map((user: UserData, index: number) => {
