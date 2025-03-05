@@ -12,19 +12,19 @@ import { Toast } from "./common/Swal";
 
 export const FileUploadSection = () => {
   const [Data, setData] = useState<UserData[]>([]);
-  const [fileList1, setFileList1] = useState<UploadFile[]>([]);
-  const [fileList2, setFileList2] = useState<UploadFile[]>([]);
+  const [FileList1, setFileList1] = useState<UploadFile[]>([]);
+  const [FileList2, setFileList2] = useState<UploadFile[]>([]);
 
-  const handleChange1 = ({ fileList }: { fileList: UploadFile[] }) => {
+  const HandleChange1 = ({ fileList }: { fileList: UploadFile[] }) => {
     setFileList1(fileList.slice(-1)); // 只保留最後一個
   };
 
-  const handleChange2 = ({ fileList }: { fileList: UploadFile[] }) => {
+  const HandleChange2 = ({ fileList }: { fileList: UploadFile[] }) => {
     setFileList2(fileList.slice(-1)); // 只保留最後一個
   };
 
   const UploadFiles = async () => {
-    if ([...fileList1, ...fileList2].length === 0) {
+    if ([...FileList1, ...FileList2].length === 0) {
       console.log("請先選擇檔案");
       Toast.fire({
         icon: "error",
@@ -36,10 +36,10 @@ export const FileUploadSection = () => {
     try {
       setData([]);
       const FollowersFile: InstagramData = await HandleJsonFile(
-        fileList1[0].originFileObj as File
+        FileList1[0].originFileObj as File
       );
       const FollowingFile: InstagramData = await HandleJsonFile(
-        fileList2[0].originFileObj as File
+        FileList2[0].originFileObj as File
       );
 
       setData(
@@ -77,8 +77,8 @@ export const FileUploadSection = () => {
           <Upload
             showUploadList={false}
             multiple={false} // 只能選擇一個檔案
-            fileList={fileList1}
-            onChange={handleChange1}
+            fileList={FileList1}
+            onChange={HandleChange1}
             beforeUpload={() => false}
           >
             <Button
@@ -88,15 +88,15 @@ export const FileUploadSection = () => {
               選擇檔案
             </Button>
           </Upload>
-          {fileList1[0]?.name ?? "尚未上傳任何檔案"}
+          {FileList1[0]?.name ?? "尚未上傳任何檔案"}
         </div>
         <div className="Label">Following 檔案</div>
         <div className="FileUpload-File-Div">
           <Upload
             showUploadList={false}
             multiple={false} // 只能選擇一個檔案
-            fileList={fileList2}
-            onChange={handleChange2}
+            fileList={FileList2}
+            onChange={HandleChange2}
             beforeUpload={() => false}
           >
             <Button
@@ -106,7 +106,7 @@ export const FileUploadSection = () => {
               選擇檔案
             </Button>
           </Upload>
-          {fileList2[0]?.name ?? "尚未上傳任何檔案"}
+          {FileList2[0]?.name ?? "尚未上傳任何檔案"}
         </div>
         <Button type="primary" onClick={UploadFiles}>
           開始搜尋
