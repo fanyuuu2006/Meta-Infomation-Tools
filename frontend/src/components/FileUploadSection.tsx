@@ -10,21 +10,54 @@ import { OutsideLink } from "./common/OutsideLink";
 import { DateFromTimeStamp } from "../lib/HandleFunction";
 import { Toast } from "./common/Swal";
 
+type InstagramFile = {
+  name: string;
+  data: InstagramData;
+};
+
 export const FileUploadSection = () => {
   const [Data, setData] = useState<UserData[]>([]);
-  const [FileList1, setFileList1] = useState<UploadFile[]>([]);
-  const [FileList2, setFileList2] = useState<UploadFile[]>([]);
+  const [File1, setFile1] = useState<InstagramFile | undefined>();
+  const [File2, setFile2] = useState<InstagramFile | undefined>();
 
-  const HandleChange1 = ({ fileList }: { fileList: UploadFile[] }) => {
-    setFileList1(fileList.slice(-1)); // 只保留最後一個
+  const HandleChange1 = async ({ fileList }: { fileList: UploadFile[] }) => {
+    try {
+      const LatestFile = fileList.slice(-1)[0]; // 只保留最後一個
+      const FileName = LatestFile.name;
+      const FileData: InstagramData = await HandleJsonFile(
+        LatestFile.originFileObj as File
+      );
+      Toast.fire({
+        icon: "success",
+        title: "上傳成功",
+      });
+      setFile1({ name: FileName, data: FileData });
+    } catch (error) {
+      console.error(error);
+      Toast.fire({ icon: "error", title: "解析檔案失敗" });
+    }
   };
 
-  const HandleChange2 = ({ fileList }: { fileList: UploadFile[] }) => {
-    setFileList2(fileList.slice(-1)); // 只保留最後一個
+  const HandleChange2 = async ({ fileList }: { fileList: UploadFile[] }) => {
+    try {
+      const LatestFile = fileList.slice(-1)[0]; // 只保留最後一個
+      const FileName = LatestFile.name;
+      const FileData: InstagramData = await HandleJsonFile(
+        LatestFile.originFileObj as File
+      );
+      Toast.fire({
+        icon: "success",
+        title: "上傳成功",
+      });
+      setFile2({ name: FileName, data: FileData });
+    } catch (error) {
+      console.error(error);
+      Toast.fire({ icon: "error", title: "解析檔案失敗" });
+    }
   };
 
-  const UploadFiles = async () => {
-    if ([...FileList1, ...FileList2].length === 0) {
+  const UploadFiles = () => {
+    if (!File1 || !File2) {
       console.log("請先選擇檔案");
       Toast.fire({
         icon: "error",
@@ -35,22 +68,12 @@ export const FileUploadSection = () => {
 
     try {
       setData([]);
-      const FollowersFile: InstagramData = await HandleJsonFile(
-        FileList1[0].originFileObj as File
-      );
-      const FollowingFile: InstagramData = await HandleJsonFile(
-        FileList2[0].originFileObj as File
-      );
 
       setData(
-        NoFollowBackUsers(
-          FollowersFile as Followers,
-          FollowingFile as Following,
-        )
+        NoFollowBackUsers(File1?.data as Followers, File2?.data as Following)
       );
-      setFileList1([]);
-      setFileList2([]);
-      
+      setFile1(undefined);
+      setFile2(undefined);
     } catch (error) {
       console.log(error);
 
@@ -77,7 +100,6 @@ export const FileUploadSection = () => {
           <Upload
             showUploadList={false}
             multiple={false} // 只能選擇一個檔案
-            fileList={FileList1}
             onChange={HandleChange1}
             beforeUpload={() => false}
           >
@@ -88,14 +110,13 @@ export const FileUploadSection = () => {
               選擇檔案
             </Button>
           </Upload>
-          {FileList1[0]?.name ?? "尚未上傳任何檔案"}
+          {File1?.name ?? "尚未上傳任何檔案"}
         </div>
         <div className="Label">Following 檔案</div>
         <div className="FileUpload-File-Div">
           <Upload
             showUploadList={false}
             multiple={false} // 只能選擇一個檔案
-            fileList={FileList2}
             onChange={HandleChange2}
             beforeUpload={() => false}
           >
@@ -106,7 +127,7 @@ export const FileUploadSection = () => {
               選擇檔案
             </Button>
           </Upload>
-          {FileList2[0]?.name ?? "尚未上傳任何檔案"}
+          {File2?.name ?? "尚未上傳任何檔案"}
         </div>
         <Button type="primary" onClick={UploadFiles}>
           開始搜尋
