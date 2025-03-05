@@ -6,7 +6,11 @@ import {
   UserData,
 } from "./DataTypes";
 
-export type MethodNames = "NoFollowBackUsers" | "NoFollowingBackUsers";
+export type MethodNames =
+  | "NoFollowBackUsers"
+  | "NoFollowingBackUsers"
+  | "FollowerUsers"
+  | "FollowingUsers";
 
 export const DateFromTimeStamp = (timestamp: TimeStamp): string => {
   const date = new Date(timestamp * 1000);
@@ -24,7 +28,6 @@ export const DateFromTimeStamp = (timestamp: TimeStamp): string => {
 
   return formatter.format(date);
 };
-
 
 // FileReader 是異步操作
 export const HandleJsonFile = (file: File): Promise<InstagramData> => {
@@ -107,4 +110,3 @@ export const NoFollowingBackUsers = (
   );
   return FilteredUserData;
 };
-

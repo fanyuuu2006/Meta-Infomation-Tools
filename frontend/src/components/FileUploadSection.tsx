@@ -8,7 +8,10 @@ import {
   HandleJsonFile,
   NoFollowBackUsers,
   NoFollowingBackUsers,
+  FollowerUsers,
+  FollowingUsers,
 } from "@/lib/HandleFunction";
+
 import {
   Followers,
   Following,
@@ -39,7 +42,7 @@ const Methods: Record<
     func: (File1, File2) => {
       return NoFollowBackUsers(File1 as Followers, File2 as Following);
     },
-    fileNames: ["Followers", "Following"], // 需要兩個檔案
+    fileNames: ["Followers", "Following"],
     listTitle: "尚未回追您的用戶名單",
     note: (...args: unknown[]) => {
       const timestamp: TimeStamp = args[0] as TimeStamp;
@@ -50,11 +53,33 @@ const Methods: Record<
     func: (File1, File2) => {
       return NoFollowingBackUsers(File1 as Following, File2 as Followers);
     },
-    fileNames: ["Following", "Followers"], // 需要兩個檔案
+    fileNames: ["Following", "Followers"],
     listTitle: "您尚未回追的用戶名單",
     note: (...args: unknown[]) => {
       const timestamp: TimeStamp = args[0] as TimeStamp;
       return `於 ${DateFromTimeStamp(timestamp)} 開始追蹤您`;
+    },
+  },
+  FollowerUsers: {
+    func: (File1) => {
+      return FollowerUsers(File1 as Followers);
+    },
+    fileNames: ["Followers"],
+    listTitle: "您的粉絲用戶名單",
+    note: (...args: unknown[]) => {
+      const timestamp: TimeStamp = args[0] as TimeStamp;
+      return `於 ${DateFromTimeStamp(timestamp)} 開始追蹤您`;
+    },
+  },
+  FollowingUsers: {
+    func: (File1) => {
+      return FollowingUsers(File1 as Following);
+    },
+    fileNames: ["Following"],
+    listTitle: "您追蹤的用戶名單",
+    note: (...args: unknown[]) => {
+      const timestamp: TimeStamp = args[0] as TimeStamp;
+      return `您於 ${DateFromTimeStamp(timestamp)} 追蹤此用戶`;
     },
   },
 };
@@ -135,6 +160,8 @@ export const FileUploadSection = () => {
         >
           <Tabs.TabPane tab="未回追您" key="NoFollowBackUsers" />
           <Tabs.TabPane tab="您未回追" key="NoFollowingBackUsers" />
+          <Tabs.TabPane tab="您的粉絲" key="FollowerUsers" />
+          <Tabs.TabPane tab="您追蹤中" key="FollowingUsers" />
         </Tabs>
 
         <div className="Title BottomLine">請上傳您的 JSON 檔案</div>
