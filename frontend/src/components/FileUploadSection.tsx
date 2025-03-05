@@ -32,15 +32,15 @@ type InstagramFile = {
 const Methods: Record<
   MethodNames,
   {
-    func: (File1: InstagramData, File2: InstagramData) => UserData[];
+    func: (Datas: InstagramData[]) => UserData[];
     fileNames: string[]; // 儲存需要的檔案名稱
     listTitle: string;
     note: (...args: unknown[]) => string;
   }
 > = {
   NoFollowBackUsers: {
-    func: (File1, File2) => {
-      return NoFollowBackUsers(File1 as Followers, File2 as Following);
+    func: (Datas: InstagramData[]) => {
+      return NoFollowBackUsers(Datas[0] as Followers, Datas[1] as Following);
     },
     fileNames: ["Followers", "Following"],
     listTitle: "尚未回追您的用戶名單",
@@ -50,8 +50,8 @@ const Methods: Record<
     },
   },
   NoFollowingBackUsers: {
-    func: (File1, File2) => {
-      return NoFollowingBackUsers(File1 as Following, File2 as Followers);
+    func: (Datas: InstagramData[]) => {
+      return NoFollowingBackUsers(Datas[0] as Following, Datas[1] as Followers);
     },
     fileNames: ["Following", "Followers"],
     listTitle: "您尚未回追的用戶名單",
@@ -61,8 +61,8 @@ const Methods: Record<
     },
   },
   FollowerUsers: {
-    func: (File1) => {
-      return FollowerUsers(File1 as Followers);
+    func: (Datas: InstagramData[]) => {
+      return FollowerUsers(Datas[0] as Followers);
     },
     fileNames: ["Followers"],
     listTitle: "您的粉絲用戶名單",
@@ -72,8 +72,8 @@ const Methods: Record<
     },
   },
   FollowingUsers: {
-    func: (File1) => {
-      return FollowingUsers(File1 as Following);
+    func: (Datas: InstagramData[]) => {
+      return FollowingUsers(Datas[0] as Following);
     },
     fileNames: ["Following"],
     listTitle: "您追蹤的用戶名單",
@@ -129,7 +129,7 @@ export const FileUploadSection = () => {
     try {
       setData([]);
 
-      setData(Methods[MethodName].func(Files[0]?.data, Files[1]?.data));
+      setData(Methods[MethodName].func(Files.map((file: InstagramFile) => file.data)));
       setFiles([]);
     } catch (error) {
       console.log(error);
