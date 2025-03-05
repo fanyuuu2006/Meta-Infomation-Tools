@@ -30,8 +30,7 @@ const Methods: Record<
   MethodNames,
   {
     func: (File1: InstagramData, File2: InstagramData) => UserData[];
-    fileName1: string;
-    fileName2: string;
+    fileNames: string[]; // 使用 fileNames 來儲存需要的檔案名稱
     listTitle: string;
     note: (...args: unknown[]) => string;
   }
@@ -40,8 +39,7 @@ const Methods: Record<
     func: (File1, File2) => {
       return NoFollowBackUsers(File1 as Followers, File2 as Following);
     },
-    fileName1: "Followers",
-    fileName2: "Following",
+    fileNames: ["Followers", "Following"], // 需要兩個檔案
     listTitle: "尚未回追您的用戶名單",
     note: (...args: unknown[]) => {
       const timestamp: TimeStamp = args[0] as TimeStamp;
@@ -52,8 +50,7 @@ const Methods: Record<
     func: (File1, File2) => {
       return NoFollowingBackUsers(File1 as Following, File2 as Followers);
     },
-    fileName1: "Following",
-    fileName2: "Followers",
+    fileNames: ["Following", "Followers"], // 需要兩個檔案
     listTitle: "您尚未回追的用戶名單",
     note: (...args: unknown[]) => {
       const timestamp: TimeStamp = args[0] as TimeStamp;
@@ -66,36 +63,16 @@ export const FileUploadSection = () => {
   const [MethodName, setMethodName] =
     useState<MethodNames>("NoFollowBackUsers");
   const [Data, setData] = useState<UserData[]>([]);
-  const [File1, setFile1] = useState<InstagramFile | undefined>();
-  const [File2, setFile2] = useState<InstagramFile | undefined>();
+  const [Files, setFiles] = useState<InstagramFile[]>([]);
 
-  const HandleChange1 = async ({
-    fileList,
-  }: {
-    fileList: UploadFile[];
-  }): Promise<void> => {
-    try {
-      const LatestFile = fileList.slice(-1)[0]; // 只保留最後一個
-      const FileName = LatestFile.name;
-      const FileData: InstagramData = await HandleJsonFile(
-        LatestFile.originFileObj as File
-      );
-      Toast.fire({
-        icon: "success",
-        title: "上傳成功",
-      });
-      setFile1({ name: FileName, data: FileData });
-    } catch (error) {
-      console.error(error);
-      Toast.fire({ icon: "error", title: "解析檔案失敗" });
+  const HandleChange = async (
+    index: number,
+    {
+      fileList,
+    }: {
+      fileList: UploadFile[];
     }
-  };
-
-  const HandleChange2 = async ({
-    fileList,
-  }: {
-    fileList: UploadFile[];
-  }): Promise<void> => {
+  ): Promise<void> => {
     try {
       const LatestFile = fileList.slice(-1)[0]; // 只保留最後一個
       const FileName = LatestFile.name;
@@ -106,7 +83,9 @@ export const FileUploadSection = () => {
         icon: "success",
         title: "上傳成功",
       });
-      setFile2({ name: FileName, data: FileData });
+      const updatedFiles = [...Files]; //  已上傳檔案
+      updatedFiles[index] = { name: FileName, data: FileData };
+      setFiles(updatedFiles);
     } catch (error) {
       console.error(error);
       Toast.fire({ icon: "error", title: "解析檔案失敗" });
@@ -114,11 +93,10 @@ export const FileUploadSection = () => {
   };
 
   const UploadFiles = (): void => {
-    if (!File1 || !File2) {
-      console.log("請先選擇檔案");
+    if (Files.length !== Methods[MethodName].fileNames.length) {
       Toast.fire({
         icon: "error",
-        title: "請先選擇檔案",
+        title: "所需上傳檔案不足",
       });
       return;
     }
@@ -126,14 +104,8 @@ export const FileUploadSection = () => {
     try {
       setData([]);
 
-      setData(
-        Methods[MethodName].func(
-          File1?.data as Followers,
-          File2?.data as Following
-        )
-      );
-      setFile1(undefined);
-      setFile2(undefined);
+      setData(Methods[MethodName].func(Files[0]?.data, Files[1]?.data));
+      setFiles([]);
     } catch (error) {
       console.log(error);
 
@@ -157,49 +129,42 @@ export const FileUploadSection = () => {
         <Tabs
           activeKey={MethodName}
           onChange={(key) => {
-            setData([]);
+            setData([]); // 切換方法時清空檔案
             setMethodName(key as MethodNames);
           }}
         >
-          <Tabs.TabPane tab="未回追的用戶" key="NoFollowBackUsers" />
-          <Tabs.TabPane tab="我沒回追的用戶" key="NoFollowingBackUsers" />
+          <Tabs.TabPane tab="未回追您" key="NoFollowBackUsers" />
+          <Tabs.TabPane tab="您未回追" key="NoFollowingBackUsers" />
         </Tabs>
 
         <div className="Title BottomLine">請上傳您的 JSON 檔案</div>
-        <div className="Label">{Methods[MethodName].fileName1} 檔案</div>
-        <div className="FileUpload-File-Div">
-          <Upload
-            showUploadList={false}
-            multiple={false} // 只能選擇一個檔案
-            onChange={HandleChange1}
-            beforeUpload={() => false}
-          >
-            <Button
-              className="FileUpload-File-Button Content"
-              icon={<UploadOutlined />}
-            >
-              選擇檔案
-            </Button>
-          </Upload>
-          {File1?.name ?? "尚未上傳任何檔案"}
-        </div>
-        <div className="Label">{Methods[MethodName].fileName2} 檔案</div>
-        <div className="FileUpload-File-Div">
-          <Upload
-            showUploadList={false}
-            multiple={false} // 只能選擇一個檔案
-            onChange={HandleChange2}
-            beforeUpload={() => false}
-          >
-            <Button
-              className="FileUpload-File-Button Content"
-              icon={<UploadOutlined />}
-            >
-              選擇檔案
-            </Button>
-          </Upload>
-          {File2?.name ?? "尚未上傳任何檔案"}
-        </div>
+        {Methods[MethodName].fileNames.map(
+          (fileName: string, index: number) => {
+            return (
+              <>
+                <div className="Label" key={index}>
+                  {fileName} 檔案
+                </div>
+                <div className="FileUpload-File-Div">
+                  <Upload
+                    showUploadList={false}
+                    multiple={false} // 只能選擇一個檔案
+                    onChange={(fileInfo) => HandleChange(index, fileInfo)}
+                    beforeUpload={() => false}
+                  >
+                    <Button
+                      className="FileUpload-File-Button Content"
+                      icon={<UploadOutlined />}
+                    >
+                      選擇檔案
+                    </Button>
+                  </Upload>
+                  {Files[index]?.name ?? "尚未上傳任何檔案"}
+                </div>
+              </>
+            );
+          }
+        )}
         <Button type="primary" onClick={UploadFiles}>
           開始搜尋
         </Button>
@@ -212,7 +177,9 @@ export const FileUploadSection = () => {
             wrap={false}
             className="FileUpload-Div"
           >
-            <div className="Label BottomLine">{Methods[MethodName].listTitle}</div>
+            <div className="Label BottomLine">
+              {Methods[MethodName].listTitle}
+            </div>
             <table className="FileUpload-Table">
               <tbody>
                 {Data.map((user: UserData, index: number) => {

@@ -48,7 +48,7 @@ const GitHubBadges: {
 
 const Features: string[] = [
   "查看您開始追蹤某個用戶的詳細時間",
-  "比較粉絲與追蹤名單 篩選出尚未回追的用戶",
+  "比較粉絲與追蹤名單 篩選出 尚未回追你 or 你尚未回追 的用戶",
 ];
 
 export const IntroSection = () => {
@@ -102,7 +102,7 @@ export const IntroSection = () => {
               {Features.map((feature, index) => {
                 return (
                   <li key={index}>
-                    <CheckSquareOutlined /> {feature}
+                    <CheckSquareOutlined style={{backgroundColor:"#00BA00",color: "#FFFFFF"}}/> {feature}
                   </li>
                 );
               })}
