@@ -94,7 +94,7 @@ export const FileUploadSection = () => {
         className="FileUpload-Div"
         size={"small"}
       >
-        <div className="Title BottomLine">上傳您的 JSON 檔案</div>
+        <div className="Title BottomLine">請上傳您的 JSON 檔案</div>
         <div className="Label">Followers 檔案</div>
         <div className="FileUpload-File-Div">
           <Upload

@@ -1,4 +1,4 @@
-
+@import url(../globals.css);
 
 .IntroSection-Div {
   width: 80%;
@@ -7,4 +7,22 @@
   border-radius: 10px;
   padding: var(--space-large) var(--space-ultra);
   margin: var(--space-medium);
+  
 }
+
+.IntroSection-Badge-Div{
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: var(--space-small);
+}
+
+.IntroSection-Intro{
+    margin-top: var(--space-small);
+}
+
+@media (max-width: 768px) {
+    .IntroSection-Div {
+      width: 100%;
+    }
+  }
