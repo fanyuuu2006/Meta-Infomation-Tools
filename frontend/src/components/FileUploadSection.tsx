@@ -151,6 +151,7 @@ export const FileUploadSection = () => {
         className="FileUpload-Div"
         size={"small"}
       >
+        <div className="Content">選擇功能類型</div>
         <Select
           value={MethodName}
           onChange={(value) => {
