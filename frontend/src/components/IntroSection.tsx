@@ -47,8 +47,8 @@ const GitHubBadges: {
 ];
 
 const Features: string[] = [
-  "查看您開始追蹤某個用戶的詳細時間",
-  "比較粉絲與追蹤名單 篩選出 尚未回追你 or 你尚未回追 的用戶",
+  "查看 您開始追蹤某個用戶 / 用戶開始追蹤您 的詳細時間",
+  "比較粉絲與追蹤名單 篩選出 尚未回追你 / 你尚未回追 的用戶",
 ];
 
 export const IntroSection = () => {
@@ -64,7 +64,7 @@ export const IntroSection = () => {
         <div className="Title BottomLine">
           Instagram Tools By Fan-Yu <InstagramOutlined />
         </div>
-        <div className="IntroSection-Badge-Div">
+        <div className="IntroSection-Badge-Div IntroSection-Content">
           {GitHubBadges.map((badge, index) => {
             const image = (
               <Image
@@ -86,7 +86,7 @@ export const IntroSection = () => {
             );
           })}
         </div>
-        <div className="IntroSection-Intro Content">
+        <div className="IntroSection-Content Content">
           此網站是提供一些工具
           <br />
           用於整理{" "}
@@ -95,20 +95,51 @@ export const IntroSection = () => {
           </OutsideLink>
           提供的可下載資訊。
         </div>
-        <div className="IntroSection-Feature">
-          <div className="Title BottomLine">功能</div>
-          <div className="IntroSection-Feature-List">
-            <ul className="Content">
-              {Features.map((feature, index) => {
-                return (
-                  <li key={index}>
-                    <CheckSquareOutlined style={{backgroundColor:"#00BA00",color: "#FFFFFF"}}/> {feature}
-                  </li>
-                );
-              })}
-            </ul>
-          </div>
-        </div>
+        <div className="Title BottomLine">功能</div>
+
+        <ul className="IntroSection-List Content">
+          {Features.map((feature, index) => {
+            return (
+              <li key={index}>
+                <CheckSquareOutlined
+                  style={{ backgroundColor: "#00BA00", color: "#FFFFFF" }}
+                />{" "}
+                {feature}
+              </li>
+            );
+          })}
+        </ul>
+
+        <div className="Title BottomLine">使用方式</div>
+        <ul className="IntroSection-List Content">
+          <li>
+            1. 前往{" "}
+            <OutsideLink href="https://accountscenter.instagram.com/">
+              Meta 帳號管理中心
+            </OutsideLink>
+          </li>
+          <li>
+            2. 找到{" "}
+            <OutsideLink href="https://accountscenter.instagram.com/info_and_permissions/">
+              你的資訊和權限
+            </OutsideLink>{" "}
+            頁面
+          </li>
+          <li>
+            3. 點擊{" "}
+            <OutsideLink href="https://accountscenter.instagram.com/info_and_permissions/dyi">
+              下載資訊
+            </OutsideLink>
+            {" > "}下載或轉移資訊{" > "}選擇要下載的帳號{" > "}部分資訊{" > "}
+            勾選 <mark>粉絲和追蹤名單</mark>
+            {" > "}下載到裝置{" > "}選擇日期範圍 <mark>所有時間</mark>
+            {" > "}選擇格式 <mark>JSON</mark>
+          </li>
+          <li>4. 收到資料已準備完成的電子郵件後 前往下載 ZIP 檔案</li>
+          <li>
+            5. 解壓縮檔案 並且根據需求將檔案上傳至此網站
+          </li>
+        </ul>
       </Space>
     </section>
   );

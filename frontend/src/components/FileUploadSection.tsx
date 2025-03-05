@@ -46,7 +46,7 @@ const Methods: Record<
     listTitle: "尚未回追您的用戶名單",
     note: (...args: unknown[]) => {
       const timestamp: TimeStamp = args[0] as TimeStamp;
-      return `您於 ${DateFromTimeStamp(timestamp)} 追蹤此用戶`;
+      return `於 ${DateFromTimeStamp(timestamp)} 被您追蹤`;
     },
   },
   NoFollowingBackUsers: {
@@ -57,7 +57,7 @@ const Methods: Record<
     listTitle: "您尚未回追的用戶名單",
     note: (...args: unknown[]) => {
       const timestamp: TimeStamp = args[0] as TimeStamp;
-      return `於 ${DateFromTimeStamp(timestamp)} 開始追蹤您`;
+      return `於 ${DateFromTimeStamp(timestamp)} 追蹤您`;
     },
   },
   FollowerUsers: {
@@ -68,7 +68,7 @@ const Methods: Record<
     listTitle: "您的粉絲用戶名單",
     note: (...args: unknown[]) => {
       const timestamp: TimeStamp = args[0] as TimeStamp;
-      return `於 ${DateFromTimeStamp(timestamp)} 開始追蹤您`;
+      return `於 ${DateFromTimeStamp(timestamp)} 追蹤您`;
     },
   },
   FollowingUsers: {
@@ -79,7 +79,7 @@ const Methods: Record<
     listTitle: "您追蹤的用戶名單",
     note: (...args: unknown[]) => {
       const timestamp: TimeStamp = args[0] as TimeStamp;
-      return `您於 ${DateFromTimeStamp(timestamp)} 追蹤此用戶`;
+      return `於 ${DateFromTimeStamp(timestamp)} 被您追蹤`;
     },
   },
 };

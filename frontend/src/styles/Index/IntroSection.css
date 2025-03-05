@@ -17,19 +17,19 @@
     gap: var(--space-small);
 }
 
-.IntroSection-Intro{
-    margin-top: var(--space-small);
+.IntroSection-Content{
+    padding: 0 var(--space-medium); 
     text-wrap: wrap;
 }
 
-.IntroSection-Feature-List{
-    margin-top: var(--space-medium);
+.IntroSection-List{
     padding: 0 var(--space-medium); 
 }
 
-.IntroSection-Feature-List >ul{
-    list-style-type: none;
+.IntroSection-List >li{
+    text-wrap: wrap;
 }
+
 
 @media (max-width: 768px) {
     .IntroSection-Div {

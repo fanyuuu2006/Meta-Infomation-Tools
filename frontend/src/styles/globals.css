@@ -15,6 +15,8 @@
   margin: 0;
   scroll-behavior: smooth;
   scroll-margin: 4em;
+  line-height: 1.5em;
+
   text-wrap: nowrap;
 }
 
@@ -38,6 +40,17 @@ section {
 
 div {
   width: 100%;
+}
+
+ul,
+ol {
+  list-style-type: none;
+}
+
+mark{
+    background-color: lightgray !important;
+    color: red;
+    border-radius: 5%;
 }
 
 a {
