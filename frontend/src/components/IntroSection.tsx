@@ -2,7 +2,7 @@ import "@/styles/Index/IntroSection.css";
 import React from "react";
 import Image from "next/image";
 import { Space } from "antd";
-import { InstagramOutlined } from "@ant-design/icons";
+import { CheckSquareOutlined, InstagramOutlined } from "@ant-design/icons";
 
 import { OutsideLink } from "./common/OutsideLink";
 
@@ -35,7 +35,7 @@ const GitHubBadges: {
   {
     name: "星星",
     src: "https://img.shields.io/github/stars/fanyuuu2006/IG-Tools?style=flat-square",
-    width: 50,
+    width: 45,
     height: 18,
   },
   {
@@ -44,6 +44,11 @@ const GitHubBadges: {
     width: 80,
     height: 18,
   },
+];
+
+const Features: string[] = [
+  "查看您何時開始追蹤某個用戶",
+  "比較粉絲與追蹤名單 篩選出尚未回追的用戶",
 ];
 
 export const IntroSection = () => {
@@ -82,11 +87,27 @@ export const IntroSection = () => {
           })}
         </div>
         <div className="IntroSection-Intro Content">
-          此網站是提供一些運用{" "}
+          此網站是提供一些工具
+          <br />
+          用於整理{" "}
           <OutsideLink href="https://accountscenter.instagram.com/">
             Meta 帳號管理中心
           </OutsideLink>
-          提供的可下載資訊的整理工具，
+          提供的可下載資訊。
+        </div>
+        <div className="IntroSection-Feature">
+          <div className="Title BottomLine">功能</div>
+          <div className="IntroSection-Feature-List">
+            <ul className="Content">
+              {Features.map((feature, index) => {
+                return (
+                  <li key={index}>
+                    <CheckSquareOutlined /> {feature}
+                  </li>
+                );
+              })}
+            </ul>
+          </div>
         </div>
       </Space>
     </section>
