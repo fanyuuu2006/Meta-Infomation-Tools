@@ -1,10 +1,21 @@
 import "@/styles/Index/FileUploadSection.css";
 import React, { useState } from "react";
-import { Upload, Button, UploadFile, Space } from "antd";
+import { Upload, Button, UploadFile, Space, Tabs } from "antd";
 import { UploadOutlined } from "@ant-design/icons";
 
-import { HandleJsonFile, NoFollowBackUsers } from "@/lib/HandleFunction";
-import { Followers, Following, InstagramData, UserData } from "@/lib/DataTypes";
+import {
+  MethodNames,
+  HandleJsonFile,
+  NoFollowBackUsers,
+  NoFollowingBackUsers,
+} from "@/lib/HandleFunction";
+import {
+  Followers,
+  Following,
+  InstagramData,
+  TimeStamp,
+  UserData,
+} from "@/lib/DataTypes";
 
 import { OutsideLink } from "./common/OutsideLink";
 import { DateFromTimeStamp } from "../lib/HandleFunction";
@@ -15,12 +26,54 @@ type InstagramFile = {
   data: InstagramData;
 };
 
+const Methods: Record<
+  MethodNames,
+  {
+    func: (File1: InstagramData, File2: InstagramData) => UserData[];
+    fileName1: string;
+    fileName2: string;
+    listTitle: string;
+    note: (...args: unknown[]) => string;
+  }
+> = {
+  NoFollowBackUsers: {
+    func: (File1, File2) => {
+      return NoFollowBackUsers(File1 as Followers, File2 as Following);
+    },
+    fileName1: "Followers",
+    fileName2: "Following",
+    listTitle: "尚未回追您的用戶名單",
+    note: (...args: unknown[]) => {
+      const timestamp: TimeStamp = args[0] as TimeStamp;
+      return `您於 ${DateFromTimeStamp(timestamp)} 追蹤此用戶`;
+    },
+  },
+  NoFollowingBackUsers: {
+    func: (File1, File2) => {
+      return NoFollowingBackUsers(File1 as Following, File2 as Followers);
+    },
+    fileName1: "Following",
+    fileName2: "Followers",
+    listTitle: "您尚未回追的用戶名單",
+    note: (...args: unknown[]) => {
+      const timestamp: TimeStamp = args[0] as TimeStamp;
+      return `於 ${DateFromTimeStamp(timestamp)} 開始追蹤您`;
+    },
+  },
+};
+
 export const FileUploadSection = () => {
+  const [MethodName, setMethodName] =
+    useState<MethodNames>("NoFollowBackUsers");
   const [Data, setData] = useState<UserData[]>([]);
   const [File1, setFile1] = useState<InstagramFile | undefined>();
   const [File2, setFile2] = useState<InstagramFile | undefined>();
 
-  const HandleChange1 = async ({ fileList }: { fileList: UploadFile[] }) => {
+  const HandleChange1 = async ({
+    fileList,
+  }: {
+    fileList: UploadFile[];
+  }): Promise<void> => {
     try {
       const LatestFile = fileList.slice(-1)[0]; // 只保留最後一個
       const FileName = LatestFile.name;
@@ -38,7 +91,11 @@ export const FileUploadSection = () => {
     }
   };
 
-  const HandleChange2 = async ({ fileList }: { fileList: UploadFile[] }) => {
+  const HandleChange2 = async ({
+    fileList,
+  }: {
+    fileList: UploadFile[];
+  }): Promise<void> => {
     try {
       const LatestFile = fileList.slice(-1)[0]; // 只保留最後一個
       const FileName = LatestFile.name;
@@ -56,7 +113,7 @@ export const FileUploadSection = () => {
     }
   };
 
-  const UploadFiles = () => {
+  const UploadFiles = (): void => {
     if (!File1 || !File2) {
       console.log("請先選擇檔案");
       Toast.fire({
@@ -70,7 +127,10 @@ export const FileUploadSection = () => {
       setData([]);
 
       setData(
-        NoFollowBackUsers(File1?.data as Followers, File2?.data as Following)
+        Methods[MethodName].func(
+          File1?.data as Followers,
+          File2?.data as Following
+        )
       );
       setFile1(undefined);
       setFile2(undefined);
@@ -94,8 +154,19 @@ export const FileUploadSection = () => {
         className="FileUpload-Div"
         size={"small"}
       >
+        <Tabs
+          activeKey={MethodName}
+          onChange={(key) => {
+            setData([]);
+            setMethodName(key as MethodNames);
+          }}
+        >
+          <Tabs.TabPane tab="未回追的用戶" key="NoFollowBackUsers" />
+          <Tabs.TabPane tab="我沒回追的用戶" key="NoFollowingBackUsers" />
+        </Tabs>
+
         <div className="Title BottomLine">請上傳您的 JSON 檔案</div>
-        <div className="Label">Followers 檔案</div>
+        <div className="Label">{Methods[MethodName].fileName1} 檔案</div>
         <div className="FileUpload-File-Div">
           <Upload
             showUploadList={false}
@@ -112,7 +183,7 @@ export const FileUploadSection = () => {
           </Upload>
           {File1?.name ?? "尚未上傳任何檔案"}
         </div>
-        <div className="Label">Following 檔案</div>
+        <div className="Label">{Methods[MethodName].fileName2} 檔案</div>
         <div className="FileUpload-File-Div">
           <Upload
             showUploadList={false}
@@ -141,7 +212,7 @@ export const FileUploadSection = () => {
             wrap={false}
             className="FileUpload-Div"
           >
-            <div className="Label BottomLine">尚未回追您的用戶名單</div>
+            <div className="Label BottomLine">{Methods[MethodName].listTitle}</div>
             <table className="FileUpload-Table">
               <tbody>
                 {Data.map((user: UserData, index: number) => {
@@ -154,11 +225,9 @@ export const FileUploadSection = () => {
                         </OutsideLink>
                       </td>
                       <td className="FileUpload-Table-Data Hint">
-                        {user.string_list_data[0].timestamp
-                          ? `您於 ${DateFromTimeStamp(
-                              user.string_list_data[0].timestamp
-                            )} 追蹤此用戶`
-                          : ""}
+                        {Methods[MethodName].note(
+                          user.string_list_data[0].timestamp
+                        )}
                       </td>
                     </tr>
                   );

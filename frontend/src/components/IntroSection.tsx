@@ -47,7 +47,7 @@ const GitHubBadges: {
 ];
 
 const Features: string[] = [
-  "查看您何時開始追蹤某個用戶",
+  "查看您開始追蹤某個用戶的詳細時間",
   "比較粉絲與追蹤名單 篩選出尚未回追的用戶",
 ];
 
@@ -62,7 +62,7 @@ export const IntroSection = () => {
         size="small"
       >
         <div className="Title BottomLine">
-          Instagram Tool by FanYu <InstagramOutlined />
+          Instagram Tools By Fan-Yu <InstagramOutlined />
         </div>
         <div className="IntroSection-Badge-Div">
           {GitHubBadges.map((badge, index) => {

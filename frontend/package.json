@@ -14,6 +14,7 @@
     "next-plugin-antd-less": "^1.8.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
+    "react-icons": "^5.5.0",
     "sweetalert2": "^11.17.2"
   },
   "devDependencies": {

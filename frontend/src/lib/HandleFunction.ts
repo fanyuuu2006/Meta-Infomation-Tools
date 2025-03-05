@@ -5,6 +5,10 @@ import {
   TimeStamp,
   UserData,
 } from "./DataTypes";
+
+export type MethodNames = "NoFollowBackUsers" | "NoFollowingBackUsers";
+
+
 // FileReader 是異步操作
 export const HandleJsonFile = (file: File): Promise<InstagramData> => {
   return new Promise((resolve, reject) => {
@@ -36,7 +40,7 @@ export const HandleJsonFile = (file: File): Promise<InstagramData> => {
 
 export const NoFollowBackUsers = (
   FollowersFile: Followers,
-  FollowingFile: Following,
+  FollowingFile: Following
 ): UserData[] => {
   if (
     FollowersFile[0].string_list_data === undefined ||
@@ -51,8 +55,8 @@ export const NoFollowBackUsers = (
       (FollowingUser: UserData): boolean => {
         return !FollowersFile.some((FollowerUser: UserData): boolean => {
           return (
-            FollowerUser.string_list_data[0].value ===
-            FollowingUser.string_list_data[0].value
+            FollowingUser.string_list_data[0].value ===
+            FollowerUser.string_list_data[0].value
           );
         });
       }
@@ -62,7 +66,7 @@ export const NoFollowBackUsers = (
 
 export const NoFollowingBackUsers = (
   FollowingFile: Following,
-  FollowersFile: Followers,
+  FollowersFile: Followers
 ): UserData[] => {
   if (
     FollowersFile[0].string_list_data === undefined ||
@@ -72,17 +76,18 @@ export const NoFollowingBackUsers = (
     throw new Error("不是正確的檔案格式！");
   }
 
-  const FilteredUserData: UserData[] =
-    FollowingFile.relationships_following.filter(
-      (FollowingUser: UserData): boolean => {
-        return !FollowersFile.some((FollowerUser: UserData): boolean => {
+  const FilteredUserData: UserData[] = FollowersFile.filter(
+    (FollowerUser: UserData): boolean => {
+      return !FollowingFile.relationships_following.some(
+        (FollowingUser: UserData): boolean => {
           return (
             FollowerUser.string_list_data[0].value ===
             FollowingUser.string_list_data[0].value
           );
-        });
-      }
-    );
+        }
+      );
+    }
+  );
   return FilteredUserData;
 };
 
@@ -91,8 +96,8 @@ export const DateFromTimeStamp = (timestamp: TimeStamp): string => {
 
   // "2025/03/04 21:00:00"
   const formatter = new Intl.DateTimeFormat("zh-TW", {
-    year: "numeric", // 完整年分 
-    month: "2-digit", 
+    year: "numeric", // 完整年分
+    month: "2-digit",
     day: "2-digit",
     hour: "2-digit",
     minute: "2-digit",
