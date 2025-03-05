@@ -1,6 +1,6 @@
 import "@/styles/Index/FileUploadSection.css";
 import React, { useState } from "react";
-import { Upload, Button, UploadFile, Space, Tabs } from "antd";
+import { Upload, Button, UploadFile, Space, Select } from "antd";
 import { UploadOutlined } from "@ant-design/icons";
 
 import {
@@ -33,7 +33,7 @@ const Methods: Record<
   MethodNames,
   {
     func: (File1: InstagramData, File2: InstagramData) => UserData[];
-    fileNames: string[]; // 使用 fileNames 來儲存需要的檔案名稱
+    fileNames: string[]; // 儲存需要的檔案名稱
     listTitle: string;
     note: (...args: unknown[]) => string;
   }
@@ -151,18 +151,19 @@ export const FileUploadSection = () => {
         className="FileUpload-Div"
         size={"small"}
       >
-        <Tabs
-          activeKey={MethodName}
-          onChange={(key) => {
-            setData([]); // 切換方法時清空檔案
-            setMethodName(key as MethodNames);
+        <Select
+          value={MethodName}
+          onChange={(value) => {
+            setData([]);
+            setMethodName(value as MethodNames);
           }}
         >
-          <Tabs.TabPane tab="未回追您" key="NoFollowBackUsers" />
-          <Tabs.TabPane tab="您未回追" key="NoFollowingBackUsers" />
-          <Tabs.TabPane tab="您的粉絲" key="FollowerUsers" />
-          <Tabs.TabPane tab="您追蹤中" key="FollowingUsers" />
-        </Tabs>
+          {Object.keys(Methods).map((key: string, index: number) => (
+            <Select.Option key={key} value={key}>
+              {`${index + 1}. ${Methods[key as MethodNames].listTitle}`}
+            </Select.Option>
+          ))}
+        </Select>
 
         <div className="Title BottomLine">請上傳您的 JSON 檔案</div>
         {Methods[MethodName].fileNames.map(
