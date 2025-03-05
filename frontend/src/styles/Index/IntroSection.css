@@ -1,0 +1,10 @@
+
+
+.IntroSection-Div {
+  width: 80%;
+  background-color: var(--div-background-color);
+  border: 3px solid var(--border-color);
+  border-radius: 10px;
+  padding: var(--space-large) var(--space-ultra);
+  margin: var(--space-medium);
+}

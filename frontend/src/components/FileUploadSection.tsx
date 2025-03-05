@@ -86,7 +86,7 @@ export const FileUploadSection = () => {
   };
 
   return (
-    <div className="FileUpload-Container">
+    <section>
       <Space
         direction="vertical"
         align="start"
@@ -157,7 +157,7 @@ export const FileUploadSection = () => {
                         {user.string_list_data[0].timestamp
                           ? `您於 ${DateFromTimeStamp(
                               user.string_list_data[0].timestamp
-                            )} 追蹤了此用戶`
+                            )} 追蹤此用戶`
                           : ""}
                       </td>
                     </tr>
@@ -176,6 +176,6 @@ export const FileUploadSection = () => {
           </Space>
         </>
       )}
-    </div>
+    </section>
   );
 };

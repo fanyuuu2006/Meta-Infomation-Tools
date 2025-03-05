@@ -1,11 +1,6 @@
 @import url(../globals.css);
 
-.FileUpload-Container {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
+
 
 .FileUpload-Div {
   width: 80%;

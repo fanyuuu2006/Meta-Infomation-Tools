@@ -21,7 +21,6 @@
 body {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
   align-items: center;
   width: 100%;
   overflow-x: hidden;
@@ -29,9 +28,16 @@ body {
   padding: 1em;
 }
 
-div {
+section {
   width: 100%;
   max-width: 1200px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+div {
+  width: 100%;
 }
 
 a {
@@ -83,8 +89,8 @@ a:hover {
 
     --space-small: 5px;
     --space-medium: 10px;
-    --space-large: 20px;
-    --space-ultra: 25px;
+    --space-large: 18px;
+    --space-ultra: 24px;
   }
 
   .Title {
