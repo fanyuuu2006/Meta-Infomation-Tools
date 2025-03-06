@@ -1,12 +1,15 @@
 import { TimeStamp } from "./CommonType";
-import { InstagramData, InstagramDataTypes } from "./InstagramDataTypes";
+import { InstagramData, InstagramDataTypes } from './InstagramDataTypes';
+import { ThreadsData, ThreadsDataTypes } from "./ThreadsDataTypes";
 
 export type MethodNames =
   | "NoFollowBackUsers"
   | "NoFollowingBackUsers"
-  | "FollowerUsers"
-  | "FollowingUsers"
-  | "FollowEachOther";
+  | "InstagramFollowerUsers"
+  | "InstagramFollowingUsers"
+  | "InstagramFollowEachOther"
+  | "ThreadsFollowerUsers"
+  | "ThreadsFollowingUsers";
 
 export const DateFromTimeStamp = (timestamp: TimeStamp): string => {
   const date = new Date(timestamp * 1000);
@@ -56,7 +59,7 @@ export const HandleJsonFile = (
   });
 };
 
-export const FollowerUsers = (
+export const InstagramFollowerUsers = (
   FollowersFile: InstagramData<"Followers">
 ): InstagramData<"UserData">[] => {
   if (FollowersFile[0].string_list_data === undefined) {
@@ -65,7 +68,8 @@ export const FollowerUsers = (
   }
   return FollowersFile;
 };
-export const FollowingUsers = (
+
+export const InstagramFollowingUsers = (
   FollowingFile: InstagramData<"Following">
 ): InstagramData<"UserData">[] => {
   if (FollowingFile.relationships_following === undefined) {
@@ -75,14 +79,35 @@ export const FollowingUsers = (
   return FollowingFile.relationships_following;
 };
 
+export const ThreadsFollowerUsers = (
+  FollowersFile: ThreadsData<"Followers">
+): ThreadsData<"UserData">[] => {
+  if (FollowersFile.text_post_app_text_post_app_followers === undefined) {
+    console.log("不是正確的檔案格式！");
+    throw new Error("不是正確的檔案格式！");
+  }
+  return FollowersFile.text_post_app_text_post_app_followers;
+};
+
+export const ThreadsFollowingUsers = (
+  FollowingFile: ThreadsData<"Following">
+): ThreadsData<"UserData">[] => {
+  if (FollowingFile.text_post_app_text_post_app_following === undefined) {
+    console.log("不是正確的檔案格式！");
+    throw new Error("不是正確的檔案格式！");
+  }
+  return FollowingFile.text_post_app_text_post_app_following;
+};
+
+// main
 export const NoFollowBackUsers = (
   FollowersFile: InstagramData<"Followers">,
   FollowingFile: InstagramData<"Following">
 ): InstagramData<"UserData">[] => {
-  const FilteredUserData: InstagramData<"UserData">[] = FollowingUsers(
+  const FilteredUserData: InstagramData<"UserData">[] = InstagramFollowingUsers(
     FollowingFile
   ).filter((FollowingUser: InstagramData<"UserData">): boolean => {
-    return !FollowerUsers(FollowersFile).some(
+    return !InstagramFollowerUsers(FollowersFile).some(
       (FollowerUser: InstagramData<"UserData">): boolean => {
         return (
           FollowingUser.string_list_data[0].value ===
@@ -98,10 +123,10 @@ export const NoFollowingBackUsers = (
   FollowingFile: InstagramData<"Following">,
   FollowersFile: InstagramData<"Followers">
 ): InstagramData<"UserData">[] => {
-  const FilteredUserData: InstagramData<"UserData">[] = FollowerUsers(
+  const FilteredUserData: InstagramData<"UserData">[] = InstagramFollowerUsers(
     FollowersFile
   ).filter((FollowerUser: InstagramData<"UserData">): boolean => {
-    return !FollowingUsers(FollowingFile).some(
+    return !InstagramFollowingUsers(FollowingFile).some(
       (FollowingUser: InstagramData<"UserData">): boolean => {
         return (
           FollowerUser.string_list_data[0].value ===
@@ -113,14 +138,14 @@ export const NoFollowingBackUsers = (
   return FilteredUserData;
 };
 
-export const FollowEachOther = (
+export const InstagramFollowEachOther = (
   FollowersFile: InstagramData<"Followers">,
   FollowingFile: InstagramData<"Following">
 ): InstagramData<"UserData">[] => {
-  const FilteredUserData: InstagramData<"UserData">[] = FollowerUsers(
+  const FilteredUserData: InstagramData<"UserData">[] = InstagramFollowerUsers(
     FollowersFile
   ).filter((FollowerUser: InstagramData<"UserData">): boolean => {
-    return FollowingUsers(FollowingFile).some(
+    return InstagramFollowingUsers(FollowingFile).some(
       (FollowingUser: InstagramData<"UserData">): boolean => {
         return (
           FollowerUser.string_list_data[0].value ===

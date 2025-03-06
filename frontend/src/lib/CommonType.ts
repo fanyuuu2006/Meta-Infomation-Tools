@@ -13,3 +13,11 @@ export type StringData = {
   value: UserID; // 使用者ID
   timestamp?: TimeStamp; // 追蹤時間戳
 };
+
+// 單一使用者資料
+export type UserData = {
+    title: string;
+    media_list_data: MediaData[]; // media_list_data
+    string_list_data: StringData[]; // string_list_data
+  };
+  
