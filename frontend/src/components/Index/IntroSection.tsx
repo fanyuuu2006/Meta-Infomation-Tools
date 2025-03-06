@@ -4,7 +4,7 @@ import Image from "next/image";
 import { Space } from "antd";
 import { CheckSquareOutlined, InstagramOutlined } from "@ant-design/icons";
 
-import { OutsideLink } from "./common/OutsideLink";
+import { OutsideLink } from "../common/OutsideLink";
 
 const GitHubBadges: {
   name: string;

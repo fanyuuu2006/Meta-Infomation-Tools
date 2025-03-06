@@ -21,9 +21,9 @@ import {
   UserData,
 } from "@/lib/DataTypes";
 
-import { OutsideLink } from "./common/OutsideLink";
-import { DateFromTimeStamp } from "../lib/HandleFunction";
-import { Toast } from "./common/Swal";
+import { OutsideLink } from "../common/OutsideLink";
+import { DateFromTimeStamp } from "../../lib/HandleFunction";
+import { Toast } from "../common/Swal";
 
 type InstagramFile = {
   name: string;

@@ -27,7 +27,6 @@ body {
   width: 100%;
   overflow-x: hidden;
   background-color: var(--background-color);
-  padding: 1em;
 }
 
 section {
@@ -38,6 +37,8 @@ section {
   align-items: center;
 }
 
+
+
 div {
   width: 100%;
 }
@@ -47,10 +48,10 @@ ol {
   list-style-type: none;
 }
 
-mark{
-    background-color: lightgray !important;
-    color: red;
-    border-radius: 5%;
+mark {
+  background-color: lightgray !important;
+  color: red;
+  border-radius: 5%;
 }
 
 a {
