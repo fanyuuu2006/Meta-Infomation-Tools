@@ -8,16 +8,17 @@ import {
   GetUserDatas,
   NoFollowersBackUsers,
   NoFollowingBackUsers,
-  FollowEachOtherUsers
+  FollowEachOtherUsers,
 } from "@/lib/HandleFunction";
 
 import { InstagramData, InstagramDataTypes } from "@/lib/InstagramDataTypes";
+import { ThreadsData, ThreadsDataTypes } from "@/lib/ThreadsDataTypes";
+import { JudgeFunction } from "@/lib/JudgeFunction";
 
 import { OutsideLink } from "../common/OutsideLink";
 import { DateFromTimeStamp } from "../../lib/HandleFunction";
 import { Toast } from "../common/Swal";
 import { TimeStamp } from "@/lib/CommonType";
-import { ThreadsData, ThreadsDataTypes } from "@/lib/ThreadsDataTypes";
 
 type DataFile = {
   name: string;
@@ -35,12 +36,17 @@ const FeatureMethods: Record<
     note: (...args: unknown[]) => string;
   }
 > = {
-  NoFollowBackUsers: {
+  InstagramNoFollowersBackUsers: {
     func: (Datas: unknown[]) => {
-      return NoFollowersBackUsers(
-        Datas[0] as InstagramData<"Followers">,
-        Datas[1] as InstagramData<"Following">
-      );
+      const file1 = Datas[0] as InstagramData<"Followers">;
+      const file2 = Datas[1] as InstagramData<"Following">;
+      if (
+        !JudgeFunction["isInstagramFollowers"](file1) ||
+        !JudgeFunction["isInstagramFollowing"](file2)
+      ) {
+        throw new Error("資料格式有誤");
+      }
+      return NoFollowersBackUsers(file1, file2);
     },
     fileNames: ["Followers", "Following"],
     listTitle: "(Instagram) 尚未回追您的用戶名單",
@@ -49,12 +55,17 @@ const FeatureMethods: Record<
       return `於 ${DateFromTimeStamp(timestamp)} 被您追蹤`;
     },
   },
-  NoFollowingBackUsers: {
+  InstagramNoFollowingBackUsers: {
     func: (Datas: unknown[]) => {
-      return NoFollowingBackUsers(
-        Datas[0] as InstagramData<"Following">,
-        Datas[1] as InstagramData<"Followers">
-      );
+      const file1 = Datas[0] as InstagramData<"Following">;
+      const file2 = Datas[1] as InstagramData<"Followers">;
+      if (
+        !JudgeFunction["isInstagramFollowing"](file1) ||
+        !JudgeFunction["isInstagramFollowers"](file2)
+      ) {
+        throw new Error("資料格式有誤");
+      }
+      return NoFollowingBackUsers(file1, file2);
     },
     fileNames: ["Following", "Followers"],
     listTitle: "(Instagram) 您尚未回追的用戶名單",
@@ -65,7 +76,11 @@ const FeatureMethods: Record<
   },
   InstagramFollowerUsers: {
     func: (Datas: unknown[]) => {
-      return GetUserDatas(Datas[0] as InstagramData<"Followers">);
+      const file = Datas[0] as InstagramData<"Followers">;
+      if (!JudgeFunction["isInstagramFollowers"](file)) {
+        throw new Error("資料格式有誤");
+      }
+      return GetUserDatas(file);
     },
     fileNames: ["Followers"],
     listTitle: "(Instagram) 您的粉絲用戶名單",
@@ -76,7 +91,11 @@ const FeatureMethods: Record<
   },
   InstagramFollowingUsers: {
     func: (Datas: unknown[]) => {
-      return GetUserDatas(Datas[0] as InstagramData<"Following">);
+      const file = Datas[0] as InstagramData<"Following">;
+      if (!JudgeFunction["isInstagramFollowing"](file)) {
+        throw new Error("資料格式有誤");
+      }
+      return GetUserDatas(file);
     },
     fileNames: ["Following"],
     listTitle: "(Instagram) 您追蹤的用戶名單",
@@ -87,7 +106,11 @@ const FeatureMethods: Record<
   },
   ThreadsFollowerUsers: {
     func: (Datas: unknown[]) => {
-      return GetUserDatas(Datas[0] as ThreadsData<"Followers">);
+      const file = Datas[0] as ThreadsData<"Followers">;
+      if (!JudgeFunction["isThreadsFollowers"](file)) {
+        throw new Error("資料格式有誤");
+      }
+      return GetUserDatas(file);
     },
     fileNames: ["Followers"],
     listTitle: "(Threads) 您的粉絲用戶名單",
@@ -98,7 +121,11 @@ const FeatureMethods: Record<
   },
   ThreadsFollowingUsers: {
     func: (Datas: unknown[]) => {
-      return GetUserDatas(Datas[0] as ThreadsData<"Following">);
+      const file = Datas[0] as ThreadsData<"Following">;
+      if (!JudgeFunction["isThreadsFollowing"](file)) {
+        throw new Error("資料格式有誤");
+      }
+      return GetUserDatas(file);
     },
     fileNames: ["Following"],
     listTitle: "(Threads) 您追蹤的用戶名單",
@@ -109,10 +136,15 @@ const FeatureMethods: Record<
   },
   InstagramFollowEachOther: {
     func: (Datas: unknown[]) => {
-      return FollowEachOtherUsers(
-        Datas[0] as InstagramData<"Followers">,
-        Datas[1] as InstagramData<"Following">
-      );
+      const file1 = Datas[0] as InstagramData<"Followers">;
+      const file2 = Datas[1] as InstagramData<"Following">;
+      if (
+        !JudgeFunction["isInstagramFollowers"](file1) ||
+        !JudgeFunction["isInstagramFollowing"](file2)
+      ) {
+        throw new Error("資料格式有誤");
+      }
+      return FollowEachOtherUsers(file1, file2);
     },
     fileNames: ["Followers", "Following"],
     listTitle: "(Instagram) 與您互相追蹤的用戶名單",
@@ -124,8 +156,9 @@ const FeatureMethods: Record<
 };
 
 export const FileUploadSection = () => {
-  const [MethodName, setMethodName] =
-    useState<string>("NoFollowBackUsers");
+  const [MethodName, setMethodName] = useState<string>(
+    "InstagramNoFollowersBackUsers"
+  );
   const [Data, setData] = useState<InstagramData<"UserData">[]>([]);
   const [Files, setFiles] = useState<DataFile[]>([]);
 
