@@ -13,35 +13,35 @@ import {
   FollowEachOther,
 } from "@/lib/HandleFunction";
 
-import {
-  Followers,
-  Following,
-  InstagramData,
-  TimeStamp,
-  UserData,
-} from "@/lib/DataTypes";
+import { InstagramData, InstagramDataTypes } from "@/lib/InstagramDataTypes";
 
 import { OutsideLink } from "../common/OutsideLink";
 import { DateFromTimeStamp } from "../../lib/HandleFunction";
 import { Toast } from "../common/Swal";
+import { TimeStamp } from "@/lib/CommonType";
 
 type InstagramFile = {
   name: string;
-  data: InstagramData;
+  data: InstagramData<keyof InstagramDataTypes>;
 };
 
 const Methods: Record<
   MethodNames,
   {
-    func: (Datas: InstagramData[]) => UserData[];
+    func: (
+      Datas: InstagramData<keyof InstagramDataTypes>[]
+    ) => InstagramData<"UserData">[];
     fileNames: string[]; // 儲存需要的檔案名稱
     listTitle: string;
     note: (...args: unknown[]) => string;
   }
 > = {
   NoFollowBackUsers: {
-    func: (Datas: InstagramData[]) => {
-      return NoFollowBackUsers(Datas[0] as Followers, Datas[1] as Following);
+    func: (Datas: InstagramData<keyof InstagramDataTypes>[]) => {
+      return NoFollowBackUsers(
+        Datas[0] as InstagramData<"Followers">,
+        Datas[1] as InstagramData<"Following">
+      );
     },
     fileNames: ["Followers", "Following"],
     listTitle: "尚未回追您的用戶名單",
@@ -51,8 +51,11 @@ const Methods: Record<
     },
   },
   NoFollowingBackUsers: {
-    func: (Datas: InstagramData[]) => {
-      return NoFollowingBackUsers(Datas[0] as Following, Datas[1] as Followers);
+    func: (Datas: InstagramData<keyof InstagramDataTypes>[]) => {
+      return NoFollowingBackUsers(
+        Datas[0] as InstagramData<"Following">,
+        Datas[1] as InstagramData<"Followers">
+      );
     },
     fileNames: ["Following", "Followers"],
     listTitle: "您尚未回追的用戶名單",
@@ -62,8 +65,8 @@ const Methods: Record<
     },
   },
   FollowerUsers: {
-    func: (Datas: InstagramData[]) => {
-      return FollowerUsers(Datas[0] as Followers);
+    func: (Datas: InstagramData<keyof InstagramDataTypes>[]) => {
+      return FollowerUsers(Datas[0] as InstagramData<"Followers">);
     },
     fileNames: ["Followers"],
     listTitle: "您的粉絲用戶名單",
@@ -73,8 +76,8 @@ const Methods: Record<
     },
   },
   FollowingUsers: {
-    func: (Datas: InstagramData[]) => {
-      return FollowingUsers(Datas[0] as Following);
+    func: (Datas: InstagramData<keyof InstagramDataTypes>[]) => {
+      return FollowingUsers(Datas[0] as InstagramData<"Following">);
     },
     fileNames: ["Following"],
     listTitle: "您追蹤的用戶名單",
@@ -84,8 +87,11 @@ const Methods: Record<
     },
   },
   FollowEachOther: {
-    func: (Datas: InstagramData[]) => {
-      return FollowEachOther(Datas[0] as Followers, Datas[1] as Following);
+    func: (Datas: InstagramData<keyof InstagramDataTypes>[]) => {
+      return FollowEachOther(
+        Datas[0] as InstagramData<"Followers">,
+        Datas[1] as InstagramData<"Following">
+      );
     },
     fileNames: ["Followers", "Following"],
     listTitle: "與您互相追蹤的用戶名單",
@@ -99,7 +105,7 @@ const Methods: Record<
 export const FileUploadSection = () => {
   const [MethodName, setMethodName] =
     useState<MethodNames>("NoFollowBackUsers");
-  const [Data, setData] = useState<UserData[]>([]);
+  const [Data, setData] = useState<InstagramData<"UserData">[]>([]);
   const [Files, setFiles] = useState<InstagramFile[]>([]);
 
   const HandleChange = async (
@@ -113,9 +119,8 @@ export const FileUploadSection = () => {
     try {
       const LatestFile = fileList.slice(-1)[0]; // 只保留最後一個
       const FileName = LatestFile.name;
-      const FileData: InstagramData = await HandleJsonFile(
-        LatestFile.originFileObj as File
-      );
+      const FileData: InstagramData<keyof InstagramDataTypes> =
+        await HandleJsonFile(LatestFile.originFileObj as File);
       Toast.fire({
         icon: "success",
         title: "上傳成功",
@@ -225,7 +230,7 @@ export const FileUploadSection = () => {
             </div>
             <table className="FileUpload-Table">
               <tbody>
-                {Data.map((user: UserData, index: number) => {
+                {Data.map((user: InstagramData<"UserData">, index: number) => {
                   return (
                     <tr key={index} className="FileUpload-Table-Row Content">
                       <td>{index + 1}. </td>

@@ -62,7 +62,7 @@ export const IntroSection = () => {
         size="small"
       >
         <div className="Title BottomLine">
-          Instagram Tools By Fan-Yu <InstagramOutlined />
+          Meta Information Tools <InstagramOutlined />
         </div>
         <div className="IntroSection-Badge-Div IntroSection-Content">
           {GitHubBadges.map((badge, index) => {

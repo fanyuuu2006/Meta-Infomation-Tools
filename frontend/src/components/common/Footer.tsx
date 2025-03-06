@@ -17,7 +17,7 @@ export const Footer = () => {
           <div></div>© {year}, 飯魚 版權所有.
           <br />© {year}, Fan-Yu, All rights reserved.
           <br />
-          <OutsideLink href="https://github.com/fanyuuu2006/fanyu-web">
+          <OutsideLink href="https://github.com/fanyuuu2006/IG-Tools">
             <FaGithub title="GitHub Repository" color="white" size={20} />
           </OutsideLink>
         </div>

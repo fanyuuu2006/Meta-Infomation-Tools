@@ -1,10 +1,5 @@
-import {
-  Followers,
-  Following,
-  InstagramData,
-  TimeStamp,
-  UserData,
-} from "./DataTypes";
+import { TimeStamp } from "./CommonType";
+import { InstagramData, InstagramDataTypes } from "./InstagramDataTypes";
 
 export type MethodNames =
   | "NoFollowBackUsers"
@@ -31,7 +26,9 @@ export const DateFromTimeStamp = (timestamp: TimeStamp): string => {
 };
 
 // FileReader 是異步操作
-export const HandleJsonFile = (file: File): Promise<InstagramData> => {
+export const HandleJsonFile = (
+  file: File
+): Promise<InstagramData<keyof InstagramDataTypes>> => {
   return new Promise((resolve, reject) => {
     if (!file) {
       reject(new Error("檔案未選擇"));
@@ -59,14 +56,18 @@ export const HandleJsonFile = (file: File): Promise<InstagramData> => {
   });
 };
 
-export const FollowerUsers = (FollowersFile: Followers): UserData[] => {
+export const FollowerUsers = (
+  FollowersFile: InstagramData<"Followers">
+): InstagramData<"UserData">[] => {
   if (FollowersFile[0].string_list_data === undefined) {
     console.log("不是正確的檔案格式！");
     throw new Error("不是正確的檔案格式！");
   }
   return FollowersFile;
 };
-export const FollowingUsers = (FollowingFile: Following): UserData[] => {
+export const FollowingUsers = (
+  FollowingFile: InstagramData<"Following">
+): InstagramData<"UserData">[] => {
   if (FollowingFile.relationships_following === undefined) {
     console.log("不是正確的檔案格式！");
     throw new Error("不是正確的檔案格式！");
@@ -75,58 +76,58 @@ export const FollowingUsers = (FollowingFile: Following): UserData[] => {
 };
 
 export const NoFollowBackUsers = (
-  FollowersFile: Followers,
-  FollowingFile: Following
-): UserData[] => {
-  const FilteredUserData: UserData[] = FollowingUsers(FollowingFile).filter(
-    (FollowingUser: UserData): boolean => {
-      return !FollowerUsers(FollowersFile).some(
-        (FollowerUser: UserData): boolean => {
-          return (
-            FollowingUser.string_list_data[0].value ===
-            FollowerUser.string_list_data[0].value
-          );
-        }
-      );
-    }
-  );
+  FollowersFile: InstagramData<"Followers">,
+  FollowingFile: InstagramData<"Following">
+): InstagramData<"UserData">[] => {
+  const FilteredUserData: InstagramData<"UserData">[] = FollowingUsers(
+    FollowingFile
+  ).filter((FollowingUser: InstagramData<"UserData">): boolean => {
+    return !FollowerUsers(FollowersFile).some(
+      (FollowerUser: InstagramData<"UserData">): boolean => {
+        return (
+          FollowingUser.string_list_data[0].value ===
+          FollowerUser.string_list_data[0].value
+        );
+      }
+    );
+  });
   return FilteredUserData;
 };
 
 export const NoFollowingBackUsers = (
-  FollowingFile: Following,
-  FollowersFile: Followers
-): UserData[] => {
-  const FilteredUserData: UserData[] = FollowerUsers(FollowersFile).filter(
-    (FollowerUser: UserData): boolean => {
-      return !FollowingUsers(FollowingFile).some(
-        (FollowingUser: UserData): boolean => {
-          return (
-            FollowerUser.string_list_data[0].value ===
-            FollowingUser.string_list_data[0].value
-          );
-        }
-      );
-    }
-  );
+  FollowingFile: InstagramData<"Following">,
+  FollowersFile: InstagramData<"Followers">
+): InstagramData<"UserData">[] => {
+  const FilteredUserData: InstagramData<"UserData">[] = FollowerUsers(
+    FollowersFile
+  ).filter((FollowerUser: InstagramData<"UserData">): boolean => {
+    return !FollowingUsers(FollowingFile).some(
+      (FollowingUser: InstagramData<"UserData">): boolean => {
+        return (
+          FollowerUser.string_list_data[0].value ===
+          FollowingUser.string_list_data[0].value
+        );
+      }
+    );
+  });
   return FilteredUserData;
 };
 
 export const FollowEachOther = (
-  FollowersFile: Followers,
-  FollowingFile: Following
-): UserData[] => {
-  const FilteredUserData: UserData[] = FollowerUsers(FollowersFile).filter(
-    (FollowerUser: UserData): boolean => {
-      return FollowingUsers(FollowingFile).some(
-        (FollowingUser: UserData): boolean => {
-          return (
-            FollowerUser.string_list_data[0].value ===
-            FollowingUser.string_list_data[0].value
-          );
-        }
-      );
-    }
-  );
+  FollowersFile: InstagramData<"Followers">,
+  FollowingFile: InstagramData<"Following">
+): InstagramData<"UserData">[] => {
+  const FilteredUserData: InstagramData<"UserData">[] = FollowerUsers(
+    FollowersFile
+  ).filter((FollowerUser: InstagramData<"UserData">): boolean => {
+    return FollowingUsers(FollowingFile).some(
+      (FollowingUser: InstagramData<"UserData">): boolean => {
+        return (
+          FollowerUser.string_list_data[0].value ===
+          FollowingUser.string_list_data[0].value
+        );
+      }
+    );
+  });
   return FilteredUserData;
 };

@@ -4,8 +4,8 @@ import "@/styles/globals.css";
 import "antd/dist/reset.css"; // antd v5 的全局樣式
 
 export const metadata: Metadata = {
-  title: "飯魚的 IG 工具",
-  description: "想要處理你的 IG 相關資訊嗎?",
+  title: "Meta 資訊工具",
+  description: "處理你的 Meta 應用程式資訊嗎?",
   icons: "/logo.ico",
 };
 
