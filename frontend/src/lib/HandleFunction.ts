@@ -10,7 +10,8 @@ export type MethodNames =
   | "NoFollowBackUsers"
   | "NoFollowingBackUsers"
   | "FollowerUsers"
-  | "FollowingUsers";
+  | "FollowingUsers"
+  | "FollowEachOther";
 
 export const DateFromTimeStamp = (timestamp: TimeStamp): string => {
   const date = new Date(timestamp * 1000);
@@ -99,6 +100,25 @@ export const NoFollowingBackUsers = (
   const FilteredUserData: UserData[] = FollowerUsers(FollowersFile).filter(
     (FollowerUser: UserData): boolean => {
       return !FollowingUsers(FollowingFile).some(
+        (FollowingUser: UserData): boolean => {
+          return (
+            FollowerUser.string_list_data[0].value ===
+            FollowingUser.string_list_data[0].value
+          );
+        }
+      );
+    }
+  );
+  return FilteredUserData;
+};
+
+export const FollowEachOther = (
+  FollowersFile: Followers,
+  FollowingFile: Following
+): UserData[] => {
+  const FilteredUserData: UserData[] = FollowerUsers(FollowersFile).filter(
+    (FollowerUser: UserData): boolean => {
+      return FollowingUsers(FollowingFile).some(
         (FollowingUser: UserData): boolean => {
           return (
             FollowerUser.string_list_data[0].value ===

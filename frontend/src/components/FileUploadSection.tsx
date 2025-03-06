@@ -10,6 +10,7 @@ import {
   NoFollowingBackUsers,
   FollowerUsers,
   FollowingUsers,
+  FollowEachOther,
 } from "@/lib/HandleFunction";
 
 import {
@@ -82,6 +83,17 @@ const Methods: Record<
       return `於 ${DateFromTimeStamp(timestamp)} 被您追蹤`;
     },
   },
+  FollowEachOther: {
+    func: (Datas: InstagramData[]) => {
+      return FollowEachOther(Datas[0] as Followers, Datas[1] as Following);
+    },
+    fileNames: ["Followers", "Following"],
+    listTitle: "與您互相追蹤的用戶名單",
+    note: (...args: unknown[]) => {
+      const timestamp: TimeStamp = args[0] as TimeStamp;
+      return `於 ${DateFromTimeStamp(timestamp)} 追蹤您`;
+    },
+  },
 };
 
 export const FileUploadSection = () => {
@@ -129,7 +141,9 @@ export const FileUploadSection = () => {
     try {
       setData([]);
 
-      setData(Methods[MethodName].func(Files.map((file: InstagramFile) => file.data)));
+      setData(
+        Methods[MethodName].func(Files.map((file: InstagramFile) => file.data))
+      );
       setFiles([]);
     } catch (error) {
       console.log(error);
