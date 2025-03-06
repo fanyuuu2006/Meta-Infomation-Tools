@@ -4,15 +4,11 @@ import { Upload, Button, UploadFile, Space, Select } from "antd";
 import { UploadOutlined } from "@ant-design/icons";
 
 import {
-  MethodNames,
   HandleJsonFile,
-  NoFollowBackUsers,
+  GetUserDatas,
+  NoFollowersBackUsers,
   NoFollowingBackUsers,
-  InstagramFollowerUsers,
-  InstagramFollowingUsers,
-  InstagramFollowEachOther,
-  ThreadsFollowerUsers,
-  ThreadsFollowingUsers,
+  FollowEachOtherUsers
 } from "@/lib/HandleFunction";
 
 import { InstagramData, InstagramDataTypes } from "@/lib/InstagramDataTypes";
@@ -31,7 +27,7 @@ type DataFile = {
 };
 
 const FeatureMethods: Record<
-  MethodNames,
+  string,
   {
     func: (Datas: unknown[]) => InstagramData<"UserData">[];
     fileNames: string[]; // 儲存需要的檔案名稱
@@ -41,7 +37,7 @@ const FeatureMethods: Record<
 > = {
   NoFollowBackUsers: {
     func: (Datas: unknown[]) => {
-      return NoFollowBackUsers(
+      return NoFollowersBackUsers(
         Datas[0] as InstagramData<"Followers">,
         Datas[1] as InstagramData<"Following">
       );
@@ -69,7 +65,7 @@ const FeatureMethods: Record<
   },
   InstagramFollowerUsers: {
     func: (Datas: unknown[]) => {
-      return InstagramFollowerUsers(Datas[0] as InstagramData<"Followers">);
+      return GetUserDatas(Datas[0] as InstagramData<"Followers">);
     },
     fileNames: ["Followers"],
     listTitle: "(Instagram) 您的粉絲用戶名單",
@@ -80,7 +76,7 @@ const FeatureMethods: Record<
   },
   InstagramFollowingUsers: {
     func: (Datas: unknown[]) => {
-      return InstagramFollowingUsers(Datas[0] as InstagramData<"Following">);
+      return GetUserDatas(Datas[0] as InstagramData<"Following">);
     },
     fileNames: ["Following"],
     listTitle: "(Instagram) 您追蹤的用戶名單",
@@ -91,7 +87,7 @@ const FeatureMethods: Record<
   },
   ThreadsFollowerUsers: {
     func: (Datas: unknown[]) => {
-      return ThreadsFollowerUsers(Datas[0] as ThreadsData<"Followers">);
+      return GetUserDatas(Datas[0] as ThreadsData<"Followers">);
     },
     fileNames: ["Followers"],
     listTitle: "(Threads) 您的粉絲用戶名單",
@@ -102,7 +98,7 @@ const FeatureMethods: Record<
   },
   ThreadsFollowingUsers: {
     func: (Datas: unknown[]) => {
-      return ThreadsFollowingUsers(Datas[0] as ThreadsData<"Following">);
+      return GetUserDatas(Datas[0] as ThreadsData<"Following">);
     },
     fileNames: ["Following"],
     listTitle: "(Threads) 您追蹤的用戶名單",
@@ -113,7 +109,7 @@ const FeatureMethods: Record<
   },
   InstagramFollowEachOther: {
     func: (Datas: unknown[]) => {
-      return InstagramFollowEachOther(
+      return FollowEachOtherUsers(
         Datas[0] as InstagramData<"Followers">,
         Datas[1] as InstagramData<"Following">
       );
@@ -129,7 +125,7 @@ const FeatureMethods: Record<
 
 export const FileUploadSection = () => {
   const [MethodName, setMethodName] =
-    useState<MethodNames>("NoFollowBackUsers");
+    useState<string>("NoFollowBackUsers");
   const [Data, setData] = useState<InstagramData<"UserData">[]>([]);
   const [Files, setFiles] = useState<DataFile[]>([]);
 
@@ -201,12 +197,12 @@ export const FileUploadSection = () => {
           value={MethodName}
           onChange={(value) => {
             setData([]);
-            setMethodName(value as MethodNames);
+            setMethodName(value);
           }}
         >
           {Object.keys(FeatureMethods).map((key: string, index: number) => (
             <Select.Option key={key} value={key}>
-              {`${index + 1}. ${FeatureMethods[key as MethodNames].listTitle}`}
+              {`${index + 1}. ${FeatureMethods[key].listTitle}`}
             </Select.Option>
           ))}
         </Select>

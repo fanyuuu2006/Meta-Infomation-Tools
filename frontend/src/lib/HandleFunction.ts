@@ -1,15 +1,6 @@
 import { TimeStamp } from "./CommonType";
-import { InstagramData, InstagramDataTypes } from './InstagramDataTypes';
+import { InstagramData, InstagramDataTypes } from "./InstagramDataTypes";
 import { ThreadsData, ThreadsDataTypes } from "./ThreadsDataTypes";
-
-export type MethodNames =
-  | "NoFollowBackUsers"
-  | "NoFollowingBackUsers"
-  | "InstagramFollowerUsers"
-  | "InstagramFollowingUsers"
-  | "InstagramFollowEachOther"
-  | "ThreadsFollowerUsers"
-  | "ThreadsFollowingUsers";
 
 export const DateFromTimeStamp = (timestamp: TimeStamp): string => {
   const date = new Date(timestamp * 1000);
@@ -59,100 +50,70 @@ export const HandleJsonFile = (
   });
 };
 
-export const InstagramFollowerUsers = (
-  FollowersFile: InstagramData<"Followers">
+export const GetUserDatas = <
+  T extends keyof InstagramDataTypes & keyof ThreadsDataTypes,
+>(
+  data: InstagramData<T> | ThreadsData<T>
+): InstagramData<"UserData">[] | ThreadsData<"UserData">[] => {
+  // 如果 data 本身就是 UserData[]，直接返回
+  if (Array.isArray(data)) {
+    return data as InstagramData<"UserData">[] | ThreadsData<"UserData">[];
+  }
+
+  // 根據 data 的結構自動處理
+  for (const key in data) {
+    const result = data[key as keyof (InstagramData<T> | ThreadsData<T>)];
+
+    // 如果 result 是 UserData[]，直接返回
+    if (Array.isArray(result)) {
+      return result as InstagramData<"UserData">[] | ThreadsData<"UserData">[];
+    }
+  }
+
+  console.log("無法解析該類型的資料！");
+  throw new Error("無法解析該類型的資料！");
+};
+
+export const NoFollowersBackUsers = (
+  FollowersFile: InstagramData<"Followers"> | ThreadsData<"Followers">,
+  FollowingFile: InstagramData<"Following"> | ThreadsData<"Following">
 ): InstagramData<"UserData">[] => {
-  if (FollowersFile[0].string_list_data === undefined) {
-    console.log("不是正確的檔案格式！");
-    throw new Error("不是正確的檔案格式！");
-  }
-  return FollowersFile;
-};
-
-export const InstagramFollowingUsers = (
-  FollowingFile: InstagramData<"Following">
-): InstagramData<"UserData">[] => {
-  if (FollowingFile.relationships_following === undefined) {
-    console.log("不是正確的檔案格式！");
-    throw new Error("不是正確的檔案格式！");
-  }
-  return FollowingFile.relationships_following;
-};
-
-export const ThreadsFollowerUsers = (
-  FollowersFile: ThreadsData<"Followers">
-): ThreadsData<"UserData">[] => {
-  if (FollowersFile.text_post_app_text_post_app_followers === undefined) {
-    console.log("不是正確的檔案格式！");
-    throw new Error("不是正確的檔案格式！");
-  }
-  return FollowersFile.text_post_app_text_post_app_followers;
-};
-
-export const ThreadsFollowingUsers = (
-  FollowingFile: ThreadsData<"Following">
-): ThreadsData<"UserData">[] => {
-  if (FollowingFile.text_post_app_text_post_app_following === undefined) {
-    console.log("不是正確的檔案格式！");
-    throw new Error("不是正確的檔案格式！");
-  }
-  return FollowingFile.text_post_app_text_post_app_following;
-};
-
-// main
-export const NoFollowBackUsers = (
-  FollowersFile: InstagramData<"Followers">,
-  FollowingFile: InstagramData<"Following">
-): InstagramData<"UserData">[] => {
-  const FilteredUserData: InstagramData<"UserData">[] = InstagramFollowingUsers(
-    FollowingFile
-  ).filter((FollowingUser: InstagramData<"UserData">): boolean => {
-    return !InstagramFollowerUsers(FollowersFile).some(
-      (FollowerUser: InstagramData<"UserData">): boolean => {
-        return (
-          FollowingUser.string_list_data[0].value ===
-          FollowerUser.string_list_data[0].value
-        );
-      }
-    );
-  });
-  return FilteredUserData;
+  const FollowersUsersSet: Set<string> = new Set(
+    GetUserDatas(FollowersFile).map(
+      (FollowersUser) => FollowersUser.string_list_data[0].value
+    )
+  );
+  return GetUserDatas(FollowingFile).filter(
+    (FollowingUser) =>
+      !FollowersUsersSet.has(FollowingUser.string_list_data[0].value)
+  );
 };
 
 export const NoFollowingBackUsers = (
-  FollowingFile: InstagramData<"Following">,
-  FollowersFile: InstagramData<"Followers">
+  FollowingFile: InstagramData<"Following"> | ThreadsData<"Following">,
+  FollowersFile: InstagramData<"Followers"> | ThreadsData<"Followers">
 ): InstagramData<"UserData">[] => {
-  const FilteredUserData: InstagramData<"UserData">[] = InstagramFollowerUsers(
-    FollowersFile
-  ).filter((FollowerUser: InstagramData<"UserData">): boolean => {
-    return !InstagramFollowingUsers(FollowingFile).some(
-      (FollowingUser: InstagramData<"UserData">): boolean => {
-        return (
-          FollowerUser.string_list_data[0].value ===
-          FollowingUser.string_list_data[0].value
-        );
-      }
-    );
-  });
-  return FilteredUserData;
+  const FollowingUsersSet: Set<string> = new Set(
+    GetUserDatas(FollowingFile).map(
+      (FollowingUser) => FollowingUser.string_list_data[0].value
+    )
+  );
+  return GetUserDatas(FollowersFile).filter(
+    (FollowersUser) =>
+      !FollowingUsersSet.has(FollowersUser.string_list_data[0].value)
+  );
 };
 
-export const InstagramFollowEachOther = (
-  FollowersFile: InstagramData<"Followers">,
-  FollowingFile: InstagramData<"Following">
+export const FollowEachOtherUsers = (
+  FollowersFile: InstagramData<"Followers"> | ThreadsData<"Followers">,
+  FollowingFile: InstagramData<"Following"> | ThreadsData<"Following">
 ): InstagramData<"UserData">[] => {
-  const FilteredUserData: InstagramData<"UserData">[] = InstagramFollowerUsers(
-    FollowersFile
-  ).filter((FollowerUser: InstagramData<"UserData">): boolean => {
-    return InstagramFollowingUsers(FollowingFile).some(
-      (FollowingUser: InstagramData<"UserData">): boolean => {
-        return (
-          FollowerUser.string_list_data[0].value ===
-          FollowingUser.string_list_data[0].value
-        );
-      }
-    );
-  });
-  return FilteredUserData;
+  const FollowersUsersSet: Set<string> = new Set(
+    GetUserDatas(FollowersFile).map(
+      (FollowersUser) => FollowersUser.string_list_data[0].value
+    )
+  );
+  return GetUserDatas(FollowingFile).filter((FollowingUser) =>
+    FollowersUsersSet.has(FollowingUser.string_list_data[0].value)
+  );
 };
