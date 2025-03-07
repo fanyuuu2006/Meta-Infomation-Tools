@@ -3,156 +3,20 @@ import React, { useState } from "react";
 import { Upload, Button, UploadFile, Space, Select } from "antd";
 import { UploadOutlined } from "@ant-design/icons";
 
-import {
-  HandleJsonFile,
-  GetUserDatas,
-  NoFollowersBackUsers,
-  NoFollowingBackUsers,
-  FollowEachOtherUsers,
-} from "@/lib/HandleFunction";
+import { HandleJsonFile } from "@/lib/HandleFunction";
 
 import { InstagramData, InstagramDataTypes } from "@/lib/InstagramDataTypes";
 import { ThreadsData, ThreadsDataTypes } from "@/lib/ThreadsDataTypes";
-import { JudgeFunction } from "@/lib/JudgeFunction";
 
 import { OutsideLink } from "../common/OutsideLink";
-import { DateFromTimeStamp } from "../../lib/HandleFunction";
 import { Toast } from "../common/Swal";
-import { TimeStamp } from "@/lib/CommonType";
+import { FeatureMethods } from "./FeatureMethod";
 
 type DataFile = {
   name: string;
   data:
     | InstagramData<keyof InstagramDataTypes>
     | ThreadsData<keyof ThreadsDataTypes>;
-};
-
-const FeatureMethods: Record<
-  string,
-  {
-    func: (Datas: unknown[]) => InstagramData<"UserData">[];
-    fileNames: string[]; // 儲存需要的檔案名稱
-    listTitle: string;
-    note: (...args: unknown[]) => string;
-  }
-> = {
-  InstagramNoFollowersBackUsers: {
-    func: (Datas: unknown[]) => {
-      const file1 = Datas[0] as InstagramData<"Followers">;
-      const file2 = Datas[1] as InstagramData<"Following">;
-      if (
-        !JudgeFunction["isInstagramFollowers"](file1) ||
-        !JudgeFunction["isInstagramFollowing"](file2)
-      ) {
-        throw new Error("資料格式有誤");
-      }
-      return NoFollowersBackUsers(file1, file2);
-    },
-    fileNames: ["Followers", "Following"],
-    listTitle: "(Instagram) 尚未回追您的用戶名單",
-    note: (...args: unknown[]) => {
-      const timestamp: TimeStamp = args[0] as TimeStamp;
-      return `於 ${DateFromTimeStamp(timestamp)} 被您追蹤`;
-    },
-  },
-  InstagramNoFollowingBackUsers: {
-    func: (Datas: unknown[]) => {
-      const file1 = Datas[0] as InstagramData<"Following">;
-      const file2 = Datas[1] as InstagramData<"Followers">;
-      if (
-        !JudgeFunction["isInstagramFollowing"](file1) ||
-        !JudgeFunction["isInstagramFollowers"](file2)
-      ) {
-        throw new Error("資料格式有誤");
-      }
-      return NoFollowingBackUsers(file1, file2);
-    },
-    fileNames: ["Following", "Followers"],
-    listTitle: "(Instagram) 您尚未回追的用戶名單",
-    note: (...args: unknown[]) => {
-      const timestamp: TimeStamp = args[0] as TimeStamp;
-      return `於 ${DateFromTimeStamp(timestamp)} 追蹤您`;
-    },
-  },
-  InstagramFollowerUsers: {
-    func: (Datas: unknown[]) => {
-      const file = Datas[0] as InstagramData<"Followers">;
-      if (!JudgeFunction["isInstagramFollowers"](file)) {
-        throw new Error("資料格式有誤");
-      }
-      return GetUserDatas(file);
-    },
-    fileNames: ["Followers"],
-    listTitle: "(Instagram) 您的粉絲用戶名單",
-    note: (...args: unknown[]) => {
-      const timestamp: TimeStamp = args[0] as TimeStamp;
-      return `於 ${DateFromTimeStamp(timestamp)} 追蹤您`;
-    },
-  },
-  InstagramFollowingUsers: {
-    func: (Datas: unknown[]) => {
-      const file = Datas[0] as InstagramData<"Following">;
-      if (!JudgeFunction["isInstagramFollowing"](file)) {
-        throw new Error("資料格式有誤");
-      }
-      return GetUserDatas(file);
-    },
-    fileNames: ["Following"],
-    listTitle: "(Instagram) 您追蹤的用戶名單",
-    note: (...args: unknown[]) => {
-      const timestamp: TimeStamp = args[0] as TimeStamp;
-      return `於 ${DateFromTimeStamp(timestamp)} 被您追蹤`;
-    },
-  },
-  ThreadsFollowerUsers: {
-    func: (Datas: unknown[]) => {
-      const file = Datas[0] as ThreadsData<"Followers">;
-      if (!JudgeFunction["isThreadsFollowers"](file)) {
-        throw new Error("資料格式有誤");
-      }
-      return GetUserDatas(file);
-    },
-    fileNames: ["Followers"],
-    listTitle: "(Threads) 您的粉絲用戶名單",
-    note: (...args: unknown[]) => {
-      const timestamp: TimeStamp = args[0] as TimeStamp;
-      return `於 ${DateFromTimeStamp(timestamp)} 追蹤您`;
-    },
-  },
-  ThreadsFollowingUsers: {
-    func: (Datas: unknown[]) => {
-      const file = Datas[0] as ThreadsData<"Following">;
-      if (!JudgeFunction["isThreadsFollowing"](file)) {
-        throw new Error("資料格式有誤");
-      }
-      return GetUserDatas(file);
-    },
-    fileNames: ["Following"],
-    listTitle: "(Threads) 您追蹤的用戶名單",
-    note: (...args: unknown[]) => {
-      const timestamp: TimeStamp = args[0] as TimeStamp;
-      return `於 ${DateFromTimeStamp(timestamp)} 被您追蹤`;
-    },
-  },
-  InstagramFollowEachOther: {
-    func: (Datas: unknown[]) => {
-      const file1 = Datas[0] as InstagramData<"Followers">;
-      const file2 = Datas[1] as InstagramData<"Following">;
-      if (
-        !JudgeFunction["isInstagramFollowers"](file1) ||
-        !JudgeFunction["isInstagramFollowing"](file2)
-      ) {
-        throw new Error("資料格式有誤");
-      }
-      return FollowEachOtherUsers(file1, file2);
-    },
-    fileNames: ["Followers", "Following"],
-    listTitle: "(Instagram) 與您互相追蹤的用戶名單",
-    note: (...args: unknown[]) => {
-      const timestamp: TimeStamp = args[0] as TimeStamp;
-      return `於 ${DateFromTimeStamp(timestamp)} 追蹤您`;
-    },
-  },
 };
 
 export const FileUploadSection = () => {

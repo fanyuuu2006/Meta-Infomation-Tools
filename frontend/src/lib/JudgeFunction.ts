@@ -1,5 +1,5 @@
-import { InstagramData} from "./InstagramDataTypes";
-import { ThreadsData} from "./ThreadsDataTypes";
+import { InstagramData } from "./InstagramDataTypes";
+import { ThreadsData } from "./ThreadsDataTypes";
 
 export const isInstagramFollowers = (
   file: InstagramData<"Followers">
@@ -10,15 +10,15 @@ export const isInstagramFollowers = (
 export const isInstagramFollowing = (
   file: InstagramData<"Following">
 ): boolean => {
-  return "file.relationships_following" in file;
+  return "relationships_following" in file;
 };
 
 export const isThreadsFollowers = (file: ThreadsData<"Followers">): boolean => {
-  return "file.text_post_app_text_post_app_followers" in file;
+  return "text_post_app_text_post_app_followers" in file;
 };
 
 export const isThreadsFollowing = (file: ThreadsData<"Following">): boolean => {
-  return "file.text_post_app_text_post_app_following" in file;
+  return "text_post_app_text_post_app_following" in file;
 };
 
 export const JudgeFunction = {
