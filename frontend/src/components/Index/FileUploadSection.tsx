@@ -100,6 +100,7 @@ export const FileUploadSection = () => {
         <Select
           value={MethodName}
           onChange={(value) => {
+            setData([]);
             setMethodName(value);
           }}
           virtual={false} // 關閉虛擬滾動，避免滾動問題

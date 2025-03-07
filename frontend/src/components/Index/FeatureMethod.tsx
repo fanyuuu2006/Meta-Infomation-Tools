@@ -6,7 +6,7 @@ import {
   NoFollowersBackUsers,
   NoFollowingBackUsers,
 } from "@/lib/HandleFunction";
-import { InstagramData } from "@/lib/InstagramDataTypes";
+import { InstagramData, InstagramDataTypes } from "@/lib/InstagramDataTypes";
 import { JudgeFunction } from "@/lib/JudgeFunction";
 import { ThreadsData } from "@/lib/ThreadsDataTypes";
 
@@ -27,7 +27,10 @@ export const FeatureMethods: Record<
         !JudgeFunction["isInstagramFollowers"](file1) ||
         !JudgeFunction["isInstagramFollowing"](file2)
       ) {
-        console.log(JudgeFunction["isInstagramFollowers"](file1));
+        console.log(
+          !JudgeFunction["isInstagramFollowers"](file1) ||
+            !JudgeFunction["isInstagramFollowing"](file2)
+        );
         throw new Error("資料格式有誤");
       }
       return NoFollowersBackUsers(file1, file2);
@@ -109,6 +112,22 @@ export const FeatureMethods: Record<
     note: (...args: unknown[]) => {
       const timestamp: TimeStamp = args[0] as TimeStamp;
       return `於 ${DateFromTimeStamp(timestamp)} 追蹤您`;
+    },
+  },
+
+  InstagramCloseFriends: {
+    func: (Datas: unknown[]) => {
+      const file1 = Datas[0] as InstagramData<"CloseFriends">;
+      if (!JudgeFunction["isInstagramCloseFriends"](file1)) {
+        throw new Error("資料格式有誤");
+      }
+      return GetUserDatas<InstagramDataTypes, "CloseFriends">(file1);
+    },
+    fileNames: ["Close Friends"],
+    listTitle: "(Instagram) 您的摯友名單",
+    note: (...args: unknown[]) => {
+      const timestamp: TimeStamp = args[0] as TimeStamp;
+      return `於 ${DateFromTimeStamp(timestamp)} 成為您摯友`;
     },
   },
 

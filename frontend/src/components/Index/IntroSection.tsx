@@ -95,7 +95,7 @@ export const IntroSection = () => {
           <OutsideLink href="https://accountscenter.instagram.com/">
             Meta 帳號管理中心
           </OutsideLink>
-          提供的可下載資訊。
+          提供的可下載資訊。{"( Instagram & Threads )"}
         </div>
         <div className="Title BottomLine">功能</div>
 

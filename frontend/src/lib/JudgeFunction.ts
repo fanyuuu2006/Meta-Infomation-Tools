@@ -13,6 +13,12 @@ export const isInstagramFollowing = (
   return "relationships_following" in file;
 };
 
+export const isInstagramCloseFriends = (
+    file: InstagramData<"CloseFriends">
+  ): boolean => {
+    return "relationships_close_friends" in file;
+  };
+
 export const isThreadsFollowers = (file: ThreadsData<"Followers">): boolean => {
   return "text_post_app_text_post_app_followers" in file;
 };
@@ -24,6 +30,7 @@ export const isThreadsFollowing = (file: ThreadsData<"Following">): boolean => {
 export const JudgeFunction = {
   isInstagramFollowers,
   isInstagramFollowing,
+  isInstagramCloseFriends,
   isThreadsFollowers,
   isThreadsFollowing,
 };

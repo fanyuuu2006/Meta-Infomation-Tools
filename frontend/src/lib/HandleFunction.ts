@@ -22,7 +22,9 @@ export const DateFromTimeStamp = (timestamp: TimeStamp): string => {
 // FileReader 是異步操作
 export const HandleJsonFile = (
   file: File
-): Promise<InstagramData<keyof InstagramDataTypes>> => {
+): Promise<
+  InstagramData<keyof InstagramDataTypes> | ThreadsData<keyof ThreadsDataTypes>
+> => {
   return new Promise((resolve, reject) => {
     if (!file) {
       reject(new Error("檔案未選擇"));
@@ -51,9 +53,10 @@ export const HandleJsonFile = (
 };
 
 export const GetUserDatas = <
-  T extends keyof InstagramDataTypes & keyof ThreadsDataTypes,
+  F extends InstagramDataTypes | ThreadsDataTypes,
+  T extends keyof F
 >(
-  data: InstagramData<T> | ThreadsData<T>
+  data: F[T]
 ): InstagramData<"UserData">[] | ThreadsData<"UserData">[] => {
   // 如果 data 本身就是 UserData[]，直接返回
   if (Array.isArray(data)) {
@@ -62,7 +65,7 @@ export const GetUserDatas = <
 
   // 根據 data 的結構自動處理
   for (const key in data) {
-    const result = data[key as keyof (InstagramData<T> | ThreadsData<T>)];
+    const result = data[key];
 
     // 如果 result 是 UserData[]，直接返回
     if (Array.isArray(result)) {
