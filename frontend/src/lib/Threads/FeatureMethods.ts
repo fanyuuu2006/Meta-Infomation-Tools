@@ -6,8 +6,8 @@ import {
   NoFollowersBackUsers,
   NoFollowingBackUsers,
 } from "@/lib/HandleFunction";
-import { JudgeFunction } from "@/lib/JudgeFunction";
-import { ThreadsData } from "@/lib/Threads/ThreadsDataTypes";
+import { isValidData } from "@/lib/JudgeFunction";
+import { ThreadsData, ThreadsDataTypes } from "@/lib/Threads/ThreadsDataTypes";
 
 export const ThreadsFeatureMethods: Record<
   string,
@@ -20,11 +20,17 @@ export const ThreadsFeatureMethods: Record<
 > = {
   FollowerUsers: {
     func: (Datas: unknown[]) => {
-      const file = Datas[0] as ThreadsData<"Followers">;
-      if (!JudgeFunction["isThreadsFollowers"](file)) {
+      const file1 = Datas[0] as ThreadsData<"Followers">;
+      if (
+        !isValidData<ThreadsDataTypes, "Followers">(
+          file1,
+          (data: ThreadsData<"Followers">) =>
+            "text_post_app_text_post_app_followers" in data
+        )
+      ) {
         throw new Error("資料格式有誤");
       }
-      return GetUserDatas(file) as ThreadsData<"UserData">[];
+      return GetUserDatas(file1) as ThreadsData<"UserData">[];
     },
     fileNames: ["Followers"],
     listTitle: "(Threads) 您的粉絲用戶名單",
@@ -36,11 +42,17 @@ export const ThreadsFeatureMethods: Record<
 
   FollowingUsers: {
     func: (Datas: unknown[]) => {
-      const file = Datas[0] as ThreadsData<"Following">;
-      if (!JudgeFunction["isThreadsFollowing"](file)) {
+      const file1 = Datas[0] as ThreadsData<"Following">;
+      if (
+        !isValidData<ThreadsDataTypes, "Following">(
+          file1,
+          (data: ThreadsData<"Following">) =>
+            "text_post_app_text_post_app_following" in data
+        )
+      ) {
         throw new Error("資料格式有誤");
       }
-      return GetUserDatas(file) as ThreadsData<"UserData">[];
+      return GetUserDatas(file1) as ThreadsData<"UserData">[];
     },
     fileNames: ["Following"],
     listTitle: "(Threads) 您追蹤的用戶名單",
@@ -55,8 +67,16 @@ export const ThreadsFeatureMethods: Record<
       const file1 = Datas[0] as ThreadsData<"Followers">;
       const file2 = Datas[1] as ThreadsData<"Following">;
       if (
-        !JudgeFunction["isThreadsFollowers"](file1) ||
-        !JudgeFunction["isThreadsFollowing"](file2)
+        !isValidData<ThreadsDataTypes, "Followers">(
+          file1,
+          (data: ThreadsData<"Followers">) =>
+            "text_post_app_text_post_app_followers" in data
+        ) ||
+        !isValidData<ThreadsDataTypes, "Following">(
+          file2,
+          (data: ThreadsData<"Following">) =>
+            "text_post_app_text_post_app_following" in data
+        )
       ) {
         throw new Error("資料格式有誤");
       }
@@ -75,8 +95,16 @@ export const ThreadsFeatureMethods: Record<
       const file1 = Datas[0] as ThreadsData<"Followers">;
       const file2 = Datas[1] as ThreadsData<"Following">;
       if (
-        !JudgeFunction["isThreadsFollowers"](file1) ||
-        !JudgeFunction["isThreadsFollowing"](file2)
+        !isValidData<ThreadsDataTypes, "Followers">(
+          file1,
+          (data: ThreadsData<"Followers">) =>
+            "text_post_app_text_post_app_followers" in data
+        ) ||
+        !isValidData<ThreadsDataTypes, "Following">(
+          file2,
+          (data: ThreadsData<"Following">) =>
+            "text_post_app_text_post_app_following" in data
+        )
       ) {
         throw new Error("資料格式有誤");
       }
@@ -95,8 +123,16 @@ export const ThreadsFeatureMethods: Record<
       const file1 = Datas[0] as ThreadsData<"Following">;
       const file2 = Datas[1] as ThreadsData<"Followers">;
       if (
-        !JudgeFunction["isThreadsFollowing"](file1) ||
-        !JudgeFunction["isThreadsFollowers"](file2)
+        !isValidData<ThreadsDataTypes, "Following">(
+          file1,
+          (data: ThreadsData<"Following">) =>
+            "text_post_app_text_post_app_following" in data
+        ) ||
+        !isValidData<ThreadsDataTypes, "Followers">(
+          file2,
+          (data: ThreadsData<"Followers">) =>
+            "text_post_app_text_post_app_followers" in data
+        )
       ) {
         throw new Error("資料格式有誤");
       }

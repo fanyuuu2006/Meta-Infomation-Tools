@@ -1,7 +1,7 @@
 import "@/styles/Footer.css";
 import { Space } from "antd";
-import { FaGithub } from "react-icons/fa";
 import { OutsideLink } from "./OutsideLink";
+import { InstagramOutlined } from "@ant-design/icons";
 export const Footer = () => {
   return (
     <footer>
@@ -13,8 +13,11 @@ export const Footer = () => {
         size={"small"}
       >
         <div className="Footer-Content Note">
-          <OutsideLink href="https://github.com/fanyuuu2006/IG-Tools">
-            <FaGithub title="GitHub Repository" color="white" size={20} />
+          <OutsideLink href="https://www.instagram.com/fan._.yuuu">
+            <InstagramOutlined
+              title="作者 IG"
+              style={{ color: "white", fontSize: "30px" }}
+            />
           </OutsideLink>
         </div>
       </Space>
