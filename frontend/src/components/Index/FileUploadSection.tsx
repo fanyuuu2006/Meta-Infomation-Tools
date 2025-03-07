@@ -96,6 +96,7 @@ export const FileUploadSection = () => {
             setData([]);
             setMethodName(value);
           }}
+          virtual={false} // 關閉虛擬滾動，避免滾動問題
         >
           {Object.keys(FeatureMethods).map((key: string, index: number) => (
             <Select.Option key={key} value={key}>
