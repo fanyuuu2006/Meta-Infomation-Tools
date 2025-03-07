@@ -1,5 +1,5 @@
-import { InstagramData } from "./InstagramDataTypes";
-import { ThreadsData } from "./ThreadsDataTypes";
+import { InstagramData } from "./Instagram/InstagramDataTypes";
+import { ThreadsData } from "./Threads/ThreadsDataTypes";
 
 export const isInstagramFollowers = (
   file: InstagramData<"Followers">

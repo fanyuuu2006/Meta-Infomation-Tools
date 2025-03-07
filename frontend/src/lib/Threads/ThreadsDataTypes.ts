@@ -1,4 +1,4 @@
-import { UserData } from "./CommonType";
+import { UserData } from "../CommonType";
 
 type Followers = {
   text_post_app_text_post_app_followers: UserData[];

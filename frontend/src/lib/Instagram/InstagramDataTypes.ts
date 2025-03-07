@@ -1,4 +1,4 @@
-import { TimeStamp, UserData, UserID } from "./CommonType";
+import { TimeStamp, UserData, UserID } from "../CommonType";
 
 // 被追蹤 (粉絲) 資料
 type Followers = UserData[];

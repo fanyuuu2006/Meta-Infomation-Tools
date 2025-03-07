@@ -23,6 +23,13 @@
     gap: var(--space-small);
 }
 
+.IntroSection-Button-Div{
+ display: flex;
+ justify-content: center;
+ align-items: center;
+ gap: var(--space-small);
+}
+
 .IntroSection-Content{
     padding: 0 var(--space-medium); 
     text-wrap: wrap;

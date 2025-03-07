@@ -1,11 +1,16 @@
 import "@/styles/Index/IntroSection.css";
 import React from "react";
+import { useRouter } from "next/navigation";
 import Image from "next/image";
-import { Space } from "antd";
-import { CheckSquareOutlined } from "@ant-design/icons";
+import { Space, Button } from "antd";
+import {
+  CheckSquareOutlined,
+  GithubOutlined,
+  InstagramOutlined,
+} from "@ant-design/icons";
 
 import { OutsideLink } from "../common/OutsideLink";
-import { FaMeta } from "react-icons/fa6";
+import { FaMeta, FaThreads } from "react-icons/fa6";
 
 const GitHubBadges: {
   name: string;
@@ -48,12 +53,15 @@ const GitHubBadges: {
 ];
 
 const Features: string[] = [
+  "比較粉絲與追蹤名單 篩選出 尚未回追你 / 你尚未回追 的用戶",
   "查看 您開始追蹤某個用戶 / 用戶開始追蹤您 的詳細時間",
   "查看 與您互相追蹤的用戶",
-  "比較粉絲與追蹤名單 篩選出 尚未回追你 / 你尚未回追 的用戶",
+  "查看 您的摯友",
+  "查看 您封鎖的用戶",
 ];
 
 export const IntroSection = () => {
+  const router = useRouter();
   return (
     <section>
       <Space
@@ -140,6 +148,43 @@ export const IntroSection = () => {
           <li>4. 收到資料已準備完成的電子郵件後 前往下載 ZIP 檔案</li>
           <li>5. 解壓縮檔案 並且根據需求將檔案上傳至此網站</li>
         </ul>
+        <div className="Title BottomLine">資料隱私政策</div>
+        <div className="IntroSection-Content Content">
+          此網站僅提供搜尋功能
+          <br />
+          不會保留任何使用者相關資訊
+        </div>
+        <div className="Title BottomLine">
+          GitHub <GithubOutlined />
+        </div>
+        <div className="IntroSection-Content Content">
+          歡迎前往{" "}
+          <OutsideLink href="https://github.com/fanyuuu2006/Meta-Infomation-Tools">
+            GitHub
+          </OutsideLink>
+          <br />
+          查看我的其他專案
+        </div>
+        <div className="IntroSection-Button-Div Label">
+          <Button
+            type="default"
+            onClick={() => {
+              router.push("/Instagram");
+            }}
+            icon={<InstagramOutlined />}
+          >
+            Instagram
+          </Button>
+          <Button
+            type="default"
+            onClick={() => {
+              router.push("/Threads");
+            }}
+            icon={<FaThreads />}
+          >
+            Threads
+          </Button>
+        </div>
       </Space>
     </section>
   );

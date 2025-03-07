@@ -1,6 +1,6 @@
 import { TimeStamp } from "./CommonType";
-import { InstagramData, InstagramDataTypes } from "./InstagramDataTypes";
-import { ThreadsData, ThreadsDataTypes } from "./ThreadsDataTypes";
+import { InstagramData, InstagramDataTypes } from "./Instagram/InstagramDataTypes";
+import { ThreadsData, ThreadsDataTypes } from "./Threads/ThreadsDataTypes";
 
 export const DateFromTimeStamp = (timestamp: TimeStamp): string => {
   const date = new Date(timestamp * 1000);

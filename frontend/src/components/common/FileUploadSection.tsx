@@ -5,12 +5,11 @@ import { UploadOutlined } from "@ant-design/icons";
 
 import { HandleJsonFile } from "@/lib/HandleFunction";
 
-import { InstagramData, InstagramDataTypes } from "@/lib/InstagramDataTypes";
-import { ThreadsData, ThreadsDataTypes } from "@/lib/ThreadsDataTypes";
+import { InstagramData, InstagramDataTypes } from "@/lib/Instagram/InstagramDataTypes";
+import { ThreadsData, ThreadsDataTypes } from "@/lib/Threads/ThreadsDataTypes";
 
-import { OutsideLink } from "../common/OutsideLink";
-import { Toast } from "../common/Swal";
-import { FeatureMethods } from "./FeatureMethod";
+import { OutsideLink } from "./OutsideLink";
+import { Toast } from "./Swal";
 
 type DataFile = {
   name: string;
@@ -19,9 +18,23 @@ type DataFile = {
     | ThreadsData<keyof ThreadsDataTypes>;
 };
 
-export const FileUploadSection = () => {
+export const FileUploadSection = ({
+  FeatureMethods,
+}: {
+  FeatureMethods: Record<
+    string,
+    {
+      func: (
+        Datas: unknown[]
+      ) => InstagramData<"UserData">[] | ThreadsData<"UserData">[];
+      fileNames: string[]; // 儲存需要的檔案名稱
+      listTitle: string;
+      note: (...args: unknown[]) => string;
+    }
+  >;
+}) => {
   const [MethodName, setMethodName] = useState<string>(
-    "InstagramNoFollowersBackUsers"
+    Object.keys(FeatureMethods)[0]
   );
   const [Data, setData] = useState<InstagramData<"UserData">[]>([]);
   const [Files, setFiles] = useState<DataFile[]>([]);
