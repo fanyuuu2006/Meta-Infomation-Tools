@@ -10,7 +10,7 @@ export const Toast = Swal.mixin({
   customClass: {
     popup: "toast-color",
   },
-  timer: 3000,
+  timer: 1500,
   timerProgressBar: true,
 });
 

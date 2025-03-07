@@ -10,6 +10,12 @@
   
 }
 
+.IntroSection-Title{
+  display: flex;
+  align-items: center;
+  gap: var(--space-small);
+}
+
 .IntroSection-Badge-Div{
     display: flex;
     align-items: center;

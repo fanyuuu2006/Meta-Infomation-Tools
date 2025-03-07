@@ -2,9 +2,10 @@ import "@/styles/Index/IntroSection.css";
 import React from "react";
 import Image from "next/image";
 import { Space } from "antd";
-import { CheckSquareOutlined, InstagramOutlined } from "@ant-design/icons";
+import { CheckSquareOutlined } from "@ant-design/icons";
 
 import { OutsideLink } from "../common/OutsideLink";
+import { FaMeta } from "react-icons/fa6";
 
 const GitHubBadges: {
   name: string;
@@ -48,6 +49,7 @@ const GitHubBadges: {
 
 const Features: string[] = [
   "查看 您開始追蹤某個用戶 / 用戶開始追蹤您 的詳細時間",
+  "查看 與您互相追蹤的用戶",
   "比較粉絲與追蹤名單 篩選出 尚未回追你 / 你尚未回追 的用戶",
 ];
 
@@ -61,8 +63,8 @@ export const IntroSection = () => {
         className="IntroSection-Div"
         size="small"
       >
-        <div className="Title BottomLine">
-          Meta Information Tools <InstagramOutlined />
+        <div className="IntroSection-Title Title BottomLine">
+          Meta Information Tools <FaMeta />
         </div>
         <div className="IntroSection-Badge-Div IntroSection-Content">
           {GitHubBadges.map((badge, index) => {
@@ -136,9 +138,7 @@ export const IntroSection = () => {
             {" > "}選擇格式 <mark>JSON</mark>
           </li>
           <li>4. 收到資料已準備完成的電子郵件後 前往下載 ZIP 檔案</li>
-          <li>
-            5. 解壓縮檔案 並且根據需求將檔案上傳至此網站
-          </li>
+          <li>5. 解壓縮檔案 並且根據需求將檔案上傳至此網站</li>
         </ul>
       </Space>
     </section>

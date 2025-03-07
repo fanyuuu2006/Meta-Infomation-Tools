@@ -1,6 +1,6 @@
 import "@/styles/Index/FileUploadSection.css";
 import React, { useState } from "react";
-import { Upload, Button, UploadFile, Space, Select } from "antd";
+import { Upload, Button, UploadFile, Space, Select, Input } from "antd";
 import { UploadOutlined } from "@ant-design/icons";
 
 import { HandleJsonFile } from "@/lib/HandleFunction";
@@ -25,6 +25,13 @@ export const FileUploadSection = () => {
   );
   const [Data, setData] = useState<InstagramData<"UserData">[]>([]);
   const [Files, setFiles] = useState<DataFile[]>([]);
+
+  const [SearchQuery, setSearchQuery] = useState<string>("");
+  const FilteredData = Data.filter((user) =>
+    user.string_list_data[0].value
+      .toLowerCase()
+      .includes(SearchQuery.toLowerCase())
+  );
 
   const HandleChange = async (
     index: number,
@@ -93,14 +100,13 @@ export const FileUploadSection = () => {
         <Select
           value={MethodName}
           onChange={(value) => {
-            setData([]);
             setMethodName(value);
           }}
           virtual={false} // 關閉虛擬滾動，避免滾動問題
         >
-          {Object.keys(FeatureMethods).map((key: string, index: number) => (
+          {Object.entries(FeatureMethods).map(([key, method], index) => (
             <Select.Option key={key} value={key}>
-              {`${index + 1}. ${FeatureMethods[key].listTitle}`}
+              {`${index + 1}. ${method.listTitle}`}
             </Select.Option>
           ))}
         </Select>
@@ -148,25 +154,38 @@ export const FileUploadSection = () => {
             <div className="Label BottomLine">
               {FeatureMethods[MethodName].listTitle}
             </div>
+            <Input
+              placeholder="搜尋"
+              value={SearchQuery}
+              onChange={(e) => {
+                setSearchQuery(e.target.value);
+              }}
+            />
             <table className="FileUpload-Table">
               <tbody>
-                {Data.map((user: InstagramData<"UserData">, index: number) => {
-                  return (
-                    <tr key={index} className="FileUpload-Table-Row Content">
-                      <td>{index + 1}. </td>
-                      <td className="FileUpload-Table-Data">
-                        <OutsideLink href={user.string_list_data[0].href}>
-                          {user.string_list_data[0].value}
-                        </OutsideLink>
-                      </td>
-                      <td className="FileUpload-Table-Data Hint">
-                        {FeatureMethods[MethodName].note(
-                          user.string_list_data[0].timestamp
-                        )}
-                      </td>
-                    </tr>
-                  );
-                })}
+                {FilteredData.length !== 0 &&
+                  FilteredData.map(
+                    (user: InstagramData<"UserData">, index: number) => {
+                      return (
+                        <tr
+                          key={index}
+                          className="FileUpload-Table-Row Content"
+                        >
+                          <td>{index + 1}. </td>
+                          <td className="FileUpload-Table-Data">
+                            <OutsideLink href={user.string_list_data[0]?.href}>
+                              {user.string_list_data[0]?.value}
+                            </OutsideLink>
+                          </td>
+                          <td className="FileUpload-Table-Data Hint">
+                            {FeatureMethods[MethodName].note(
+                              user.string_list_data[0]?.timestamp
+                            )}
+                          </td>
+                        </tr>
+                      );
+                    }
+                  )}
               </tbody>
             </table>
             <Button
