@@ -7,7 +7,10 @@ import {
   NoFollowersBackUsers,
   NoFollowingBackUsers,
 } from "@/lib/HandleFunction";
-import { InstagramData, InstagramDataTypes } from "@/lib/Instagram/InstagramDataTypes";
+import {
+  InstagramData,
+  InstagramDataTypes,
+} from "@/lib/Instagram/InstagramDataTypes";
 import { JudgeFunction } from "@/lib/JudgeFunction";
 
 export const InstagramFeatureMethods: Record<
@@ -141,11 +144,48 @@ export const InstagramFeatureMethods: Record<
       }
       return GetBlockedUserDatas(file1) as InstagramData<"UserData">[];
     },
-    fileNames: ["Blocked Profile"],
+    fileNames: ["Blocked Profiles"],
     listTitle: "(Instagram) 您的封鎖名單",
     note: (...args: unknown[]) => {
       const timestamp: TimeStamp = args[0] as TimeStamp;
       return `於 ${DateFromTimeStamp(timestamp)} 被您封鎖`;
     },
   },
+
+  RecentlyUnfollowedProfiles: {
+    func: (Datas: unknown[]) => {
+      const file1 = Datas[0] as InstagramData<"RecentlyUnfollowedProfiles">;
+      if (!JudgeFunction["isInstagramRecentlyUnfollowedProfiles"](file1)) {
+        throw new Error("資料格式有誤");
+      }
+      return GetUserDatas<InstagramDataTypes, "RecentlyUnfollowedProfiles">(
+        file1
+      ) as InstagramData<"UserData">[];
+    },
+    fileNames: ["Recently Unfollowed Profiles"],
+    listTitle: "(Instagram) 您最近取消追蹤的用戶",
+    note: (...args: unknown[]) => {
+      const timestamp: TimeStamp = args[0] as TimeStamp;
+      return `於 ${DateFromTimeStamp(timestamp)} 取消追蹤`;
+    },
+  },
+
+  RecentFollowRequests: {
+    func: (Datas: unknown[]) => {
+      const file1 = Datas[0] as InstagramData<"RecentFollowRequests">;
+      if (!JudgeFunction["isInstagramRecentFollowRequests"](file1)) {
+        throw new Error("資料格式有誤");
+      }
+      return GetUserDatas<InstagramDataTypes, "RecentFollowRequests">(
+        file1
+      ) as InstagramData<"UserData">[];
+    },
+    fileNames: ["Recently Followed Requests"],
+    listTitle: "(Instagram) 您最近申請追蹤的用戶",
+    note: (...args: unknown[]) => {
+      const timestamp: TimeStamp = args[0] as TimeStamp;
+      return `於 ${DateFromTimeStamp(timestamp)} 申請追蹤`;
+    },
+  },
 };
+
