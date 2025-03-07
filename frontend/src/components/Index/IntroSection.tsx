@@ -140,10 +140,7 @@ export const IntroSection = () => {
             <OutsideLink href="https://accountscenter.instagram.com/info_and_permissions/dyi">
               下載資訊
             </OutsideLink>
-            {" > "}下載或轉移資訊{" > "}選擇要下載的帳號{" > "}部分資訊{" > "}
-            勾選 <mark>粉絲和追蹤名單</mark>
-            {" > "}下載到裝置{" > "}選擇日期範圍 <mark>所有時間</mark>
-            {" > "}選擇格式 <mark>JSON</mark>
+            {" > "}下載或轉移資訊{" > "}依照 <mark>需求</mark> 並根據引導選擇要下載的檔案
           </li>
           <li>4. 收到資料已準備完成的電子郵件後 前往下載 ZIP 檔案</li>
           <li>5. 解壓縮檔案 並且根據需求將檔案上傳至此網站</li>
