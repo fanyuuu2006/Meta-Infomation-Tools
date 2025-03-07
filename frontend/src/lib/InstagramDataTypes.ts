@@ -1,4 +1,4 @@
-import { UserData } from "./CommonType";
+import { TimeStamp, UserData, UserID } from "./CommonType";
 
 // 被追蹤 (粉絲) 資料
 type Followers = UserData[];
@@ -19,9 +19,18 @@ type CloseFriends = {
 };
 
 // 已封鎖用戶
-type BlockedUser = Omit<UserData, "media_list_data">;
+type BlockedUserData = {
+  title: UserID;
+  string_list_data: [
+    {
+      href?: string;
+      timestamp: TimeStamp;
+    }
+  ];
+};
+
 type BlockedUsers = {
-  relationships_blocked_users: BlockedUser[];
+  relationships_blocked_users: BlockedUserData[];
 };
 
 // 隱藏限時動態名單
@@ -51,6 +60,7 @@ type RemovedSuggestions = {
 
 export type InstagramDataTypes = {
   UserData: UserData;
+  BlockedUserData: BlockedUserData;
   Followers: Followers;
   Following: Following;
   CloseFriends: CloseFriends;

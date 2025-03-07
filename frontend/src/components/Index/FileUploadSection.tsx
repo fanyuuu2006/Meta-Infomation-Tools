@@ -27,11 +27,12 @@ export const FileUploadSection = () => {
   const [Files, setFiles] = useState<DataFile[]>([]);
 
   const [SearchQuery, setSearchQuery] = useState<string>("");
-  const FilteredData = Data.filter((user) =>
-    user.string_list_data[0].value
+  const FilteredData = Data.filter((user) => {
+    console.log(user);
+    return user.string_list_data[0].value
       .toLowerCase()
-      .includes(SearchQuery.toLowerCase())
-  );
+      .includes(SearchQuery.toLowerCase());
+  });
 
   const HandleChange = async (
     index: number,

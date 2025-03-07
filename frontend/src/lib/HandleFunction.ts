@@ -77,6 +77,28 @@ export const GetUserDatas = <
   throw new Error("無法解析該類型的資料！");
 };
 
+export const GetBlockedUserDatas = (
+  data: InstagramData<"BlockedUsers">
+): InstagramData<"UserData">[] => {
+  const NewData: InstagramData<"UserData">[] =
+    data.relationships_blocked_users.map(
+      (user: InstagramData<"BlockedUserData">, index: number) => {
+        return {
+          title: "",
+          media_list_data: [],
+          string_list_data: [
+            {
+              href: user.string_list_data[index]?.href || "",
+              value: user.title,
+              timestamp: user.string_list_data[index].timestamp,
+            },
+          ],
+        };
+      }
+    );
+  return NewData;
+};
+
 export const NoFollowersBackUsers = (
   FollowersFile: InstagramData<"Followers"> | ThreadsData<"Followers">,
   FollowingFile: InstagramData<"Following"> | ThreadsData<"Following">

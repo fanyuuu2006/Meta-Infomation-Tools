@@ -19,6 +19,13 @@ export const isInstagramCloseFriends = (
     return "relationships_close_friends" in file;
   };
 
+  export const isInstagramBlockedUsers = (
+    file: InstagramData<"BlockedUsers">
+  ): boolean => {
+    return "relationships_blocked_users" in file;
+  };
+
+
 export const isThreadsFollowers = (file: ThreadsData<"Followers">): boolean => {
   return "text_post_app_text_post_app_followers" in file;
 };
@@ -31,6 +38,7 @@ export const JudgeFunction = {
   isInstagramFollowers,
   isInstagramFollowing,
   isInstagramCloseFriends,
+  isInstagramBlockedUsers,
   isThreadsFollowers,
   isThreadsFollowing,
 };

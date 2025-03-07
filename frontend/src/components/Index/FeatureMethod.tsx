@@ -2,6 +2,7 @@ import { TimeStamp } from "@/lib/CommonType";
 import {
   DateFromTimeStamp,
   FollowEachOtherUsers,
+  GetBlockedUserDatas,
   GetUserDatas,
   NoFollowersBackUsers,
   NoFollowingBackUsers,
@@ -13,7 +14,9 @@ import { ThreadsData } from "@/lib/ThreadsDataTypes";
 export const FeatureMethods: Record<
   string,
   {
-    func: (Datas: unknown[]) => InstagramData<"UserData">[];
+    func: (
+      Datas: unknown[]
+    ) => InstagramData<"UserData">[] | ThreadsData<"UserData">[];
     fileNames: string[]; // 儲存需要的檔案名稱
     listTitle: string;
     note: (...args: unknown[]) => string;
@@ -69,7 +72,7 @@ export const FeatureMethods: Record<
       if (!JudgeFunction["isInstagramFollowers"](file)) {
         throw new Error("資料格式有誤");
       }
-      return GetUserDatas(file);
+      return GetUserDatas(file) as InstagramData<"UserData">[];
     },
     fileNames: ["Followers"],
     listTitle: "(Instagram) 您的粉絲用戶名單",
@@ -85,7 +88,7 @@ export const FeatureMethods: Record<
       if (!JudgeFunction["isInstagramFollowing"](file)) {
         throw new Error("資料格式有誤");
       }
-      return GetUserDatas(file);
+      return GetUserDatas(file) as InstagramData<"UserData">[];
     },
     fileNames: ["Following"],
     listTitle: "(Instagram) 您追蹤的用戶名單",
@@ -121,7 +124,9 @@ export const FeatureMethods: Record<
       if (!JudgeFunction["isInstagramCloseFriends"](file1)) {
         throw new Error("資料格式有誤");
       }
-      return GetUserDatas<InstagramDataTypes, "CloseFriends">(file1);
+      return GetUserDatas<InstagramDataTypes, "CloseFriends">(
+        file1
+      ) as InstagramData<"UserData">[];
     },
     fileNames: ["Close Friends"],
     listTitle: "(Instagram) 您的摯友名單",
@@ -131,13 +136,29 @@ export const FeatureMethods: Record<
     },
   },
 
+  InstagramBlockedUsers: {
+    func: (Datas: unknown[]) => {
+      const file1 = Datas[0] as InstagramData<"BlockedUsers">;
+      if (!JudgeFunction["isInstagramBlockedUsers"](file1)) {
+        throw new Error("資料格式有誤");
+      }
+      return GetBlockedUserDatas(file1) as InstagramData<"UserData">[];
+    },
+    fileNames: ["Blocked Profile"],
+    listTitle: "(Instagram) 您的封鎖名單",
+    note: (...args: unknown[]) => {
+      const timestamp: TimeStamp = args[0] as TimeStamp;
+      return `於 ${DateFromTimeStamp(timestamp)} 被您封鎖`;
+    },
+  },
+
   ThreadsFollowerUsers: {
     func: (Datas: unknown[]) => {
       const file = Datas[0] as ThreadsData<"Followers">;
       if (!JudgeFunction["isThreadsFollowers"](file)) {
         throw new Error("資料格式有誤");
       }
-      return GetUserDatas(file);
+      return GetUserDatas(file) as ThreadsData<"UserData">[];
     },
     fileNames: ["Followers"],
     listTitle: "(Threads) 您的粉絲用戶名單",
@@ -153,7 +174,7 @@ export const FeatureMethods: Record<
       if (!JudgeFunction["isThreadsFollowing"](file)) {
         throw new Error("資料格式有誤");
       }
-      return GetUserDatas(file);
+      return GetUserDatas(file) as ThreadsData<"UserData">[];
     },
     fileNames: ["Following"],
     listTitle: "(Threads) 您追蹤的用戶名單",

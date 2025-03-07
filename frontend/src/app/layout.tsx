@@ -4,7 +4,7 @@ import "@/styles/globals.css";
 import "antd/dist/reset.css"; // antd v5 的全局樣式
 
 export const metadata: Metadata = {
-  title: "Meta 資訊工具",
+  title: "Meta 資訊處理工具",
   description: "處理你的 Meta 應用程式資訊",
   authors: [
     { name: "范余" },
@@ -30,6 +30,7 @@ export const metadata: Metadata = {
     "查看",
     "下載資訊",
     "資訊工具",
+    "資訊處理工具",
     "網站工具",
   ], // 關鍵字
   icons: "/logo.ico",
