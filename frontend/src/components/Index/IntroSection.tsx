@@ -21,26 +21,26 @@ const GitHubBadges: {
 }[] = [
   {
     name: "GitHub 儲存庫",
-    href: "https://github.com/fanyuuu2006/IG-Tools.git",
+    href: "https://github.com/fanyuuu2006/Meta-Infomation-Tools.git",
     src: "https://img.shields.io/badge/Github-demo?style=flat-square&logo=github&color=%23000",
     width: 60,
     height: 18,
   },
   {
     name: "最近提交",
-    src: "https://img.shields.io/github/last-commit/fanyuuu2006/IG-Tools?style=flat-square",
+    src: "https://img.shields.io/github/last-commit/fanyuuu2006/Meta-Infomation-Tools?style=flat-square",
     width: 100,
     height: 18,
   },
   {
     name: "創建於",
-    src: "https://img.shields.io/github/created-at/fanyuuu2006/IG-Tools?style=flat-square",
+    src: "https://img.shields.io/github/created-at/fanyuuu2006/Meta-Infomation-Tools?style=flat-square",
     width: 125,
     height: 18,
   },
   {
     name: "星星",
-    src: "https://img.shields.io/github/stars/fanyuuu2006/IG-Tools?style=flat-square",
+    src: "https://img.shields.io/github/stars/fanyuuu2006/Meta-Infomation-Tools?style=flat-square",
     width: 45,
     height: 18,
   },
@@ -73,7 +73,8 @@ export const IntroSection = () => {
         size="small"
       >
         <div className="IntroSection-Title Title BottomLine">
-          Meta Information Tools <FaMeta />
+          Tools For Meta Information
+          <FaMeta />
         </div>
         <div className="IntroSection-Badge-Div IntroSection-Content">
           {GitHubBadges.map((badge, index) => {
@@ -141,7 +142,8 @@ export const IntroSection = () => {
             <OutsideLink href="https://accountscenter.instagram.com/info_and_permissions/dyi">
               下載資訊
             </OutsideLink>
-            {" > "}下載或轉移資訊{" > "}依照 <mark>需求</mark> 並根據引導選擇要下載的檔案
+            {" > "}下載或轉移資訊{" > "}依照 <mark>需求</mark>{" "}
+            並根據引導選擇要下載的檔案
           </li>
           <li>4. 收到資料已準備完成的電子郵件後 前往下載 ZIP 檔案</li>
           <li>5. 解壓縮檔案 並且根據需求將檔案上傳至此網站</li>
