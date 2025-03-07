@@ -69,7 +69,7 @@ export const FileUploadSection = () => {
 
     try {
       setData([]);
-
+      setSearchQuery("");
       setData(
         FeatureMethods[MethodName].func(
           Files.map((file: DataFile) => file.data)
