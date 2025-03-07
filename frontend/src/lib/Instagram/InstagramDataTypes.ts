@@ -1,4 +1,4 @@
-import { TimeStamp, UserData, UserID } from "../CommonType";
+import { HashtagData, TimeStamp, UserData, UserID } from '../CommonType';
 
 // 被追蹤 (粉絲) 資料
 type Followers = UserData[];
@@ -10,7 +10,7 @@ type Following = {
 
 // 正在追蹤中的標籤
 type FollowingHashtags = {
-  relationships_following_hashtags: UserData[];
+  relationships_following_hashtags: HashtagData[];
 };
 
 // 正在追蹤中
@@ -60,6 +60,7 @@ type RemovedSuggestions = {
 
 export type InstagramDataTypes = {
   UserData: UserData;
+  HashtagData: HashtagData;
   BlockedUserData: BlockedUserData;
   Followers: Followers;
   Following: Following;

@@ -1,5 +1,8 @@
 import { TimeStamp } from "./CommonType";
-import { InstagramData, InstagramDataTypes } from "./Instagram/InstagramDataTypes";
+import {
+  InstagramData,
+  InstagramDataTypes,
+} from "./Instagram/InstagramDataTypes";
 import { ThreadsData, ThreadsDataTypes } from "./Threads/ThreadsDataTypes";
 
 export const DateFromTimeStamp = (timestamp: TimeStamp): string => {
@@ -40,7 +43,9 @@ export const HandleJsonFile = (
     const reader = new FileReader();
     reader.onload = (e) => {
       try {
+        console.log(e.target?.result);
         const JsonData = JSON.parse(e.target?.result as string);
+        
         console.log("解析成功:", JsonData);
         resolve(JsonData); // 返回解析後的 JsonData
       } catch (error) {
@@ -48,10 +53,9 @@ export const HandleJsonFile = (
         reject(new Error("解析 JSON 失敗"));
       }
     };
-    reader.readAsText(file);
+    reader.readAsText(file, "utf-8");
   });
 };
-
 
 export const isValidData = <
   T extends InstagramDataTypes | ThreadsDataTypes,
@@ -62,7 +66,6 @@ export const isValidData = <
 ): Data is T[K] => {
   return CheckFunction(Data);
 };
-
 
 export const GetUserDatas = <
   F extends InstagramDataTypes | ThreadsDataTypes,
@@ -91,26 +94,43 @@ export const GetUserDatas = <
 
 export const GetBlockedUserDatas = (
   data: InstagramData<"BlockedUsers">
-): InstagramData<"UserData">[] => {
-  const NewData: InstagramData<"UserData">[] =
-    data.relationships_blocked_users.map(
-      (user: InstagramData<"BlockedUserData">, index: number) => {
-        return {
-          title: "",
-          media_list_data: [],
-          string_list_data: [
-            {
-              href: user.string_list_data[index]?.href || "",
-              value: user.title,
-              timestamp: user.string_list_data[index].timestamp,
-            },
-          ],
-        };
-      }
-    );
-  return NewData;
-};
+): InstagramData<"UserData">[] =>
+  data.relationships_blocked_users.map(
+    (user: InstagramData<"BlockedUserData">, index: number) => {
+      return {
+        title: "",
+        media_list_data: [],
+        string_list_data: [
+          {
+            href: user.string_list_data[index]?.href || "",
+            value: user.title,
+            timestamp: user.string_list_data[index].timestamp,
+          },
+        ],
+      };
+    }
+  );
 
+export const GetHashtagDatas = (
+  data: InstagramData<"FollowingHashtags">
+): InstagramData<"UserData">[] => {
+  return data.relationships_following_hashtags.map(
+    (hashtag: InstagramData<"HashtagData">, index: number) => {
+      console.log(hashtag.string_list_data[0].value);
+      return {
+        title: hashtag.title,
+        media_list_data: hashtag.media_list_data,
+        string_list_data: [
+          {
+            href: hashtag.string_list_data[index]?.href || "",
+            value: hashtag.string_list_data[0].value,
+            timestamp: hashtag.string_list_data[index].timestamp,
+          },
+        ],
+      };
+    }
+  );
+};
 export const NoFollowersBackUsers = (
   FollowersFile: InstagramData<"Followers"> | ThreadsData<"Followers">,
   FollowingFile: InstagramData<"Following"> | ThreadsData<"Following">

@@ -3,6 +3,7 @@ import {
   DateFromTimeStamp,
   FollowEachOtherUsers,
   GetBlockedUserDatas,
+  GetHashtagDatas,
   GetUserDatas,
   isValidData,
   NoFollowersBackUsers,
@@ -316,6 +317,27 @@ export const InstagramFeatureMethods: Record<
     note: (...args: unknown[]) => {
       const timestamp: TimeStamp = args[0] as TimeStamp;
       return `於 ${DateFromTimeStamp(timestamp)} 被您移除`;
+    },
+  },
+  FollowingHashtags: {
+    func: (Datas: unknown[]) => {
+      const file1 = Datas[0] as InstagramData<"FollowingHashtags">;
+      if (
+        !isValidData<InstagramDataTypes, "FollowingHashtags">(
+          file1,
+          (data: InstagramData<"FollowingHashtags">) =>
+            "relationships_following_hashtags" in data
+        )
+      ) {
+        throw new Error("資料格式有誤");
+      }
+      return GetHashtagDatas(file1) as InstagramData<"UserData">[];
+    },
+    fileNames: ["Following Hashtags"],
+    listTitle: "(Instagram) 您關注的標籤",
+    note: (...args: unknown[]) => {
+      const timestamp: TimeStamp = args[0] as TimeStamp;
+      return `於 ${DateFromTimeStamp(timestamp)} 被您關注`;
     },
   },
 };
