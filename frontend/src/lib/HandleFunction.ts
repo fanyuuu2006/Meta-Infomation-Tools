@@ -111,26 +111,6 @@ export const GetBlockedUserDatas = (
     }
   );
 
-export const GetHashtagDatas = (
-  data: InstagramData<"FollowingHashtags">
-): InstagramData<"UserData">[] => {
-  return data.relationships_following_hashtags.map(
-    (hashtag: InstagramData<"HashtagData">, index: number) => {
-      console.log(hashtag.string_list_data[0].value);
-      return {
-        title: hashtag.title,
-        media_list_data: hashtag.media_list_data,
-        string_list_data: [
-          {
-            href: hashtag.string_list_data[index]?.href || "",
-            value: hashtag.string_list_data[0].value,
-            timestamp: hashtag.string_list_data[index].timestamp,
-          },
-        ],
-      };
-    }
-  );
-};
 export const NoFollowersBackUsers = (
   FollowersFile: InstagramData<"Followers"> | ThreadsData<"Followers">,
   FollowingFile: InstagramData<"Following"> | ThreadsData<"Following">
