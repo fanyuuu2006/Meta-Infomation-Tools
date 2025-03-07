@@ -5,7 +5,7 @@ import "antd/dist/reset.css"; // antd v5 的全局樣式
 
 export const metadata: Metadata = {
   title: "Meta 資訊處理工具",
-  description: "處理你的 Meta 應用程式資訊",
+  description: "專門處理你的 Meta 應用程式資訊",
   authors: [
     { name: "范余" },
     { name: "范余振富" },
@@ -14,6 +14,7 @@ export const metadata: Metadata = {
   ], // 網頁作者
   keywords: [
     "Meta",
+    "Tools For Meta Information",
     "Instagram",
     "IG",
     "哀居",

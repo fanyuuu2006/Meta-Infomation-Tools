@@ -3,10 +3,10 @@ import {
   DateFromTimeStamp,
   FollowEachOtherUsers,
   GetUserDatas,
+  isValidData,
   NoFollowersBackUsers,
   NoFollowingBackUsers,
 } from "@/lib/HandleFunction";
-import { isValidData } from "@/lib/JudgeFunction";
 import { ThreadsData, ThreadsDataTypes } from "@/lib/Threads/ThreadsDataTypes";
 
 export const ThreadsFeatureMethods: Record<

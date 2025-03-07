@@ -52,6 +52,18 @@ export const HandleJsonFile = (
   });
 };
 
+
+export const isValidData = <
+  T extends InstagramDataTypes | ThreadsDataTypes,
+  K extends keyof T
+>(
+  Data: T[K],
+  CheckFunction: (Data: T[K]) => boolean
+): Data is T[K] => {
+  return CheckFunction(Data);
+};
+
+
 export const GetUserDatas = <
   F extends InstagramDataTypes | ThreadsDataTypes,
   T extends keyof F

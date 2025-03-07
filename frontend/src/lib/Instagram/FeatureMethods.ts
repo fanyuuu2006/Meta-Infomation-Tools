@@ -4,6 +4,7 @@ import {
   FollowEachOtherUsers,
   GetBlockedUserDatas,
   GetUserDatas,
+  isValidData,
   NoFollowersBackUsers,
   NoFollowingBackUsers,
 } from "@/lib/HandleFunction";
@@ -11,7 +12,6 @@ import {
   InstagramData,
   InstagramDataTypes,
 } from "@/lib/Instagram/InstagramDataTypes";
-import { isValidData } from "@/lib/JudgeFunction";
 
 export const InstagramFeatureMethods: Record<
   string,
@@ -22,7 +22,7 @@ export const InstagramFeatureMethods: Record<
     note: (...args: unknown[]) => string;
   }
 > = {
-  NoFollowersBackUsers: {
+  NoFollowersBack: {
     func: (Datas: unknown[]) => {
       const file1 = Datas[0] as InstagramData<"Followers">;
       const file2 = Datas[1] as InstagramData<"Following">;
@@ -49,7 +49,7 @@ export const InstagramFeatureMethods: Record<
     },
   },
 
-  NoFollowingBackUsers: {
+  NoFollowingBack: {
     func: (Datas: unknown[]) => {
       const file1 = Datas[0] as InstagramData<"Following">;
       const file2 = Datas[1] as InstagramData<"Followers">;
@@ -76,7 +76,7 @@ export const InstagramFeatureMethods: Record<
     },
   },
 
-  FollowerUsers: {
+  Follower: {
     func: (Datas: unknown[]) => {
       const file1 = Datas[0] as InstagramData<"Followers">;
       if (
@@ -97,7 +97,7 @@ export const InstagramFeatureMethods: Record<
     },
   },
 
-  FollowingUsers: {
+  Following: {
     func: (Datas: unknown[]) => {
       const file1 = Datas[0] as InstagramData<"Following">;
       if (
@@ -146,10 +146,42 @@ export const InstagramFeatureMethods: Record<
     },
   },
 
+  NewFollowers: {
+    func: (Datas: unknown[]) => {
+      const file1 = Datas[0] as InstagramData<"Followers">;
+      const file2 = Datas[1] as InstagramData<"Followers">;
+      if (
+        [file1, file2].some(
+          (file) =>
+            !isValidData<InstagramDataTypes, "Followers">(file, (data) =>
+              Array.isArray(data)
+            )
+        )
+      ) {
+        throw new Error("資料格式有誤");
+      }
+      const OldFollowers = GetUserDatas(file2).map(
+        (user2: InstagramData<"UserData">) => user2.string_list_data[0].value
+      );
+
+      return GetUserDatas(file1).filter(
+        (user1: InstagramData<"UserData">) =>
+          !OldFollowers.includes(user1.string_list_data[0].value)
+      );
+    },
+    fileNames: ["New Followers", "Old Followers"],
+    listTitle: "(Instagram) 您的新粉絲的用戶名單",
+    note: (...args: unknown[]) => {
+      const timestamp: TimeStamp = args[0] as TimeStamp;
+      return `於 ${DateFromTimeStamp(timestamp)} 追蹤您`;
+    },
+  },
+
   CloseFriends: {
     func: (Datas: unknown[]) => {
       const file1 = Datas[0] as InstagramData<"CloseFriends">;
-      if (!isValidData<InstagramDataTypes, "CloseFriends">(
+      if (
+        !isValidData<InstagramDataTypes, "CloseFriends">(
           file1,
           (data: InstagramData<"CloseFriends">) =>
             "relationships_close_friends" in data
@@ -172,11 +204,13 @@ export const InstagramFeatureMethods: Record<
   BlockedUsers: {
     func: (Datas: unknown[]) => {
       const file1 = Datas[0] as InstagramData<"BlockedUsers">;
-      if (!isValidData<InstagramDataTypes, "BlockedUsers">(
-        file1,
-        (data: InstagramData<"BlockedUsers">) =>
-          "relationships_blocked_users" in data
-      )) {
+      if (
+        !isValidData<InstagramDataTypes, "BlockedUsers">(
+          file1,
+          (data: InstagramData<"BlockedUsers">) =>
+            "relationships_blocked_users" in data
+        )
+      ) {
         throw new Error("資料格式有誤");
       }
       return GetBlockedUserDatas(file1) as InstagramData<"UserData">[];
@@ -192,11 +226,13 @@ export const InstagramFeatureMethods: Record<
   RecentlyUnfollowedProfiles: {
     func: (Datas: unknown[]) => {
       const file1 = Datas[0] as InstagramData<"RecentlyUnfollowedProfiles">;
-      if (!isValidData<InstagramDataTypes, "RecentlyUnfollowedProfiles">(
-        file1,
-        (data: InstagramData<"RecentlyUnfollowedProfiles">) =>
-          "relationships_unfollowed_users" in data
-      )) {
+      if (
+        !isValidData<InstagramDataTypes, "RecentlyUnfollowedProfiles">(
+          file1,
+          (data: InstagramData<"RecentlyUnfollowedProfiles">) =>
+            "relationships_unfollowed_users" in data
+        )
+      ) {
         throw new Error("資料格式有誤");
       }
       return GetUserDatas<InstagramDataTypes, "RecentlyUnfollowedProfiles">(
@@ -214,11 +250,13 @@ export const InstagramFeatureMethods: Record<
   RecentFollowRequests: {
     func: (Datas: unknown[]) => {
       const file1 = Datas[0] as InstagramData<"RecentFollowRequests">;
-      if (!isValidData<InstagramDataTypes, "RecentFollowRequests">(
-        file1,
-        (data: InstagramData<"RecentFollowRequests">) =>
-          "relationships_permanent_follow_requests" in data
-      )) {
+      if (
+        !isValidData<InstagramDataTypes, "RecentFollowRequests">(
+          file1,
+          (data: InstagramData<"RecentFollowRequests">) =>
+            "relationships_permanent_follow_requests" in data
+        )
+      ) {
         throw new Error("資料格式有誤");
       }
       return GetUserDatas<InstagramDataTypes, "RecentFollowRequests">(
@@ -236,11 +274,13 @@ export const InstagramFeatureMethods: Record<
   PendingFollowRequests: {
     func: (Datas: unknown[]) => {
       const file1 = Datas[0] as InstagramData<"PendingFollowRequests">;
-      if (!isValidData<InstagramDataTypes, "PendingFollowRequests">(
-        file1,
-        (data: InstagramData<"PendingFollowRequests">) =>
-          "relationships_follow_requests_sent" in data
-      )) {
+      if (
+        !isValidData<InstagramDataTypes, "PendingFollowRequests">(
+          file1,
+          (data: InstagramData<"PendingFollowRequests">) =>
+            "relationships_follow_requests_sent" in data
+        )
+      ) {
         throw new Error("資料格式有誤");
       }
       return GetUserDatas<InstagramDataTypes, "PendingFollowRequests">(
@@ -252,6 +292,30 @@ export const InstagramFeatureMethods: Record<
     note: (...args: unknown[]) => {
       const timestamp: TimeStamp = args[0] as TimeStamp;
       return `於 ${DateFromTimeStamp(timestamp)} 申請追蹤`;
+    },
+  },
+
+  RemovedSuggestions: {
+    func: (Datas: unknown[]) => {
+      const file1 = Datas[0] as InstagramData<"RemovedSuggestions">;
+      if (
+        !isValidData<InstagramDataTypes, "RemovedSuggestions">(
+          file1,
+          (data: InstagramData<"RemovedSuggestions">) =>
+            "relationships_dismissed_suggested_users" in data
+        )
+      ) {
+        throw new Error("資料格式有誤");
+      }
+      return GetUserDatas<InstagramDataTypes, "RemovedSuggestions">(
+        file1
+      ) as InstagramData<"UserData">[];
+    },
+    fileNames: ["Removed Suggestions"],
+    listTitle: "(Instagram) 被您移除的「推薦用戶」",
+    note: (...args: unknown[]) => {
+      const timestamp: TimeStamp = args[0] as TimeStamp;
+      return `於 ${DateFromTimeStamp(timestamp)} 被您移除`;
     },
   },
 };
