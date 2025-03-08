@@ -343,7 +343,7 @@ export const ThreadsFeatureMethods: Record<string, Method> = {
       return GetThreadsPostDatas(file1) as CommonDataTypes[K][];
     },
     fileNames: ["Threads Viewed"],
-    listTitle: "(Threads) 瀏覽過的串文",
+    listTitle: "(Threads) 瀏覽過的串文作者與時間",
 
     columns: ThreadsPostDataColumns,
     dataSource: (data) =>
