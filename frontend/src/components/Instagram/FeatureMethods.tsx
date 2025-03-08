@@ -159,19 +159,37 @@ export const InstagramFeatureMethods: Record<string, Method> = {
       ) {
         throw new Error("資料格式有誤");
       }
-      const OldFollowers = (
-        GetDatas(file2) as CommonDataTypes["UserData"][]
-      ).map(
-        (user2: CommonDataTypes["UserData"]) => user2.string_list_data[0].value
-      );
 
-      return (GetDatas(file1) as CommonDataTypes["UserData"][]).filter(
-        (user1: CommonDataTypes["UserData"]) =>
-          !OldFollowers.includes(user1.string_list_data[0].value)
-      ) as CommonDataTypes[K][];
+      return DifferentFollowUsers(file2, file1) as CommonDataTypes[K][];
     },
     fileNames: ["New Followers", "Old Followers"],
     listTitle: "(Instagram) 您的新粉絲的用戶名單",
+    columns: UserDataColumns,
+    dataSource: (data) =>
+      UserDataSource(data as unknown as CommonDataTypes["UserData"][]) as [],
+  },
+
+  UnFollowers: {
+    func: <K extends keyof CommonDataTypes>(
+      Datas: unknown[]
+    ): CommonDataTypes[K][] => {
+      const file1 = Datas[0] as InstagramDataTypes["Followers"];
+      const file2 = Datas[1] as InstagramDataTypes["Followers"];
+      if (
+        [file1, file2].some(
+          (file) =>
+            !isValidData<InstagramDataTypes, "Followers">(file, (data) =>
+              Array.isArray(data)
+            )
+        )
+      ) {
+        throw new Error("資料格式有誤");
+      }
+
+      return DifferentFollowUsers(file1, file2) as CommonDataTypes[K][];
+    },
+    fileNames: ["New Followers", "Old Followers"],
+    listTitle: "(Instagram) 退追您粉絲的用戶名單",
     columns: UserDataColumns,
     dataSource: (data) =>
       UserDataSource(data as unknown as CommonDataTypes["UserData"][]) as [],
@@ -191,7 +209,7 @@ export const InstagramFeatureMethods: Record<string, Method> = {
       ) {
         throw new Error("資料格式有誤");
       }
-      return GetDatas<InstagramDataTypes, "CloseFriends">(
+      return GetDatas<InstagramDataTypes, "CloseFriends", "UserData">(
         file1
       ) as CommonDataTypes[K][];
     },
@@ -242,9 +260,11 @@ export const InstagramFeatureMethods: Record<string, Method> = {
       ) {
         throw new Error("資料格式有誤");
       }
-      return GetDatas<InstagramDataTypes, "RecentlyUnfollowedProfiles">(
-        file1
-      ) as CommonDataTypes[K][];
+      return GetDatas<
+        InstagramDataTypes,
+        "RecentlyUnfollowedProfiles",
+        "UserData"
+      >(file1) as CommonDataTypes[K][];
     },
     fileNames: ["Recently Unfollowed Profiles"],
     listTitle: "(Instagram) 您最近取消追蹤的用戶",
@@ -268,7 +288,7 @@ export const InstagramFeatureMethods: Record<string, Method> = {
       ) {
         throw new Error("資料格式有誤");
       }
-      return GetDatas<InstagramDataTypes, "RecentFollowRequests">(
+      return GetDatas<InstagramDataTypes, "RecentFollowRequests", "UserData">(
         file1
       ) as CommonDataTypes[K][];
     },
@@ -294,7 +314,7 @@ export const InstagramFeatureMethods: Record<string, Method> = {
       ) {
         throw new Error("資料格式有誤");
       }
-      return GetDatas<InstagramDataTypes, "PendingFollowRequests">(
+      return GetDatas<InstagramDataTypes, "PendingFollowRequests", "UserData">(
         file1
       ) as CommonDataTypes[K][];
     },
@@ -320,7 +340,7 @@ export const InstagramFeatureMethods: Record<string, Method> = {
       ) {
         throw new Error("資料格式有誤");
       }
-      return GetDatas<InstagramDataTypes, "RemovedSuggestions">(
+      return GetDatas<InstagramDataTypes, "RemovedSuggestions", "UserData">(
         file1
       ) as CommonDataTypes[K][];
     },
@@ -345,7 +365,7 @@ export const InstagramFeatureMethods: Record<string, Method> = {
       ) {
         throw new Error("資料格式有誤");
       }
-      return GetDatas<InstagramDataTypes, "FollowingHashtags">(
+      return GetDatas<InstagramDataTypes, "FollowingHashtags", "HashtagsData">(
         file1
       ) as CommonDataTypes[K][];
     },

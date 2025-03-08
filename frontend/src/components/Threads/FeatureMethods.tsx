@@ -210,7 +210,7 @@ export const ThreadsFeatureMethods: Record<string, Method> = {
       ) {
         throw new Error("資料格式有誤");
       }
-      return GetDatas<ThreadsDataTypes, "PendingFollowRequests">(
+      return GetDatas<ThreadsDataTypes, "PendingFollowRequests", "UserData">(
         file1
       ) as CommonDataTypes[K][];
     },
@@ -236,7 +236,7 @@ export const ThreadsFeatureMethods: Record<string, Method> = {
       ) {
         throw new Error("資料格式有誤");
       }
-      return GetDatas<ThreadsDataTypes, "RecentFollowRequests">(
+      return GetDatas<ThreadsDataTypes, "RecentFollowRequests", "UserData">(
         file1
       ) as CommonDataTypes[K][];
     },
@@ -262,9 +262,11 @@ export const ThreadsFeatureMethods: Record<string, Method> = {
       ) {
         throw new Error("資料格式有誤");
       }
-      return GetDatas<ThreadsDataTypes, "RecentlyUnfollowedProfiles">(
-        file1
-      ) as CommonDataTypes[K][];
+      return GetDatas<
+        ThreadsDataTypes,
+        "RecentlyUnfollowedProfiles",
+        "UserData"
+      >(file1) as CommonDataTypes[K][];
     },
     fileNames: ["Recently Unfollowed Profiles"],
     listTitle: "(Threads) 您最近取消追蹤的用戶",
@@ -288,7 +290,7 @@ export const ThreadsFeatureMethods: Record<string, Method> = {
       ) {
         throw new Error("資料格式有誤");
       }
-      return GetDatas<ThreadsDataTypes, "InterestFeedsOnThreads">(
+      return GetDatas<ThreadsDataTypes, "InterestFeedsOnThreads", "FeedData">(
         file1
       ) as CommonDataTypes[K][];
     },
@@ -314,7 +316,7 @@ export const ThreadsFeatureMethods: Record<string, Method> = {
       ) {
         throw new Error("資料格式有誤");
       }
-      return GetDatas<ThreadsDataTypes, "LikedThreads">(
+      return GetDatas<ThreadsDataTypes, "LikedThreads", "ThreadsData">(
         file1
       ) as CommonDataTypes[K][];
     },
@@ -342,7 +344,7 @@ export const ThreadsFeatureMethods: Record<string, Method> = {
       ) {
         throw new Error("資料格式有誤");
       }
-      return GetDatas<ThreadsDataTypes, "ThreadsViewed">(
+      return GetDatas<ThreadsDataTypes, "ThreadsViewed", "ThreadsPostData">(
         file1
       ) as CommonDataTypes[K][];
     },

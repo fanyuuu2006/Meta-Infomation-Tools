@@ -81,13 +81,14 @@ export const isValidData = <
 
 export const GetDatas = <
   T extends InstagramDataTypes | ThreadsDataTypes,
-  K extends keyof T
+  K extends keyof T,
+  R extends CommonDataTypes[keyof CommonDataTypes]
 >(
   data: T[K]
-): CommonDataTypes[keyof CommonDataTypes][] => {
+): R[] => {
   // 如果 data 本身就是 []，直接返回
   if (Array.isArray(data)) {
-    return data as CommonDataTypes[keyof CommonDataTypes][];
+    return data as R[];
   }
 
   // 根據 data 的結構自動處理
@@ -96,7 +97,7 @@ export const GetDatas = <
 
     // 如果 result 是 UserData[]，直接返回
     if (Array.isArray(result)) {
-      return result as CommonDataTypes[keyof CommonDataTypes][];
+      return result as R[];
     }
   }
 
@@ -125,18 +126,17 @@ export const GetBlockedUserDatas = (
 
 // file2 中不在 file1 的
 export const DifferentFollowUsers = <
-  K1 extends keyof (InstagramDataTypes | ThreadsDataTypes),
-  K2 extends keyof (InstagramDataTypes | ThreadsDataTypes)
+  T extends InstagramDataTypes | ThreadsDataTypes
 >(
-  file1: (InstagramDataTypes | ThreadsDataTypes)[K1],
-  file2: (InstagramDataTypes | ThreadsDataTypes)[K2]
+  file1: T[keyof T],
+  file2: T[keyof T]
 ): CommonDataTypes["UserData"][] => {
   const FileSet1: Set<string> = new Set(
-    (GetDatas(file1) as CommonDataTypes["UserData"][]).map(
+    GetDatas<T, keyof T, CommonDataTypes["UserData"]>(file1).map(
       (user1) => user1.string_list_data[0].value
     )
   );
-  return (GetDatas(file2) as CommonDataTypes["UserData"][]).filter(
+  return GetDatas<T, keyof T, CommonDataTypes["UserData"]>(file2).filter(
     (user2) => !FileSet1.has(user2.string_list_data[0].value)
   );
 };
@@ -148,12 +148,14 @@ export const FollowEachOtherUsers = <
   FollowingFile: T["Following"]
 ): CommonDataTypes["UserData"][] => {
   const FollowersSet: Set<string> = new Set(
-    (GetDatas(FollowersFile) as CommonDataTypes["UserData"][]).map(
+    GetDatas<T, "Followers", CommonDataTypes["UserData"]>(FollowersFile).map(
       (FollowersUser: CommonDataTypes["UserData"]) =>
         FollowersUser.string_list_data[0].value
     )
   );
-  return (GetDatas(FollowingFile) as CommonDataTypes["UserData"][]).filter(
-    (FollowingUser) => FollowersSet.has(FollowingUser.string_list_data[0].value)
+  return GetDatas<T, "Following", CommonDataTypes["UserData"]>(
+    FollowingFile
+  ).filter((FollowingUser) =>
+    FollowersSet.has(FollowingUser.string_list_data[0].value)
   );
 };
