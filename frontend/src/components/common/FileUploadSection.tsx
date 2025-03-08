@@ -89,7 +89,7 @@ export const FileUploadSection = ({
   };
 
   const UploadFiles = (): void => {
-    if (Files.length !== FeatureMethods[MethodName].fileNames.length) {
+    if (Files.length < FeatureMethods[MethodName].fileNames.length) {
       Toast.fire({
         icon: "error",
         title: "所需上傳檔案不足",
@@ -196,7 +196,7 @@ export const FileUploadSection = ({
               }}
             /> */}
             <Table
-              className="Content"
+              size="middle"
               pagination={false}
               columns={FeatureMethods[MethodName].columns}
               dataSource={FeatureMethods[MethodName].dataSource(
