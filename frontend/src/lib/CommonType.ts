@@ -28,3 +28,15 @@ export type HashtagData = {
   media_list_data: MediaData[]; // media_list_data
   string_list_data: StringData<HashtagName>[]; // string_list_data
 };
+
+export type Feed = {
+  title: string;
+  media_map_data: Record<string, unknown>;
+  string_map_data: {
+    "Owner username": StringData<UserID>;
+    "Feed name": StringData<string>;
+    "Feed type": StringData<string>;
+    "Added topic names delimited by `|`": StringData<string>;
+    "Added usernames delimited by `|`": StringData<string>;
+  };
+};
