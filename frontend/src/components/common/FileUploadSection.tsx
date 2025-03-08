@@ -8,28 +8,31 @@ import { HandleJsonFile } from "@/lib/HandleFunction";
 import { InstagramDataTypes } from "@/lib/Instagram/InstagramDataTypes";
 import { ThreadsDataTypes } from "@/lib/Threads/ThreadsDataTypes";
 
-import { OutsideLink } from "./OutsideLink";
 import { Toast } from "./Swal";
 
-type DataFile<K extends keyof (InstagramDataTypes | ThreadsDataTypes)> = {
-  name: string;
-  data: (InstagramDataTypes | ThreadsDataTypes)[K];
+export type DataFile<K extends keyof (InstagramDataTypes | ThreadsDataTypes)> =
+  {
+    name: string;
+    data: (InstagramDataTypes | ThreadsDataTypes)[K];
+  };
+
+export type Method = {
+  func: (
+    Datas: unknown[]
+  ) => (InstagramDataTypes["UserData"] | ThreadsDataTypes["UserData"])[];
+  fileNames: string[]; // 儲存需要的檔案名稱
+  listTitle: string;
+  note: (...args: unknown[]) => string;
+  display: (
+    user: InstagramDataTypes["UserData"] | ThreadsDataTypes["UserData"],
+    index: number
+  ) => React.JSX.Element;
 };
 
 export const FileUploadSection = ({
   FeatureMethods,
 }: {
-  FeatureMethods: Record<
-    string,
-    {
-      func: (
-        Datas: unknown[]
-      ) => InstagramDataTypes["UserData"][] | ThreadsDataTypes["UserData"][];
-      fileNames: string[]; // 儲存需要的檔案名稱
-      listTitle: string;
-      note: (...args: unknown[]) => string;
-    }
-  >;
+  FeatureMethods: Record<string, Method>;
 }) => {
   const [MethodName, setMethodName] = useState<string>(
     Object.keys(FeatureMethods)[0]
@@ -188,23 +191,18 @@ export const FileUploadSection = ({
               <tbody>
                 {FilteredData.length !== 0 &&
                   FilteredData.map(
-                    (user: InstagramDataTypes["UserData"], index: number) => {
+                    (
+                      user:
+                        | InstagramDataTypes["UserData"]
+                        | ThreadsDataTypes["UserData"],
+                      index: number
+                    ) => {
                       return (
                         <tr
                           key={index}
                           className="FileUpload-Table-Row Content"
                         >
-                          <td>{index + 1}. </td>
-                          <td className="FileUpload-Table-Data">
-                            <OutsideLink href={user.string_list_data[0]?.href}>
-                              {user.string_list_data[0]?.value}
-                            </OutsideLink>
-                          </td>
-                          <td className="FileUpload-Table-Data Hint">
-                            {FeatureMethods[MethodName].note(
-                              user.string_list_data[0]?.timestamp
-                            )}
-                          </td>
+                          {FeatureMethods[MethodName].display(user, index)}
                         </tr>
                       );
                     }

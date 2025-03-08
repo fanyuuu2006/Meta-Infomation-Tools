@@ -1,3 +1,5 @@
+import { Method } from "@/components/common/FileUploadSection";
+import { UserDataDisplay } from "@/components/common/TableDataDisplay";
 import { TimeStamp } from "@/lib/CommonType";
 import {
   DateFromTimeStamp,
@@ -10,14 +12,9 @@ import {
 } from "@/lib/HandleFunction";
 import { InstagramDataTypes } from "@/lib/Instagram/InstagramDataTypes";
 
+
 export const InstagramFeatureMethods: Record<
-  string,
-  {
-    func: (Datas: unknown[]) => InstagramDataTypes["UserData"][];
-    fileNames: string[]; // 儲存需要的檔案名稱
-    listTitle: string;
-    note: (...args: unknown[]) => string;
-  }
+  string, Method
 > = {
   NoFollowersBack: {
     func: (Datas: unknown[]) => {
@@ -44,6 +41,7 @@ export const InstagramFeatureMethods: Record<
       const timestamp: TimeStamp = args[0] as TimeStamp;
       return `於 ${DateFromTimeStamp(timestamp)} 被您追蹤`;
     },
+    display: (user: InstagramDataTypes["UserData"], index: number) => UserDataDisplay(user, index, InstagramFeatureMethods.NoFollowersBack)
   },
 
   NoFollowingBack: {
@@ -71,9 +69,10 @@ export const InstagramFeatureMethods: Record<
       const timestamp: TimeStamp = args[0] as TimeStamp;
       return `於 ${DateFromTimeStamp(timestamp)} 追蹤您`;
     },
+    display: (user: InstagramDataTypes["UserData"], index: number) => UserDataDisplay(user, index, InstagramFeatureMethods.NoFollowingBack)
   },
 
-  Follower: {
+  Followers: {
     func: (Datas: unknown[]) => {
       const file1 = Datas[0] as InstagramDataTypes["Followers"];
       if (
@@ -92,6 +91,7 @@ export const InstagramFeatureMethods: Record<
       const timestamp: TimeStamp = args[0] as TimeStamp;
       return `於 ${DateFromTimeStamp(timestamp)} 追蹤您`;
     },
+    display: (user: InstagramDataTypes["UserData"], index: number) => UserDataDisplay(user, index, InstagramFeatureMethods.Followers)
   },
 
   Following: {
@@ -114,6 +114,7 @@ export const InstagramFeatureMethods: Record<
       const timestamp: TimeStamp = args[0] as TimeStamp;
       return `於 ${DateFromTimeStamp(timestamp)} 被您追蹤`;
     },
+    display: (user: InstagramDataTypes["UserData"], index: number) => UserDataDisplay(user, index, InstagramFeatureMethods.Following)
   },
 
   FollowEachOther: {
@@ -141,6 +142,8 @@ export const InstagramFeatureMethods: Record<
       const timestamp: TimeStamp = args[0] as TimeStamp;
       return `於 ${DateFromTimeStamp(timestamp)} 追蹤您`;
     },
+    display: (user: InstagramDataTypes["UserData"], index: number) => UserDataDisplay(user, index, InstagramFeatureMethods.FollowEachOther)
+
   },
 
   NewFollowers: {
@@ -173,6 +176,8 @@ export const InstagramFeatureMethods: Record<
       const timestamp: TimeStamp = args[0] as TimeStamp;
       return `於 ${DateFromTimeStamp(timestamp)} 追蹤您`;
     },
+    display: (user: InstagramDataTypes["UserData"], index: number) => UserDataDisplay(user, index, InstagramFeatureMethods.NewFollowers)
+
   },
 
   CloseFriends: {
@@ -197,6 +202,8 @@ export const InstagramFeatureMethods: Record<
       const timestamp: TimeStamp = args[0] as TimeStamp;
       return `於 ${DateFromTimeStamp(timestamp)} 成為您摯友`;
     },
+    display: (user: InstagramDataTypes["UserData"], index: number) => UserDataDisplay(user, index, InstagramFeatureMethods.CloseFriends)
+
   },
 
   BlockedUsers: {
@@ -219,6 +226,7 @@ export const InstagramFeatureMethods: Record<
       const timestamp: TimeStamp = args[0] as TimeStamp;
       return `於 ${DateFromTimeStamp(timestamp)} 被您封鎖`;
     },
+    display: (user: InstagramDataTypes["UserData"], index: number) => UserDataDisplay(user, index, InstagramFeatureMethods.BlockedUsers)
   },
 
   RecentlyUnfollowedProfiles: {
@@ -244,6 +252,7 @@ export const InstagramFeatureMethods: Record<
       const timestamp: TimeStamp = args[0] as TimeStamp;
       return `於 ${DateFromTimeStamp(timestamp)} 取消追蹤`;
     },
+    display: (user: InstagramDataTypes["UserData"], index: number) => UserDataDisplay(user, index, InstagramFeatureMethods.RecentlyUnfollowedProfiles)
   },
 
   RecentFollowRequests: {
@@ -268,6 +277,7 @@ export const InstagramFeatureMethods: Record<
       const timestamp: TimeStamp = args[0] as TimeStamp;
       return `於 ${DateFromTimeStamp(timestamp)} 申請追蹤`;
     },
+    display: (user: InstagramDataTypes["UserData"], index: number) => UserDataDisplay(user, index, InstagramFeatureMethods.RecentFollowRequests)
   },
 
   PendingFollowRequests: {
@@ -292,6 +302,7 @@ export const InstagramFeatureMethods: Record<
       const timestamp: TimeStamp = args[0] as TimeStamp;
       return `於 ${DateFromTimeStamp(timestamp)} 申請追蹤`;
     },
+    display: (user: InstagramDataTypes["UserData"], index: number) => UserDataDisplay(user, index, InstagramFeatureMethods.PendingFollowRequests)
   },
 
   RemovedSuggestions: {
@@ -316,6 +327,7 @@ export const InstagramFeatureMethods: Record<
       const timestamp: TimeStamp = args[0] as TimeStamp;
       return `於 ${DateFromTimeStamp(timestamp)} 被您移除`;
     },
+    display: (user: InstagramDataTypes["UserData"], index: number) => UserDataDisplay(user, index, InstagramFeatureMethods.RemovedSuggestions)
   },
 
   FollowingHashtags: {
@@ -340,5 +352,7 @@ export const InstagramFeatureMethods: Record<
       const timestamp: TimeStamp = args[0] as TimeStamp;
       return `於 ${DateFromTimeStamp(timestamp)} 被您關注`;
     },
+    // 暫時當作 User
+    display: (user: InstagramDataTypes["UserData"], index: number) => UserDataDisplay(user, index, InstagramFeatureMethods.FollowingHashtags)
   },
 };
