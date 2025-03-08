@@ -1,6 +1,6 @@
 import { OutsideLink } from "./OutsideLink";
-import { Method } from "./FileUploadSection";
 import { CommonDataTypes } from "@/lib/CommonType";
+import { DateFromTimeStamp } from "@/lib/HandleFunction";
 import { TableColumnProps } from "antd";
 
 export const UserDataColumns: TableColumnProps[] = [
@@ -21,6 +21,7 @@ export const UserDataColumns: TableColumnProps[] = [
     title: "備註",
     dataIndex: "Note",
     key: "Note",
+    render: (value) => DateFromTimeStamp(value),
   },
 ];
 
@@ -53,12 +54,11 @@ export const FeedDataColumns: TableColumnProps[] = [
 ];
 
 export const UserDataSource = (
-  data: CommonDataTypes["UserData"][],
-  Method: Method
+  data: CommonDataTypes["UserData"][]
 ): {
   Index: number;
   Value: { UserID: CommonDataTypes["UserID"]; href: string };
-  Note: string;
+  Note: number;
 }[] =>
   data.map((data: CommonDataTypes["UserData"], index: number) => {
     return {
@@ -67,7 +67,7 @@ export const UserDataSource = (
         UserID: data.string_list_data[0].value,
         href: data.string_list_data[0].href,
       },
-      Note: Method.note(data.string_list_data[0].timestamp ?? 0),
+      Note: data.string_list_data[0].timestamp ?? 0,
     };
   });
 

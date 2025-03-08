@@ -31,7 +31,6 @@ export type Method = {
   ) => CommonDataTypes[K][];
   fileNames: string[]; // 儲存需要的檔案名稱
   listTitle: string;
-  note: (...args: unknown[]) => string;
   columns: TableColumnProps[];
   dataSource: (data: CommonDataTypes[keyof CommonDataTypes]) => [];
 };

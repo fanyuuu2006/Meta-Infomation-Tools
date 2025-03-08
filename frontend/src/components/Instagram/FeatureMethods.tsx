@@ -5,7 +5,6 @@ import {
 } from "@/components/common/TableDataDisplay";
 import { CommonDataTypes } from "@/lib/CommonType";
 import {
-  DateFromTimeStamp,
   FollowEachOtherUsers,
   GetBlockedUserDatas,
   GetUserDatas,
@@ -39,17 +38,9 @@ export const InstagramFeatureMethods: Record<string, Method> = {
     },
     fileNames: ["Followers", "Following"],
     listTitle: "(Instagram) 尚未回追您的用戶名單",
-    note: (...args: unknown[]) => {
-      const timestamp: CommonDataTypes["TimeStamp"] =
-        args[0] as CommonDataTypes["TimeStamp"];
-      return `於 ${DateFromTimeStamp(timestamp)} 被您追蹤`;
-    },
     columns: UserDataColumns,
     dataSource: (data) =>
-      UserDataSource(
-        data as unknown as CommonDataTypes["UserData"][],
-        InstagramFeatureMethods.NoFollowersBack
-      ) as [],
+      UserDataSource(data as unknown as CommonDataTypes["UserData"][]) as [],
   },
 
   NoFollowingBack: {
@@ -75,17 +66,9 @@ export const InstagramFeatureMethods: Record<string, Method> = {
     },
     fileNames: ["Following", "Followers"],
     listTitle: "(Instagram) 您尚未回追的用戶名單",
-    note: (...args: unknown[]) => {
-      const timestamp: CommonDataTypes["TimeStamp"] =
-        args[0] as CommonDataTypes["TimeStamp"];
-      return `於 ${DateFromTimeStamp(timestamp)} 追蹤您`;
-    },
     columns: UserDataColumns,
     dataSource: (data) =>
-      UserDataSource(
-        data as unknown as CommonDataTypes["UserData"][],
-        InstagramFeatureMethods.NoFollowingBack
-      ) as [],
+      UserDataSource(data as unknown as CommonDataTypes["UserData"][]) as [],
   },
 
   Followers: {
@@ -105,17 +88,9 @@ export const InstagramFeatureMethods: Record<string, Method> = {
     },
     fileNames: ["Followers"],
     listTitle: "(Instagram) 您的粉絲用戶名單",
-    note: (...args: unknown[]) => {
-      const timestamp: CommonDataTypes["TimeStamp"] =
-        args[0] as CommonDataTypes["TimeStamp"];
-      return `於 ${DateFromTimeStamp(timestamp)} 追蹤您`;
-    },
     columns: UserDataColumns,
     dataSource: (data) =>
-      UserDataSource(
-        data as unknown as CommonDataTypes["UserData"][],
-        InstagramFeatureMethods.Followers
-      ) as [],
+      UserDataSource(data as unknown as CommonDataTypes["UserData"][]) as [],
   },
 
   Following: {
@@ -136,17 +111,9 @@ export const InstagramFeatureMethods: Record<string, Method> = {
     },
     fileNames: ["Following"],
     listTitle: "(Instagram) 您追蹤的用戶名單",
-    note: (...args: unknown[]) => {
-      const timestamp: CommonDataTypes["TimeStamp"] =
-        args[0] as CommonDataTypes["TimeStamp"];
-      return `於 ${DateFromTimeStamp(timestamp)} 被您追蹤`;
-    },
     columns: UserDataColumns,
     dataSource: (data) =>
-      UserDataSource(
-        data as unknown as CommonDataTypes["UserData"][],
-        InstagramFeatureMethods.Following
-      ) as [],
+      UserDataSource(data as unknown as CommonDataTypes["UserData"][]) as [],
   },
 
   FollowEachOther: {
@@ -172,17 +139,9 @@ export const InstagramFeatureMethods: Record<string, Method> = {
     },
     fileNames: ["Followers", "Following"],
     listTitle: "(Instagram) 與您互相追蹤的用戶名單",
-    note: (...args: unknown[]) => {
-      const timestamp: CommonDataTypes["TimeStamp"] =
-        args[0] as CommonDataTypes["TimeStamp"];
-      return `於 ${DateFromTimeStamp(timestamp)} 追蹤您`;
-    },
     columns: UserDataColumns,
     dataSource: (data) =>
-      UserDataSource(
-        data as unknown as CommonDataTypes["UserData"][],
-        InstagramFeatureMethods.FollowEachOther
-      ) as [],
+      UserDataSource(data as unknown as CommonDataTypes["UserData"][]) as [],
   },
 
   NewFollowers: {
@@ -212,17 +171,9 @@ export const InstagramFeatureMethods: Record<string, Method> = {
     },
     fileNames: ["New Followers", "Old Followers"],
     listTitle: "(Instagram) 您的新粉絲的用戶名單",
-    note: (...args: unknown[]) => {
-      const timestamp: CommonDataTypes["TimeStamp"] =
-        args[0] as CommonDataTypes["TimeStamp"];
-      return `於 ${DateFromTimeStamp(timestamp)} 追蹤您`;
-    },
     columns: UserDataColumns,
     dataSource: (data) =>
-      UserDataSource(
-        data as unknown as CommonDataTypes["UserData"][],
-        InstagramFeatureMethods.NewFollowers
-      ) as [],
+      UserDataSource(data as unknown as CommonDataTypes["UserData"][]) as [],
   },
 
   CloseFriends: {
@@ -245,17 +196,10 @@ export const InstagramFeatureMethods: Record<string, Method> = {
     },
     fileNames: ["Close Friends"],
     listTitle: "(Instagram) 您的摯友名單",
-    note: (...args: unknown[]) => {
-      const timestamp: CommonDataTypes["TimeStamp"] =
-        args[0] as CommonDataTypes["TimeStamp"];
-      return `於 ${DateFromTimeStamp(timestamp)} 成為您摯友`;
-    },
+
     columns: UserDataColumns,
     dataSource: (data) =>
-      UserDataSource(
-        data as unknown as CommonDataTypes["UserData"][],
-        InstagramFeatureMethods.CloseFriends
-      ) as [],
+      UserDataSource(data as unknown as CommonDataTypes["UserData"][]) as [],
   },
 
   BlockedUsers: {
@@ -276,17 +220,10 @@ export const InstagramFeatureMethods: Record<string, Method> = {
     },
     fileNames: ["Blocked Profiles"],
     listTitle: "(Instagram) 您的封鎖名單",
-    note: (...args: unknown[]) => {
-      const timestamp: CommonDataTypes["TimeStamp"] =
-        args[0] as CommonDataTypes["TimeStamp"];
-      return `於 ${DateFromTimeStamp(timestamp)} 被您封鎖`;
-    },
+
     columns: UserDataColumns,
     dataSource: (data) =>
-      UserDataSource(
-        data as unknown as CommonDataTypes["UserData"][],
-        InstagramFeatureMethods.BlockedUsers
-      ) as [],
+      UserDataSource(data as unknown as CommonDataTypes["UserData"][]) as [],
   },
 
   RecentlyUnfollowedProfiles: {
@@ -310,17 +247,10 @@ export const InstagramFeatureMethods: Record<string, Method> = {
     },
     fileNames: ["Recently Unfollowed Profiles"],
     listTitle: "(Instagram) 您最近取消追蹤的用戶",
-    note: (...args: unknown[]) => {
-      const timestamp: CommonDataTypes["TimeStamp"] =
-        args[0] as CommonDataTypes["TimeStamp"];
-      return `於 ${DateFromTimeStamp(timestamp)} 取消追蹤`;
-    },
+
     columns: UserDataColumns,
     dataSource: (data) =>
-      UserDataSource(
-        data as unknown as CommonDataTypes["UserData"][],
-        InstagramFeatureMethods.RecentlyUnfollowedProfiles
-      ) as [],
+      UserDataSource(data as unknown as CommonDataTypes["UserData"][]) as [],
   },
 
   RecentFollowRequests: {
@@ -343,17 +273,10 @@ export const InstagramFeatureMethods: Record<string, Method> = {
     },
     fileNames: ["Recently Followed Requests"],
     listTitle: "(Instagram) 您最近申請追蹤的用戶",
-    note: (...args: unknown[]) => {
-      const timestamp: CommonDataTypes["TimeStamp"] =
-        args[0] as CommonDataTypes["TimeStamp"];
-      return `於 ${DateFromTimeStamp(timestamp)} 申請追蹤`;
-    },
+
     columns: UserDataColumns,
     dataSource: (data) =>
-      UserDataSource(
-        data as unknown as CommonDataTypes["UserData"][],
-        InstagramFeatureMethods.RecentFollowRequests
-      ) as [],
+      UserDataSource(data as unknown as CommonDataTypes["UserData"][]) as [],
   },
 
   PendingFollowRequests: {
@@ -376,17 +299,10 @@ export const InstagramFeatureMethods: Record<string, Method> = {
     },
     fileNames: ["Pending Follow Requests"],
     listTitle: "(Instagram) 您尚未獲得回應的追蹤請求",
-    note: (...args: unknown[]) => {
-      const timestamp: CommonDataTypes["TimeStamp"] =
-        args[0] as CommonDataTypes["TimeStamp"];
-      return `於 ${DateFromTimeStamp(timestamp)} 申請追蹤`;
-    },
+
     columns: UserDataColumns,
     dataSource: (data) =>
-      UserDataSource(
-        data as unknown as CommonDataTypes["UserData"][],
-        InstagramFeatureMethods.PendingFollowRequests
-      ) as [],
+      UserDataSource(data as unknown as CommonDataTypes["UserData"][]) as [],
   },
 
   RemovedSuggestions: {
@@ -409,17 +325,9 @@ export const InstagramFeatureMethods: Record<string, Method> = {
     },
     fileNames: ["Removed Suggestions"],
     listTitle: "(Instagram) 被您移除的「推薦用戶」",
-    note: (...args: unknown[]) => {
-      const timestamp: CommonDataTypes["TimeStamp"] =
-        args[0] as CommonDataTypes["TimeStamp"];
-      return `於 ${DateFromTimeStamp(timestamp)} 被您移除`;
-    },
     columns: UserDataColumns,
     dataSource: (data) =>
-      UserDataSource(
-        data as unknown as CommonDataTypes["UserData"][],
-        InstagramFeatureMethods.RemovedSuggestions
-      ) as [],
+      UserDataSource(data as unknown as CommonDataTypes["UserData"][]) as [],
   },
 
   FollowingHashtags: {
@@ -442,17 +350,8 @@ export const InstagramFeatureMethods: Record<string, Method> = {
     },
     fileNames: ["Following Hashtags"],
     listTitle: "(Instagram) 您關注的標籤",
-    note: (...args: unknown[]) => {
-      const timestamp: CommonDataTypes["TimeStamp"] =
-        args[0] as CommonDataTypes["TimeStamp"];
-      return `於 ${DateFromTimeStamp(timestamp)} 被您關注`;
-    },
-
     columns: UserDataColumns,
     dataSource: (data) =>
-      UserDataSource(
-        data as unknown as CommonDataTypes["UserData"][],
-        InstagramFeatureMethods.FollowingHashtags
-      ) as [],
+      UserDataSource(data as unknown as CommonDataTypes["UserData"][]) as [],
   },
 };
