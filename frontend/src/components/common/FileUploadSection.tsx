@@ -1,6 +1,6 @@
 import "@/styles/Index/FileUploadSection.css";
 import React, { useState } from "react";
-import { Upload, Button, UploadFile, Space, Select, Input } from "antd";
+import { Upload, Button, UploadFile, Space, Select} from "antd";
 import { UploadOutlined } from "@ant-design/icons";
 
 import { HandleJsonFile } from "@/lib/HandleFunction";
@@ -9,6 +9,7 @@ import { InstagramDataTypes } from "@/lib/Instagram/InstagramDataTypes";
 import { ThreadsDataTypes } from "@/lib/Threads/ThreadsDataTypes";
 
 import { Toast } from "./Swal";
+import { CommonDataTypes } from "@/lib/CommonType";
 
 export type DataFile<K extends keyof (InstagramDataTypes | ThreadsDataTypes)> =
   {
@@ -17,14 +18,14 @@ export type DataFile<K extends keyof (InstagramDataTypes | ThreadsDataTypes)> =
   };
 
 export type Method = {
-  func: (
+  func: <K extends keyof CommonDataTypes>(
     Datas: unknown[]
-  ) => (InstagramDataTypes["UserData"] | ThreadsDataTypes["UserData"])[];
+  ) => CommonDataTypes[K][];
   fileNames: string[]; // 儲存需要的檔案名稱
   listTitle: string;
   note: (...args: unknown[]) => string;
   display: (
-    user: InstagramDataTypes["UserData"] | ThreadsDataTypes["UserData"],
+    data: CommonDataTypes[keyof CommonDataTypes],
     index: number
   ) => React.JSX.Element;
 };
@@ -37,17 +38,19 @@ export const FileUploadSection = ({
   const [MethodName, setMethodName] = useState<string>(
     Object.keys(FeatureMethods)[0]
   );
-  const [Data, setData] = useState<InstagramDataTypes["UserData"][]>([]);
+  const [Data, setData] = useState<CommonDataTypes[keyof CommonDataTypes][]>(
+    []
+  );
   const [Files, setFiles] = useState<
     DataFile<keyof (InstagramDataTypes | ThreadsDataTypes)>[]
   >([]);
 
-  const [SearchQuery, setSearchQuery] = useState<string>("");
-  const FilteredData = Data.filter((user) => {
-    return user.string_list_data[0].value
-      .toLowerCase()
-      .includes(SearchQuery.toLowerCase());
-  });
+  // const [SearchQuery, setSearchQuery] = useState<string>("");
+  // const FilteredData = Data.filter((user) => {
+  //   return user.string_list_data[0].value
+  //     .toLowerCase()
+  //     .includes(SearchQuery.toLowerCase());
+  // });
 
   const HandleChange = async (
     index: number,
@@ -91,7 +94,7 @@ export const FileUploadSection = ({
 
     try {
       setData([]);
-      setSearchQuery("");
+      // setSearchQuery("");
       setData(
         FeatureMethods[MethodName].func(
           Files.map(
@@ -180,33 +183,23 @@ export const FileUploadSection = ({
             <div className="Label BottomLine">
               {FeatureMethods[MethodName].listTitle}
             </div>
-            <Input
+            {/* <Input
               placeholder="搜尋"
               value={SearchQuery}
               onChange={(e) => {
                 setSearchQuery(e.target.value);
               }}
-            />
+            /> */}
             <table className="FileUpload-Table">
               <tbody>
-                {FilteredData.length !== 0 &&
-                  FilteredData.map(
-                    (
-                      user:
-                        | InstagramDataTypes["UserData"]
-                        | ThreadsDataTypes["UserData"],
-                      index: number
-                    ) => {
-                      return (
-                        <tr
-                          key={index}
-                          className="FileUpload-Table-Row Content"
-                        >
-                          {FeatureMethods[MethodName].display(user, index)}
-                        </tr>
-                      );
-                    }
-                  )}
+                {Data.length !== 0 &&
+                  Data.map((user, index: number) => {
+                    return (
+                      <tr key={index} className="FileUpload-Table-Row Content">
+                        {FeatureMethods[MethodName].display(user, index)}
+                      </tr>
+                    );
+                  })}
               </tbody>
             </table>
             <Button

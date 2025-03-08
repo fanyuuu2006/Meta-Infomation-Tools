@@ -1,22 +1,21 @@
-import { InstagramDataTypes } from "@/lib/Instagram/InstagramDataTypes";
-import { ThreadsDataTypes } from "@/lib/Threads/ThreadsDataTypes";
 import { OutsideLink } from "./OutsideLink";
 import { Method } from "./FileUploadSection";
+import { CommonDataTypes } from "@/lib/CommonType";
 
 export const UserDataDisplay = (
-  User: InstagramDataTypes["UserData"] | ThreadsDataTypes["UserData"],
+  data: CommonDataTypes["UserData"] | CommonDataTypes["UserData"],
   index: number,
   Method: Method
 ) => (
   <>
     <td>{index + 1}. </td>
     <td className="FileUpload-Table-Data">
-      <OutsideLink href={User.string_list_data[0]?.href}>
-        {User.string_list_data[0]?.value}
+      <OutsideLink href={data.string_list_data[0]?.href}>
+        {data.string_list_data[0]?.value}
       </OutsideLink>
     </td>
     <td className="FileUpload-Table-Data Hint">
-      {Method.note(User.string_list_data[0]?.timestamp)}
+      {Method.note(data.string_list_data[0]?.timestamp)}
     </td>
   </>
 );

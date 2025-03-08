@@ -1,7 +1,9 @@
-import { TimeStamp } from "./CommonType";
+import { CommonDataTypes } from "./CommonType";
 import { InstagramDataTypes } from "./Instagram/InstagramDataTypes";
 import { ThreadsDataTypes } from "./Threads/ThreadsDataTypes";
-export const DateFromTimeStamp = (timestamp: TimeStamp): string => {
+export const DateFromTimeStamp = (
+  timestamp: CommonDataTypes["TimeStamp"]
+): string => {
   const date = new Date(timestamp * 1000);
 
   // "2025/03/04 21:00:00"
@@ -82,12 +84,12 @@ export const GetUserDatas = <
   T extends keyof F
 >(
   data: F[T]
-): InstagramDataTypes["UserData"][] | ThreadsDataTypes["UserData"][] => {
+): CommonDataTypes["UserData"][] => {
   // 如果 data 本身就是 UserData[]，直接返回
   if (Array.isArray(data)) {
     return data as
-      | InstagramDataTypes["UserData"][]
-      | ThreadsDataTypes["UserData"][];
+      | CommonDataTypes["UserData"][]
+      | CommonDataTypes["UserData"][];
   }
 
   // 根據 data 的結構自動處理
@@ -97,8 +99,8 @@ export const GetUserDatas = <
     // 如果 result 是 UserData[]，直接返回
     if (Array.isArray(result)) {
       return result as
-        | InstagramDataTypes["UserData"][]
-        | ThreadsDataTypes["UserData"][];
+        | CommonDataTypes["UserData"][]
+        | CommonDataTypes["UserData"][];
     }
   }
 
@@ -108,7 +110,7 @@ export const GetUserDatas = <
 
 export const GetBlockedUserDatas = (
   data: InstagramDataTypes["BlockedUsers"]
-): InstagramDataTypes["UserData"][] =>
+): CommonDataTypes["UserData"][] =>
   data.relationships_blocked_users.map(
     (user: InstagramDataTypes["BlockedUserData"], index: number) => {
       return {
@@ -125,13 +127,12 @@ export const GetBlockedUserDatas = (
     }
   );
 
-
 export const NoFollowersBackUsers = (
   FollowersFile:
     | InstagramDataTypes["Followers"]
     | ThreadsDataTypes["Followers"],
   FollowingFile: InstagramDataTypes["Following"] | ThreadsDataTypes["Following"]
-): InstagramDataTypes["UserData"][] => {
+): CommonDataTypes["UserData"][] => {
   const FollowersUsersSet: Set<string> = new Set(
     GetUserDatas(FollowersFile).map(
       (FollowersUser) => FollowersUser.string_list_data[0].value
@@ -148,7 +149,7 @@ export const NoFollowingBackUsers = (
     | InstagramDataTypes["Following"]
     | ThreadsDataTypes["Following"],
   FollowersFile: InstagramDataTypes["Followers"] | ThreadsDataTypes["Followers"]
-): InstagramDataTypes["UserData"][] => {
+): CommonDataTypes["UserData"][] => {
   const FollowingUsersSet: Set<string> = new Set(
     GetUserDatas(FollowingFile).map(
       (FollowingUser) => FollowingUser.string_list_data[0].value
@@ -165,7 +166,7 @@ export const FollowEachOtherUsers = (
     | InstagramDataTypes["Followers"]
     | ThreadsDataTypes["Followers"],
   FollowingFile: InstagramDataTypes["Following"] | ThreadsDataTypes["Following"]
-): InstagramDataTypes["UserData"][] => {
+): CommonDataTypes["UserData"][] => {
   const FollowersUsersSet: Set<string> = new Set(
     GetUserDatas(FollowersFile).map(
       (FollowersUser) => FollowersUser.string_list_data[0].value
@@ -175,3 +176,8 @@ export const FollowEachOtherUsers = (
     FollowersUsersSet.has(FollowingUser.string_list_data[0].value)
   );
 };
+
+export const GetFeedDatas = (
+  FeedFile: ThreadsDataTypes["InterestFeedsOnThreads"]
+): CommonDataTypes["FeedData"][] =>
+  FeedFile.text_post_app_text_app_interest_feeds;
