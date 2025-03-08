@@ -3,7 +3,6 @@ import {
   DateFromTimeStamp,
   FollowEachOtherUsers,
   GetBlockedUserDatas,
-  GetHashtagDatas,
   GetUserDatas,
   isValidData,
   NoFollowersBackUsers,
@@ -331,7 +330,9 @@ export const InstagramFeatureMethods: Record<
       ) {
         throw new Error("資料格式有誤");
       }
-      return GetHashtagDatas(file1) as InstagramDataTypes["UserData"][];
+      return GetUserDatas<InstagramDataTypes, "FollowingHashtags">(
+        file1
+      ) as InstagramDataTypes["UserData"][];
     },
     fileNames: ["Following Hashtags"],
     listTitle: "(Instagram) 您關注的標籤",

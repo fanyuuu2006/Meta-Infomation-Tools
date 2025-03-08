@@ -19,7 +19,7 @@ export const DateFromTimeStamp = (timestamp: TimeStamp): string => {
 };
 
 // 將錯誤解讀的字串修正回正確內容
-export const FixdDecodedString = (str: string): string => {
+export const FixDecodedString = (str: string): string => {
   // 將每個字元的 charCode 視為位元組
   const bytes = new Uint8Array([...str].map((ch) => ch.charCodeAt(0)));
   // 使用 UTF-8 解碼這些位元組
@@ -45,8 +45,16 @@ export const HandleJsonFile = (
     const reader = new FileReader();
     reader.onload = (e) => {
       try {
-        console.log(e.target?.result);
-        const JsonData = JSON.parse(e.target?.result as string);
+        const JsonData = JSON.parse(
+          e.target?.result as string,
+          // 修復錯誤編碼的字串
+          (_, value: string | number) => {
+            if (typeof value === "string") {
+              return FixDecodedString(value);
+            }
+            return value;
+          }
+        );
 
         console.log("解析成功:", JsonData);
         resolve(JsonData); // 返回解析後的 JsonData
@@ -117,26 +125,6 @@ export const GetBlockedUserDatas = (
     }
   );
 
-export const GetHashtagDatas = (
-  data: InstagramDataTypes["FollowingHashtags"]
-): InstagramDataTypes["UserData"][] => {
-  return data.relationships_following_hashtags.map(
-    (hashtag: InstagramDataTypes["HashtagData"], index: number) => {
-      console.log(hashtag.string_list_data[0].value);
-      return {
-        title: hashtag.title,
-        media_list_data: hashtag.media_list_data,
-        string_list_data: [
-          {
-            href: hashtag.string_list_data[index]?.href || "",
-            value: FixdDecodedString(hashtag.string_list_data[0].value),
-            timestamp: hashtag.string_list_data[index].timestamp,
-          },
-        ],
-      };
-    }
-  );
-};
 
 export const NoFollowersBackUsers = (
   FollowersFile:
