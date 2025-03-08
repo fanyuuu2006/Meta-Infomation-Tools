@@ -3,10 +3,7 @@ import { CommonDataTypes } from "@/lib/CommonType";
 import {
   DifferentFollowUsers,
   FollowEachOtherUsers,
-  GetFeedDatas,
-  GetThreadsDatas,
-  GetThreadsPostDatas,
-  GetUserDatas,
+  GetDatas,
   isValidData,
 } from "@/lib/HandleFunction";
 import { ThreadsDataTypes } from "@/lib/Threads/ThreadsDataTypes";
@@ -96,7 +93,7 @@ export const ThreadsFeatureMethods: Record<string, Method> = {
       ) {
         throw new Error("資料格式有誤");
       }
-      return GetUserDatas(file1) as CommonDataTypes[K][];
+      return GetDatas(file1) as CommonDataTypes[K][];
     },
     fileNames: ["Followers"],
     listTitle: "(Threads) 您的粉絲用戶名單",
@@ -120,7 +117,7 @@ export const ThreadsFeatureMethods: Record<string, Method> = {
       ) {
         throw new Error("資料格式有誤");
       }
-      return GetUserDatas(file1) as CommonDataTypes[K][];
+      return GetDatas(file1) as CommonDataTypes[K][];
     },
     fileNames: ["Following"],
     listTitle: "(Threads) 您追蹤的用戶名單",
@@ -180,11 +177,13 @@ export const ThreadsFeatureMethods: Record<string, Method> = {
       ) {
         throw new Error("資料格式有誤");
       }
-      const OldFollowers = GetUserDatas(file2).map(
+      const OldFollowers = (
+        GetDatas(file2) as CommonDataTypes["UserData"][]
+      ).map(
         (user2: CommonDataTypes["UserData"]) => user2.string_list_data[0].value
       );
 
-      return GetUserDatas(file1).filter(
+      return (GetDatas(file2) as CommonDataTypes["UserData"][]).filter(
         (user1: CommonDataTypes["UserData"]) =>
           !OldFollowers.includes(user1.string_list_data[0].value)
       ) as CommonDataTypes[K][];
@@ -211,7 +210,7 @@ export const ThreadsFeatureMethods: Record<string, Method> = {
       ) {
         throw new Error("資料格式有誤");
       }
-      return GetUserDatas<ThreadsDataTypes, "PendingFollowRequests">(
+      return GetDatas<ThreadsDataTypes, "PendingFollowRequests">(
         file1
       ) as CommonDataTypes[K][];
     },
@@ -237,7 +236,7 @@ export const ThreadsFeatureMethods: Record<string, Method> = {
       ) {
         throw new Error("資料格式有誤");
       }
-      return GetUserDatas<ThreadsDataTypes, "RecentFollowRequests">(
+      return GetDatas<ThreadsDataTypes, "RecentFollowRequests">(
         file1
       ) as CommonDataTypes[K][];
     },
@@ -263,7 +262,7 @@ export const ThreadsFeatureMethods: Record<string, Method> = {
       ) {
         throw new Error("資料格式有誤");
       }
-      return GetUserDatas<ThreadsDataTypes, "RecentlyUnfollowedProfiles">(
+      return GetDatas<ThreadsDataTypes, "RecentlyUnfollowedProfiles">(
         file1
       ) as CommonDataTypes[K][];
     },
@@ -289,7 +288,9 @@ export const ThreadsFeatureMethods: Record<string, Method> = {
       ) {
         throw new Error("資料格式有誤");
       }
-      return GetFeedDatas(file1) as CommonDataTypes[K][];
+      return GetDatas<ThreadsDataTypes, "InterestFeedsOnThreads">(
+        file1
+      ) as CommonDataTypes[K][];
     },
     fileNames: ["Interest Feeds On Threads"],
     listTitle: "(Threads) 您對不同 動態消息 關注狀態",
@@ -313,7 +314,9 @@ export const ThreadsFeatureMethods: Record<string, Method> = {
       ) {
         throw new Error("資料格式有誤");
       }
-      return GetThreadsDatas(file1) as CommonDataTypes[K][];
+      return GetDatas<ThreadsDataTypes, "LikedThreads">(
+        file1
+      ) as CommonDataTypes[K][];
     },
     fileNames: ["Liked Threads"],
     listTitle: "(Threads) 您按讚的串文",
@@ -339,7 +342,9 @@ export const ThreadsFeatureMethods: Record<string, Method> = {
       ) {
         throw new Error("資料格式有誤");
       }
-      return GetThreadsPostDatas(file1) as CommonDataTypes[K][];
+      return GetDatas<ThreadsDataTypes, "ThreadsViewed">(
+        file1
+      ) as CommonDataTypes[K][];
     },
     fileNames: ["Threads Viewed"],
     listTitle: "(Threads) 瀏覽過的串文作者與時間",

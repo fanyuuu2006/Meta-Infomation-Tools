@@ -79,17 +79,15 @@ export const isValidData = <
   return CheckFunction(Data);
 };
 
-export const GetUserDatas = <
-  F extends InstagramDataTypes | ThreadsDataTypes,
-  T extends keyof F
+export const GetDatas = <
+  T extends InstagramDataTypes | ThreadsDataTypes,
+  K extends keyof T
 >(
-  data: F[T]
-): CommonDataTypes["UserData"][] => {
-  // 如果 data 本身就是 UserData[]，直接返回
+  data: T[K]
+): CommonDataTypes[keyof CommonDataTypes][] => {
+  // 如果 data 本身就是 []，直接返回
   if (Array.isArray(data)) {
-    return data as
-      | CommonDataTypes["UserData"][]
-      | CommonDataTypes["UserData"][];
+    return data as CommonDataTypes[keyof CommonDataTypes][];
   }
 
   // 根據 data 的結構自動處理
@@ -98,9 +96,7 @@ export const GetUserDatas = <
 
     // 如果 result 是 UserData[]，直接返回
     if (Array.isArray(result)) {
-      return result as
-        | CommonDataTypes["UserData"][]
-        | CommonDataTypes["UserData"][];
+      return result as CommonDataTypes[keyof CommonDataTypes][];
     }
   }
 
@@ -135,40 +131,29 @@ export const DifferentFollowUsers = <
   file1: (InstagramDataTypes | ThreadsDataTypes)[K1],
   file2: (InstagramDataTypes | ThreadsDataTypes)[K2]
 ): CommonDataTypes["UserData"][] => {
-  const FileSet: Set<string> = new Set(
-    GetUserDatas(file1).map((user1) => user1.string_list_data[0].value)
-  );
-  return GetUserDatas(file2).filter(
-    (user2) => !FileSet.has(user2.string_list_data[0].value)
-  );
-};
-
-export const FollowEachOtherUsers = (
-  FollowersFile:
-    | InstagramDataTypes["Followers"]
-    | ThreadsDataTypes["Followers"],
-  FollowingFile: InstagramDataTypes["Following"] | ThreadsDataTypes["Following"]
-): CommonDataTypes["UserData"][] => {
-  const FollowersUsersSet: Set<string> = new Set(
-    GetUserDatas(FollowersFile).map(
-      (FollowersUser) => FollowersUser.string_list_data[0].value
+  const FileSet1: Set<string> = new Set(
+    (GetDatas(file1) as CommonDataTypes["UserData"][]).map(
+      (user1) => user1.string_list_data[0].value
     )
   );
-  return GetUserDatas(FollowingFile).filter((FollowingUser) =>
-    FollowersUsersSet.has(FollowingUser.string_list_data[0].value)
+  return (GetDatas(file2) as CommonDataTypes["UserData"][]).filter(
+    (user2) => !FileSet1.has(user2.string_list_data[0].value)
   );
 };
 
-export const GetThreadsDatas = (
-  FeedFile: ThreadsDataTypes["LikedThreads"]
-): CommonDataTypes["ThreadsData"][] => FeedFile.text_post_app_media_likes;
-
-export const GetThreadsPostDatas = (
-  FeedFile: ThreadsDataTypes["ThreadsViewed"]
-): CommonDataTypes["ThreadsPostData"][] =>
-  FeedFile.text_post_app_text_post_app_posts_seen;
-
-export const GetFeedDatas = (
-  FeedFile: ThreadsDataTypes["InterestFeedsOnThreads"]
-): CommonDataTypes["FeedData"][] =>
-  FeedFile.text_post_app_text_app_interest_feeds;
+export const FollowEachOtherUsers = <
+  T extends InstagramDataTypes | ThreadsDataTypes
+>(
+  FollowersFile: T["Followers"],
+  FollowingFile: T["Following"]
+): CommonDataTypes["UserData"][] => {
+  const FollowersSet: Set<string> = new Set(
+    (GetDatas(FollowersFile) as CommonDataTypes["UserData"][]).map(
+      (FollowersUser: CommonDataTypes["UserData"]) =>
+        FollowersUser.string_list_data[0].value
+    )
+  );
+  return (GetDatas(FollowingFile) as CommonDataTypes["UserData"][]).filter(
+    (FollowingUser) => FollowersSet.has(FollowingUser.string_list_data[0].value)
+  );
+};
