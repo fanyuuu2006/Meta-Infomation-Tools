@@ -221,6 +221,32 @@ export const ThreadsFeatureMethods: Record<string, Method> = {
       UserDataSource(data as unknown as CommonDataTypes["UserData"][]) as [],
   },
 
+  RecentFollowRequests: {
+    func: <K extends keyof CommonDataTypes>(
+      Datas: unknown[]
+    ): CommonDataTypes[K][] => {
+      const file1 = Datas[0] as ThreadsDataTypes["RecentFollowRequests"];
+      if (
+        !isValidData<ThreadsDataTypes, "RecentFollowRequests">(
+          file1,
+          (data: ThreadsDataTypes["RecentFollowRequests"]) =>
+            "text_post_app_text_post_app_permanent_follow_requests" in data
+        )
+      ) {
+        throw new Error("資料格式有誤");
+      }
+      return GetUserDatas<ThreadsDataTypes, "RecentFollowRequests">(
+        file1
+      ) as CommonDataTypes[K][];
+    },
+    fileNames: ["Recently Followed Requests"],
+    listTitle: "(Threads) 您最近申請追蹤的用戶",
+
+    columns: UserDataColumns,
+    dataSource: (data) =>
+      UserDataSource(data as unknown as CommonDataTypes["UserData"][]) as [],
+  },
+
   InterestFeedsOnThreads: {
     func: <K extends keyof CommonDataTypes>(
       Datas: unknown[]

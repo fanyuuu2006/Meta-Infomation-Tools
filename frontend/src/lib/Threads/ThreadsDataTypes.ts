@@ -14,6 +14,10 @@ type Following = {
 type PendingFollowRequests = {
   text_post_app_text_post_app_follow_requests_sent: CommonDataTypes["UserData"][];
 };
+// 最近的歷史追蹤申請(不論拒絕與否)
+type RecentFollowRequests = {
+  text_post_app_text_post_app_permanent_follow_requests: CommonDataTypes["UserData"][];
+};
 
 type LikedThreads = {
   text_post_app_media_likes: CommonDataTypes["ThreadsData"][];
@@ -28,6 +32,7 @@ export type ThreadsDataTypes = {
   Followers: Followers;
   Following: Following;
   PendingFollowRequests: PendingFollowRequests;
+  RecentFollowRequests: RecentFollowRequests;
   InterestFeedsOnThreads: InterestFeedsOnThreads;
   LikedThreads: LikedThreads;
 };
