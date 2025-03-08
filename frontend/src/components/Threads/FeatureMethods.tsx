@@ -1,5 +1,5 @@
 import { Method } from "@/components/common/FileUploadSection";
-import { UserDataDisplay } from "@/components/common/TableDataDisplay";
+import { FeedDataDisplay, UserDataDisplay } from "@/components/common/TableDataDisplay";
 import { CommonDataTypes } from "@/lib/CommonType";
 import {
   DateFromTimeStamp,
@@ -301,7 +301,7 @@ export const ThreadsFeatureMethods: Record<string, Method> = {
       return GetFeedDatas(file1) as CommonDataTypes[K][];
     },
     fileNames: ["Interest Feeds On Threads"],
-    listTitle: "(Threads) 您對不同 Feed 的訂閱或興趣狀態",
+    listTitle: "(Threads) 您對不同 動態消息(Feed) 的訂閱或興趣狀態",
     note: (...args: unknown[]) => {
       const timestamp: CommonDataTypes["TimeStamp"] =
         args[0] as CommonDataTypes["TimeStamp"];
@@ -311,10 +311,9 @@ export const ThreadsFeatureMethods: Record<string, Method> = {
       data: CommonDataTypes[K],
       index: number
     ) =>
-      UserDataDisplay(
-        data as CommonDataTypes["UserData"],
+      FeedDataDisplay(
+        data as CommonDataTypes["FeedData"],
         index,
-        ThreadsFeatureMethods.PendingFollowRequests
       ),
   },
 };
