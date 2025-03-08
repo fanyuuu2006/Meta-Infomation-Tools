@@ -1,3 +1,5 @@
+import { Method } from "@/components/common/FileUploadSection";
+import { UserDataDisplay } from "@/components/common/TableDataDisplay";
 import { TimeStamp } from "@/lib/CommonType";
 import {
   DateFromTimeStamp,
@@ -9,15 +11,7 @@ import {
 } from "@/lib/HandleFunction";
 import { ThreadsDataTypes } from "@/lib/Threads/ThreadsDataTypes";
 
-export const ThreadsFeatureMethods: Record<
-  string,
-  {
-    func: (Datas: unknown[]) => ThreadsDataTypes["UserData"][];
-    fileNames: string[]; // 儲存需要的檔案名稱
-    listTitle: string;
-    note: (...args: unknown[]) => string;
-  }
-> = {
+export const ThreadsFeatureMethods: Record<string, Method> = {
   Followers: {
     func: (Datas: unknown[]) => {
       const file1 = Datas[0] as ThreadsDataTypes["Followers"];
@@ -38,6 +32,8 @@ export const ThreadsFeatureMethods: Record<
       const timestamp: TimeStamp = args[0] as TimeStamp;
       return `於 ${DateFromTimeStamp(timestamp)} 追蹤您`;
     },
+    display: (user: ThreadsDataTypes["UserData"], index: number) =>
+      UserDataDisplay(user, index, ThreadsFeatureMethods.Followers),
   },
 
   Following: {
@@ -60,6 +56,8 @@ export const ThreadsFeatureMethods: Record<
       const timestamp: TimeStamp = args[0] as TimeStamp;
       return `於 ${DateFromTimeStamp(timestamp)} 被您追蹤`;
     },
+    display: (user: ThreadsDataTypes["UserData"], index: number) =>
+      UserDataDisplay(user, index, ThreadsFeatureMethods.Following),
   },
 
   FollowEachOther: {
@@ -88,6 +86,8 @@ export const ThreadsFeatureMethods: Record<
       const timestamp: TimeStamp = args[0] as TimeStamp;
       return `於 ${DateFromTimeStamp(timestamp)} 追蹤您`;
     },
+    display: (user: ThreadsDataTypes["UserData"], index: number) =>
+      UserDataDisplay(user, index, ThreadsFeatureMethods.FollowEachOther),
   },
 
   NoFollowersBack: {
@@ -116,6 +116,8 @@ export const ThreadsFeatureMethods: Record<
       const timestamp: TimeStamp = args[0] as TimeStamp;
       return `於 ${DateFromTimeStamp(timestamp)} 被您追蹤`;
     },
+    display: (user: ThreadsDataTypes["UserData"], index: number) =>
+      UserDataDisplay(user, index, ThreadsFeatureMethods.NoFollowersBack),
   },
 
   NoFollowingBack: {
@@ -144,6 +146,8 @@ export const ThreadsFeatureMethods: Record<
       const timestamp: TimeStamp = args[0] as TimeStamp;
       return `於 ${DateFromTimeStamp(timestamp)} 追蹤您`;
     },
+    display: (user: ThreadsDataTypes["UserData"], index: number) =>
+      UserDataDisplay(user, index, ThreadsFeatureMethods.NoFollowingBack),
   },
 
   NewFollowers: {
@@ -179,29 +183,33 @@ export const ThreadsFeatureMethods: Record<
       const timestamp: TimeStamp = args[0] as TimeStamp;
       return `於 ${DateFromTimeStamp(timestamp)} 追蹤您`;
     },
+    display: (user: ThreadsDataTypes["UserData"], index: number) =>
+      UserDataDisplay(user, index, ThreadsFeatureMethods.NewFollowers),
   },
-  
+
   PendingFollowRequests: {
-      func: (Datas: unknown[]) => {
-        const file1 = Datas[0] as ThreadsDataTypes["PendingFollowRequests"];
-        if (
-          !isValidData<ThreadsDataTypes, "PendingFollowRequests">(
-            file1,
-            (data: ThreadsDataTypes["PendingFollowRequests"]) =>
-              "text_post_app_text_post_app_follow_requests_sent" in data
-          )
-        ) {
-          throw new Error("資料格式有誤");
-        }
-        return GetUserDatas<ThreadsDataTypes, "PendingFollowRequests">(
-          file1
-        ) as ThreadsDataTypes["UserData"][];
-      },
-      fileNames: ["Pending Follow Requests"],
-      listTitle: "(Threads) 您尚未獲得回應的追蹤請求",
-      note: (...args: unknown[]) => {
-        const timestamp: TimeStamp = args[0] as TimeStamp;
-        return `於 ${DateFromTimeStamp(timestamp)} 申請追蹤`;
-      },
+    func: (Datas: unknown[]) => {
+      const file1 = Datas[0] as ThreadsDataTypes["PendingFollowRequests"];
+      if (
+        !isValidData<ThreadsDataTypes, "PendingFollowRequests">(
+          file1,
+          (data: ThreadsDataTypes["PendingFollowRequests"]) =>
+            "text_post_app_text_post_app_follow_requests_sent" in data
+        )
+      ) {
+        throw new Error("資料格式有誤");
+      }
+      return GetUserDatas<ThreadsDataTypes, "PendingFollowRequests">(
+        file1
+      ) as ThreadsDataTypes["UserData"][];
     },
+    fileNames: ["Pending Follow Requests"],
+    listTitle: "(Threads) 您尚未獲得回應的追蹤請求",
+    note: (...args: unknown[]) => {
+      const timestamp: TimeStamp = args[0] as TimeStamp;
+      return `於 ${DateFromTimeStamp(timestamp)} 申請追蹤`;
+    },
+    display: (user: ThreadsDataTypes["UserData"], index: number) =>
+      UserDataDisplay(user, index, ThreadsFeatureMethods.PendingFollowRequests),
+  },
 };
