@@ -1,7 +1,6 @@
 import { TimeStamp } from "./CommonType";
 import { InstagramDataTypes } from "./Instagram/InstagramDataTypes";
 import { ThreadsDataTypes } from "./Threads/ThreadsDataTypes";
-
 export const DateFromTimeStamp = (timestamp: TimeStamp): string => {
   const date = new Date(timestamp * 1000);
 
@@ -17,6 +16,14 @@ export const DateFromTimeStamp = (timestamp: TimeStamp): string => {
   });
 
   return formatter.format(date);
+};
+
+// 將錯誤解讀的字串修正回正確內容
+export const FixdDecodedString = (str: string): string => {
+  // 將每個字元的 charCode 視為位元組
+  const bytes = new Uint8Array([...str].map((ch) => ch.charCodeAt(0)));
+  // 使用 UTF-8 解碼這些位元組
+  return new TextDecoder("utf-8").decode(bytes);
 };
 
 // FileReader 是異步操作
@@ -109,6 +116,27 @@ export const GetBlockedUserDatas = (
       };
     }
   );
+
+export const GetHashtagDatas = (
+  data: InstagramDataTypes["FollowingHashtags"]
+): InstagramDataTypes["UserData"][] => {
+  return data.relationships_following_hashtags.map(
+    (hashtag: InstagramDataTypes["HashtagData"], index: number) => {
+      console.log(hashtag.string_list_data[0].value);
+      return {
+        title: hashtag.title,
+        media_list_data: hashtag.media_list_data,
+        string_list_data: [
+          {
+            href: hashtag.string_list_data[index]?.href || "",
+            value: FixdDecodedString(hashtag.string_list_data[0].value),
+            timestamp: hashtag.string_list_data[index].timestamp,
+          },
+        ],
+      };
+    }
+  );
+};
 
 export const NoFollowersBackUsers = (
   FollowersFile:
