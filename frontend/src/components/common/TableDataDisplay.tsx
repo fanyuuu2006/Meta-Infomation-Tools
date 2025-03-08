@@ -8,6 +8,7 @@ export const UserDataColumns: TableColumnProps[] = [
     title: "序號",
     dataIndex: "Index",
     key: "Index",
+    width: "15%",
   },
   {
     title: "用戶 ID",
@@ -30,6 +31,7 @@ export const FeedDataColumns: TableColumnProps[] = [
     title: "序號",
     dataIndex: "Index",
     key: "Index",
+    width: "15%",
   },
   {
     title: "動態消息",
@@ -42,12 +44,12 @@ export const FeedDataColumns: TableColumnProps[] = [
     key: "FeedType",
   },
   {
-    title: "新增的主題名稱",
+    title: "新增的主題",
     dataIndex: "AddedTopicNames",
     key: "AddedTopicNames",
   },
   {
-    title: "新增的用戶名稱",
+    title: "新增的用戶",
     dataIndex: "AddedUserNames",
     key: "AddedUserNames",
   },

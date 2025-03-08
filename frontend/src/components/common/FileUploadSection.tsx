@@ -202,6 +202,8 @@ export const FileUploadSection = ({
               dataSource={FeatureMethods[MethodName].dataSource(
                 Data as unknown as CommonDataTypes[keyof CommonDataTypes]
               )}
+              tableLayout="fixed"
+              scroll={{x: "max-content"}}
             />
             <Button
               type="default"

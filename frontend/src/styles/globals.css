@@ -16,8 +16,6 @@
   scroll-behavior: smooth;
   scroll-margin: 4em;
   line-height: 1.5em;
-
-  text-wrap: nowrap;
 }
 
 body {

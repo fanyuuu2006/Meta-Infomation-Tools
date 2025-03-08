@@ -235,7 +235,7 @@ export const ThreadsFeatureMethods: Record<string, Method> = {
       return GetFeedDatas(file1) as CommonDataTypes[K][];
     },
     fileNames: ["Interest Feeds On Threads"],
-    listTitle: "(Threads) 您對不同 動態消息(Feed) 的訂閱或興趣狀態",
+    listTitle: "(Threads) 您對不同 動態消息 關注狀態",
 
     columns: FeedDataColumns,
     dataSource: (data) =>
