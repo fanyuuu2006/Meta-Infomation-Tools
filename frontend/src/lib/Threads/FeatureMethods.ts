@@ -18,7 +18,7 @@ export const ThreadsFeatureMethods: Record<
     note: (...args: unknown[]) => string;
   }
 > = {
-  FollowerUsers: {
+  Followers: {
     func: (Datas: unknown[]) => {
       const file1 = Datas[0] as ThreadsDataTypes["Followers"];
       if (
@@ -40,7 +40,7 @@ export const ThreadsFeatureMethods: Record<
     },
   },
 
-  FollowingUsers: {
+  Following: {
     func: (Datas: unknown[]) => {
       const file1 = Datas[0] as ThreadsDataTypes["Following"];
       if (
@@ -90,7 +90,7 @@ export const ThreadsFeatureMethods: Record<
     },
   },
 
-  NoFollowersBackUsers: {
+  NoFollowersBack: {
     func: (Datas: unknown[]) => {
       const file1 = Datas[0] as ThreadsDataTypes["Followers"];
       const file2 = Datas[1] as ThreadsDataTypes["Following"];
@@ -118,7 +118,7 @@ export const ThreadsFeatureMethods: Record<
     },
   },
 
-  NoFollowingBackUsers: {
+  NoFollowingBack: {
     func: (Datas: unknown[]) => {
       const file1 = Datas[0] as ThreadsDataTypes["Following"];
       const file2 = Datas[1] as ThreadsDataTypes["Followers"];
@@ -145,4 +145,63 @@ export const ThreadsFeatureMethods: Record<
       return `於 ${DateFromTimeStamp(timestamp)} 追蹤您`;
     },
   },
+
+  NewFollowers: {
+    func: (Datas: unknown[]) => {
+      const file1 = Datas[0] as ThreadsDataTypes["Followers"];
+      const file2 = Datas[1] as ThreadsDataTypes["Followers"];
+      if (
+        !isValidData<ThreadsDataTypes, "Followers">(
+          file1,
+          (data: ThreadsDataTypes["Followers"]) =>
+            "text_post_app_text_post_app_followers" in data
+        ) ||
+        !isValidData<ThreadsDataTypes, "Followers">(
+          file2,
+          (data: ThreadsDataTypes["Followers"]) =>
+            "text_post_app_text_post_app_followers" in data
+        )
+      ) {
+        throw new Error("資料格式有誤");
+      }
+      const OldFollowers = GetUserDatas(file2).map(
+        (user2: ThreadsDataTypes["UserData"]) => user2.string_list_data[0].value
+      );
+
+      return GetUserDatas(file1).filter(
+        (user1: ThreadsDataTypes["UserData"]) =>
+          !OldFollowers.includes(user1.string_list_data[0].value)
+      );
+    },
+    fileNames: ["New Followers", "Old Followers"],
+    listTitle: "(Threads) 您的新粉絲的用戶名單",
+    note: (...args: unknown[]) => {
+      const timestamp: TimeStamp = args[0] as TimeStamp;
+      return `於 ${DateFromTimeStamp(timestamp)} 追蹤您`;
+    },
+  },
+  
+  PendingFollowRequests: {
+      func: (Datas: unknown[]) => {
+        const file1 = Datas[0] as ThreadsDataTypes["PendingFollowRequests"];
+        if (
+          !isValidData<ThreadsDataTypes, "PendingFollowRequests">(
+            file1,
+            (data: ThreadsDataTypes["PendingFollowRequests"]) =>
+              "text_post_app_text_post_app_follow_requests_sent" in data
+          )
+        ) {
+          throw new Error("資料格式有誤");
+        }
+        return GetUserDatas<ThreadsDataTypes, "PendingFollowRequests">(
+          file1
+        ) as ThreadsDataTypes["UserData"][];
+      },
+      fileNames: ["Pending Follow Requests"],
+      listTitle: "(Threads) 您尚未獲得回應的追蹤請求",
+      note: (...args: unknown[]) => {
+        const timestamp: TimeStamp = args[0] as TimeStamp;
+        return `於 ${DateFromTimeStamp(timestamp)} 申請追蹤`;
+      },
+    },
 };
