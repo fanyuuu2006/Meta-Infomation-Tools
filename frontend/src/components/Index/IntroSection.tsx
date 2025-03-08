@@ -154,6 +154,12 @@ export const IntroSection = () => {
           <br />
           不會保留任何使用者相關資訊
         </div>
+        <div className="Title BottomLine">參考網站來源</div>
+        <div className="IntroSection-Content Content">
+          <OutsideLink href="https://xiang511.com/Instagram-Follow-Back-Tracker/zh-TW.html">
+            IG 粉絲追蹤 Instagram-Follow-Back-Tracker
+          </OutsideLink>
+        </div>
         <div className="Title BottomLine">
           GitHub <GithubOutlined />
         </div>
@@ -165,6 +171,7 @@ export const IntroSection = () => {
           <br />
           查看我的其他專案
         </div>
+
         <div className="IntroSection-Button-Div Label">
           <Button
             type="default"
