@@ -57,6 +57,10 @@ type RemovedSuggestions = {
   relationships_dismissed_suggested_users: CommonDataTypes["UserData"][];
 };
 
+type HideStoryFrom = {
+  relationships_hide_stories_from: CommonDataTypes["UserData"][];
+};
+
 export type InstagramDataTypes = {
   BlockedUserData: BlockedUserData;
   Followers: Followers;
@@ -69,4 +73,5 @@ export type InstagramDataTypes = {
   RecentFollowRequests: RecentFollowRequests;
   RecentlyUnfollowedProfiles: RecentlyUnfollowedProfiles;
   RemovedSuggestions: RemovedSuggestions;
+  HideStoryFrom: HideStoryFrom;
 };
