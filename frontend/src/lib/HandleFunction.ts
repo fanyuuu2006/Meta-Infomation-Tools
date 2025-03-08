@@ -1,9 +1,6 @@
 import { TimeStamp } from "./CommonType";
-import {
-  InstagramData,
-  InstagramDataTypes,
-} from "./Instagram/InstagramDataTypes";
-import { ThreadsData, ThreadsDataTypes } from "./Threads/ThreadsDataTypes";
+import { InstagramDataTypes } from "./Instagram/InstagramDataTypes";
+import { ThreadsDataTypes } from "./Threads/ThreadsDataTypes";
 
 export const DateFromTimeStamp = (timestamp: TimeStamp): string => {
   const date = new Date(timestamp * 1000);
@@ -25,9 +22,7 @@ export const DateFromTimeStamp = (timestamp: TimeStamp): string => {
 // FileReader 是異步操作
 export const HandleJsonFile = (
   file: File
-): Promise<
-  InstagramData<keyof InstagramDataTypes> | ThreadsData<keyof ThreadsDataTypes>
-> => {
+): Promise<InstagramDataTypes | ThreadsDataTypes> => {
   return new Promise((resolve, reject) => {
     if (!file) {
       reject(new Error("檔案未選擇"));
@@ -45,7 +40,7 @@ export const HandleJsonFile = (
       try {
         console.log(e.target?.result);
         const JsonData = JSON.parse(e.target?.result as string);
-        
+
         console.log("解析成功:", JsonData);
         resolve(JsonData); // 返回解析後的 JsonData
       } catch (error) {
@@ -72,10 +67,12 @@ export const GetUserDatas = <
   T extends keyof F
 >(
   data: F[T]
-): InstagramData<"UserData">[] | ThreadsData<"UserData">[] => {
+): InstagramDataTypes["UserData"][] | ThreadsDataTypes["UserData"][] => {
   // 如果 data 本身就是 UserData[]，直接返回
   if (Array.isArray(data)) {
-    return data as InstagramData<"UserData">[] | ThreadsData<"UserData">[];
+    return data as
+      | InstagramDataTypes["UserData"][]
+      | ThreadsDataTypes["UserData"][];
   }
 
   // 根據 data 的結構自動處理
@@ -84,7 +81,9 @@ export const GetUserDatas = <
 
     // 如果 result 是 UserData[]，直接返回
     if (Array.isArray(result)) {
-      return result as InstagramData<"UserData">[] | ThreadsData<"UserData">[];
+      return result as
+        | InstagramDataTypes["UserData"][]
+        | ThreadsDataTypes["UserData"][];
     }
   }
 
@@ -93,10 +92,10 @@ export const GetUserDatas = <
 };
 
 export const GetBlockedUserDatas = (
-  data: InstagramData<"BlockedUsers">
-): InstagramData<"UserData">[] =>
+  data: InstagramDataTypes["BlockedUsers"]
+): InstagramDataTypes["UserData"][] =>
   data.relationships_blocked_users.map(
-    (user: InstagramData<"BlockedUserData">, index: number) => {
+    (user: InstagramDataTypes["BlockedUserData"], index: number) => {
       return {
         title: "",
         media_list_data: [],
@@ -112,9 +111,11 @@ export const GetBlockedUserDatas = (
   );
 
 export const NoFollowersBackUsers = (
-  FollowersFile: InstagramData<"Followers"> | ThreadsData<"Followers">,
-  FollowingFile: InstagramData<"Following"> | ThreadsData<"Following">
-): InstagramData<"UserData">[] => {
+  FollowersFile:
+    | InstagramDataTypes["Followers"]
+    | ThreadsDataTypes["Followers"],
+  FollowingFile: InstagramDataTypes["Following"] | ThreadsDataTypes["Following"]
+): InstagramDataTypes["UserData"][] => {
   const FollowersUsersSet: Set<string> = new Set(
     GetUserDatas(FollowersFile).map(
       (FollowersUser) => FollowersUser.string_list_data[0].value
@@ -127,9 +128,11 @@ export const NoFollowersBackUsers = (
 };
 
 export const NoFollowingBackUsers = (
-  FollowingFile: InstagramData<"Following"> | ThreadsData<"Following">,
-  FollowersFile: InstagramData<"Followers"> | ThreadsData<"Followers">
-): InstagramData<"UserData">[] => {
+  FollowingFile:
+    | InstagramDataTypes["Following"]
+    | ThreadsDataTypes["Following"],
+  FollowersFile: InstagramDataTypes["Followers"] | ThreadsDataTypes["Followers"]
+): InstagramDataTypes["UserData"][] => {
   const FollowingUsersSet: Set<string> = new Set(
     GetUserDatas(FollowingFile).map(
       (FollowingUser) => FollowingUser.string_list_data[0].value
@@ -142,9 +145,11 @@ export const NoFollowingBackUsers = (
 };
 
 export const FollowEachOtherUsers = (
-  FollowersFile: InstagramData<"Followers"> | ThreadsData<"Followers">,
-  FollowingFile: InstagramData<"Following"> | ThreadsData<"Following">
-): InstagramData<"UserData">[] => {
+  FollowersFile:
+    | InstagramDataTypes["Followers"]
+    | ThreadsDataTypes["Followers"],
+  FollowingFile: InstagramDataTypes["Following"] | ThreadsDataTypes["Following"]
+): InstagramDataTypes["UserData"][] => {
   const FollowersUsersSet: Set<string> = new Set(
     GetUserDatas(FollowersFile).map(
       (FollowersUser) => FollowersUser.string_list_data[0].value

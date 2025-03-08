@@ -14,4 +14,3 @@ export type ThreadsDataTypes = {
   Following: Following;
 };
 
-export type ThreadsData<T extends keyof ThreadsDataTypes> = ThreadsDataTypes[T];

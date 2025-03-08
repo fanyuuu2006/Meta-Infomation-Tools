@@ -67,5 +67,3 @@ export type InstagramDataTypes = {
   RemovedSuggestions: RemovedSuggestions;
 };
 
-export type InstagramData<T extends keyof InstagramDataTypes> =
-  InstagramDataTypes[T];

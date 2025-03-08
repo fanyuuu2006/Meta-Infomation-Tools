@@ -5,17 +5,15 @@ import { UploadOutlined } from "@ant-design/icons";
 
 import { HandleJsonFile } from "@/lib/HandleFunction";
 
-import { InstagramData, InstagramDataTypes } from "@/lib/Instagram/InstagramDataTypes";
-import { ThreadsData, ThreadsDataTypes } from "@/lib/Threads/ThreadsDataTypes";
+import { InstagramDataTypes } from "@/lib/Instagram/InstagramDataTypes";
+import { ThreadsDataTypes } from "@/lib/Threads/ThreadsDataTypes";
 
 import { OutsideLink } from "./OutsideLink";
 import { Toast } from "./Swal";
 
-type DataFile = {
+type DataFile<K extends keyof (InstagramDataTypes | ThreadsDataTypes)> = {
   name: string;
-  data:
-    | InstagramData<keyof InstagramDataTypes>
-    | ThreadsData<keyof ThreadsDataTypes>;
+  data: (InstagramDataTypes | ThreadsDataTypes)[K];
 };
 
 export const FileUploadSection = ({
@@ -26,7 +24,7 @@ export const FileUploadSection = ({
     {
       func: (
         Datas: unknown[]
-      ) => InstagramData<"UserData">[] | ThreadsData<"UserData">[];
+      ) => InstagramDataTypes["UserData"][] | ThreadsDataTypes["UserData"][];
       fileNames: string[]; // 儲存需要的檔案名稱
       listTitle: string;
       note: (...args: unknown[]) => string;
@@ -36,8 +34,10 @@ export const FileUploadSection = ({
   const [MethodName, setMethodName] = useState<string>(
     Object.keys(FeatureMethods)[0]
   );
-  const [Data, setData] = useState<InstagramData<"UserData">[]>([]);
-  const [Files, setFiles] = useState<DataFile[]>([]);
+  const [Data, setData] = useState<InstagramDataTypes["UserData"][]>([]);
+  const [Files, setFiles] = useState<
+    DataFile<keyof (InstagramDataTypes | ThreadsDataTypes)>[]
+  >([]);
 
   const [SearchQuery, setSearchQuery] = useState<string>("");
   const FilteredData = Data.filter((user) => {
@@ -62,9 +62,15 @@ export const FileUploadSection = ({
         icon: "success",
         title: "上傳成功",
       });
-      const updatedFiles = [...Files]; //  已上傳檔案
-      updatedFiles[index] = { name: FileName, data: FileData };
-      setFiles(updatedFiles);
+      const UpdatedFiles = [...Files]; //  已上傳檔案
+      UpdatedFiles[index] = {
+        name: FileName,
+        data: FileData as unknown as (
+          | InstagramDataTypes
+          | ThreadsDataTypes
+        )[keyof (InstagramDataTypes | ThreadsDataTypes)],
+      };
+      setFiles(UpdatedFiles);
     } catch (error) {
       console.error(error);
       Toast.fire({ icon: "error", title: "解析檔案失敗" });
@@ -85,7 +91,10 @@ export const FileUploadSection = ({
       setSearchQuery("");
       setData(
         FeatureMethods[MethodName].func(
-          Files.map((file: DataFile) => file.data)
+          Files.map(
+            (file: DataFile<keyof (InstagramDataTypes | ThreadsDataTypes)>) =>
+              file.data
+          )
         )
       );
       setFiles([]);
@@ -179,7 +188,7 @@ export const FileUploadSection = ({
               <tbody>
                 {FilteredData.length !== 0 &&
                   FilteredData.map(
-                    (user: InstagramData<"UserData">, index: number) => {
+                    (user: InstagramDataTypes["UserData"], index: number) => {
                       return (
                         <tr
                           key={index}
