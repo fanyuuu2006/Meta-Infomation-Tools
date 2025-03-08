@@ -1,6 +1,14 @@
 import "@/styles/Index/FileUploadSection.css";
 import React, { useState } from "react";
-import { Upload, Button, UploadFile, Space, Select} from "antd";
+import {
+  Upload,
+  Button,
+  UploadFile,
+  Space,
+  Select,
+  Table,
+  TableColumnProps,
+} from "antd";
 import { UploadOutlined } from "@ant-design/icons";
 
 import { HandleJsonFile } from "@/lib/HandleFunction";
@@ -24,10 +32,8 @@ export type Method = {
   fileNames: string[]; // 儲存需要的檔案名稱
   listTitle: string;
   note: (...args: unknown[]) => string;
-  display: (
-    data: CommonDataTypes[keyof CommonDataTypes],
-    index: number
-  ) => React.JSX.Element;
+  columns: TableColumnProps[];
+  dataSource: (data: CommonDataTypes[keyof CommonDataTypes]) => [];
 };
 
 export const FileUploadSection = ({
@@ -190,18 +196,14 @@ export const FileUploadSection = ({
                 setSearchQuery(e.target.value);
               }}
             /> */}
-            <table className="FileUpload-Table">
-              <tbody>
-                {Data.length !== 0 &&
-                  Data.map((user, index: number) => {
-                    return (
-                      <tr key={index} className="FileUpload-Table-Row Content">
-                        {FeatureMethods[MethodName].display(user, index)}
-                      </tr>
-                    );
-                  })}
-              </tbody>
-            </table>
+            <Table
+              className="Content"
+              pagination={false}
+              columns={FeatureMethods[MethodName].columns}
+              dataSource={FeatureMethods[MethodName].dataSource(
+                Data as unknown as CommonDataTypes[keyof CommonDataTypes]
+              )}
+            />
             <Button
               type="default"
               onClick={() => {

@@ -1,5 +1,4 @@
 import { Method } from "@/components/common/FileUploadSection";
-import { FeedDataDisplay, UserDataDisplay } from "@/components/common/TableDataDisplay";
 import { CommonDataTypes } from "@/lib/CommonType";
 import {
   DateFromTimeStamp,
@@ -11,6 +10,12 @@ import {
   NoFollowingBackUsers,
 } from "@/lib/HandleFunction";
 import { ThreadsDataTypes } from "@/lib/Threads/ThreadsDataTypes";
+import {
+  FeedDataColumns,
+  FeedDataSource,
+  UserDataColumns,
+  UserDataSource,
+} from "../common/TableDataDisplay";
 
 export const ThreadsFeatureMethods: Record<string, Method> = {
   Followers: {
@@ -36,15 +41,12 @@ export const ThreadsFeatureMethods: Record<string, Method> = {
         args[0] as CommonDataTypes["TimeStamp"];
       return `於 ${DateFromTimeStamp(timestamp)} 追蹤您`;
     },
-    display: <K extends keyof CommonDataTypes>(
-      data: CommonDataTypes[K],
-      index: number
-    ) =>
-      UserDataDisplay(
-        data as CommonDataTypes["UserData"],
-        index,
+    columns: UserDataColumns,
+    dataSource: (data) =>
+      UserDataSource(
+        data as unknown as CommonDataTypes["UserData"][],
         ThreadsFeatureMethods.Followers
-      ),
+      ) as [],
   },
 
   Following: {
@@ -70,15 +72,12 @@ export const ThreadsFeatureMethods: Record<string, Method> = {
         args[0] as CommonDataTypes["TimeStamp"];
       return `於 ${DateFromTimeStamp(timestamp)} 被您追蹤`;
     },
-    display: <K extends keyof CommonDataTypes>(
-      data: CommonDataTypes[K],
-      index: number
-    ) =>
-      UserDataDisplay(
-        data as CommonDataTypes["UserData"],
-        index,
+    columns: UserDataColumns,
+    dataSource: (data) =>
+      UserDataSource(
+        data as unknown as CommonDataTypes["UserData"][],
         ThreadsFeatureMethods.Following
-      ),
+      ) as [],
   },
 
   FollowEachOther: {
@@ -110,15 +109,12 @@ export const ThreadsFeatureMethods: Record<string, Method> = {
         args[0] as CommonDataTypes["TimeStamp"];
       return `於 ${DateFromTimeStamp(timestamp)} 追蹤您`;
     },
-    display: <K extends keyof CommonDataTypes>(
-      data: CommonDataTypes[K],
-      index: number
-    ) =>
-      UserDataDisplay(
-        data as CommonDataTypes["UserData"],
-        index,
+    columns: UserDataColumns,
+    dataSource: (data) =>
+      UserDataSource(
+        data as unknown as CommonDataTypes["UserData"][],
         ThreadsFeatureMethods.FollowEachOther
-      ),
+      ) as [],
   },
 
   NoFollowersBack: {
@@ -150,15 +146,12 @@ export const ThreadsFeatureMethods: Record<string, Method> = {
         args[0] as CommonDataTypes["TimeStamp"];
       return `於 ${DateFromTimeStamp(timestamp)} 被您追蹤`;
     },
-    display: <K extends keyof CommonDataTypes>(
-      data: CommonDataTypes[K],
-      index: number
-    ) =>
-      UserDataDisplay(
-        data as CommonDataTypes["UserData"],
-        index,
+    columns: UserDataColumns,
+    dataSource: (data) =>
+      UserDataSource(
+        data as unknown as CommonDataTypes["UserData"][],
         ThreadsFeatureMethods.NoFollowersBack
-      ),
+      ) as [],
   },
 
   NoFollowingBack: {
@@ -190,15 +183,12 @@ export const ThreadsFeatureMethods: Record<string, Method> = {
         args[0] as CommonDataTypes["TimeStamp"];
       return `於 ${DateFromTimeStamp(timestamp)} 追蹤您`;
     },
-    display: <K extends keyof CommonDataTypes>(
-      data: CommonDataTypes[K],
-      index: number
-    ) =>
-      UserDataDisplay(
-        data as CommonDataTypes["UserData"],
-        index,
+    columns: UserDataColumns,
+    dataSource: (data) =>
+      UserDataSource(
+        data as unknown as CommonDataTypes["UserData"][],
         ThreadsFeatureMethods.NoFollowingBack
-      ),
+      ) as [],
   },
 
   NewFollowers: {
@@ -237,15 +227,13 @@ export const ThreadsFeatureMethods: Record<string, Method> = {
         args[0] as CommonDataTypes["TimeStamp"];
       return `於 ${DateFromTimeStamp(timestamp)} 追蹤您`;
     },
-    display: <K extends keyof CommonDataTypes>(
-      data: CommonDataTypes[K],
-      index: number
-    ) =>
-      UserDataDisplay(
-        data as CommonDataTypes["UserData"],
-        index,
+
+    columns: UserDataColumns,
+    dataSource: (data) =>
+      UserDataSource(
+        data as unknown as CommonDataTypes["UserData"][],
         ThreadsFeatureMethods.NewFollowers
-      ),
+      ) as [],
   },
 
   PendingFollowRequests: {
@@ -273,15 +261,12 @@ export const ThreadsFeatureMethods: Record<string, Method> = {
         args[0] as CommonDataTypes["TimeStamp"];
       return `於 ${DateFromTimeStamp(timestamp)} 申請追蹤`;
     },
-    display: <K extends keyof CommonDataTypes>(
-      data: CommonDataTypes[K],
-      index: number
-    ) =>
-      UserDataDisplay(
-        data as CommonDataTypes["UserData"],
-        index,
+    columns: UserDataColumns,
+    dataSource: (data) =>
+      UserDataSource(
+        data as unknown as CommonDataTypes["UserData"][],
         ThreadsFeatureMethods.PendingFollowRequests
-      ),
+      ) as [],
   },
 
   InterestFeedsOnThreads: {
@@ -307,13 +292,8 @@ export const ThreadsFeatureMethods: Record<string, Method> = {
         args[0] as CommonDataTypes["TimeStamp"];
       return `於 ${DateFromTimeStamp(timestamp)} 申請追蹤`;
     },
-    display: <K extends keyof CommonDataTypes>(
-      data: CommonDataTypes[K],
-      index: number
-    ) =>
-      FeedDataDisplay(
-        data as CommonDataTypes["FeedData"],
-        index,
-      ),
+    columns: FeedDataColumns,
+    dataSource: (data) =>
+      FeedDataSource(data as unknown as CommonDataTypes["FeedData"][]) as [],
   },
 };
