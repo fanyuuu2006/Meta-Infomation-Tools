@@ -8,13 +8,12 @@ export const UserDataColumns: TableColumnProps[] = [
     title: "序號",
     dataIndex: "Index",
     key: "Index",
-    width: "15%",
   },
   {
     title: "用戶 ID",
     dataIndex: "Value",
-    key: "UserID",
-    render: (values) => (
+    key: "Value",
+    render: (values: { href: string; UserID: string }) => (
       <OutsideLink href={values.href}>{values.UserID}</OutsideLink>
     ),
   },
@@ -31,7 +30,6 @@ export const ThreadsDataColumns: TableColumnProps[] = [
     title: "序號",
     dataIndex: "Index",
     key: "Index",
-    width: "15%",
   },
   {
     title: "發文用戶",
@@ -39,12 +37,10 @@ export const ThreadsDataColumns: TableColumnProps[] = [
     key: "UserID",
   },
   {
-    title: "網址連結",
+    title: "連結",
     dataIndex: "Href",
     key: "Href",
-    render: (value) => (
-      <OutsideLink href={value}>點此前往</OutsideLink>
-    ),
+    render: (value) => <OutsideLink href={value}>前往</OutsideLink>,
   },
   {
     title: "備註",
@@ -59,7 +55,6 @@ export const FeedDataColumns: TableColumnProps[] = [
     title: "序號",
     dataIndex: "Index",
     key: "Index",
-    width: "15%",
   },
   {
     title: "動態消息",
@@ -72,12 +67,12 @@ export const FeedDataColumns: TableColumnProps[] = [
     key: "FeedType",
   },
   {
-    title: "新增的主題",
+    title: "主題",
     dataIndex: "AddedTopicNames",
     key: "AddedTopicNames",
   },
   {
-    title: "新增的用戶",
+    title: "用戶",
     dataIndex: "AddedUserNames",
     key: "AddedUserNames",
   },

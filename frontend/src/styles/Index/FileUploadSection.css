@@ -31,18 +31,17 @@
   border-collapse: collapse;
 }
 
-/* .FileUpload-Table-Row {
+.FileUpload-Table-Row {
   width: 100%;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-bottom: 1px solid var(--border-color);
 }
 
 .FileUpload-Table-Data {
   width: auto;
   padding: var(--space-small);
-} */
+}
 
 @media (max-width: 768px) {
   .FileUpload-Div {

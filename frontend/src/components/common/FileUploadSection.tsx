@@ -208,6 +208,7 @@ export const FileUploadSection = ({
                 pageSizeOptions: ["200", "500", "1000"], // 使用者可選 5、10、20
                 showSizeChanger: true, // 允許選擇行數
               }}
+              rowClassName={"Content"}
             />
             <Button
               type="default"
