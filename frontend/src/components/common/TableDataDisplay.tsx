@@ -26,6 +26,34 @@ export const UserDataColumns: TableColumnProps[] = [
   },
 ];
 
+export const ThreadsDataColumns: TableColumnProps[] = [
+  {
+    title: "序號",
+    dataIndex: "Index",
+    key: "Index",
+    width: "15%",
+  },
+  {
+    title: "發文用戶",
+    dataIndex: "UserID",
+    key: "UserID",
+  },
+  {
+    title: "網址連結",
+    dataIndex: "Href",
+    key: "Href",
+    render: (value) => (
+      <OutsideLink href={value}>點此前往</OutsideLink>
+    ),
+  },
+  {
+    title: "備註",
+    dataIndex: "Note",
+    key: "Note",
+    render: (value) => DateFromTimeStamp(value),
+  },
+];
+
 export const FeedDataColumns: TableColumnProps[] = [
   {
     title: "序號",
@@ -60,7 +88,7 @@ export const UserDataSource = (
 ): {
   Index: number;
   Value: { UserID: CommonDataTypes["UserID"]; href: string };
-  Note: number;
+  Note: CommonDataTypes["TimeStamp"];
 }[] =>
   data.map((data: CommonDataTypes["UserData"], index: number) => {
     return {
@@ -69,6 +97,23 @@ export const UserDataSource = (
         UserID: data.string_list_data[0].value,
         href: data.string_list_data[0].href,
       },
+      Note: data.string_list_data[0].timestamp ?? 0,
+    };
+  });
+
+export const ThreadsDataSource = (
+  data: CommonDataTypes["ThreadsData"][]
+): {
+  Index: number;
+  UserID: CommonDataTypes["UserID"];
+  Href: string;
+  Note: CommonDataTypes["TimeStamp"];
+}[] =>
+  data.map((data: CommonDataTypes["ThreadsData"], index: number) => {
+    return {
+      Index: index + 1,
+      UserID: data.title,
+      Href: data.string_list_data[0].href,
       Note: data.string_list_data[0].timestamp ?? 0,
     };
   });

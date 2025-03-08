@@ -15,6 +15,10 @@ type PendingFollowRequests = {
   text_post_app_text_post_app_follow_requests_sent: CommonDataTypes["UserData"][];
 };
 
+type LikedThreads = {
+  text_post_app_media_likes: CommonDataTypes["ThreadsData"][];
+};
+
 // 用來描述用戶對不同 feed 的訂閱或興趣狀態
 type InterestFeedsOnThreads = {
   text_post_app_text_app_interest_feeds: CommonDataTypes["FeedData"][];
@@ -25,4 +29,5 @@ export type ThreadsDataTypes = {
   Following: Following;
   PendingFollowRequests: PendingFollowRequests;
   InterestFeedsOnThreads: InterestFeedsOnThreads;
+  LikedThreads: LikedThreads;
 };

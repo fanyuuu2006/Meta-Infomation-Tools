@@ -29,6 +29,13 @@ type HashtagData = {
   string_list_data: StringData<HashtagName>[]; // string_list_data
 };
 
+type ThreadsData = {
+  title: UserID;
+  media_list_data: MediaData[];
+  string_list_data: StringData<string>[];
+};
+
+// 動態消息
 type FeedData = {
   title: string;
   media_map_data: Record<string, MediaData>;
@@ -49,5 +56,6 @@ export type CommonDataTypes = {
   TimeStamp: TimeStamp;
   UserData: UserData;
   HashtagData: HashtagData;
+  ThreadsData:ThreadsData;
   FeedData: FeedData;
 };

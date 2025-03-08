@@ -197,13 +197,17 @@ export const FileUploadSection = ({
             /> */}
             <Table
               size="middle"
-              pagination={false}
               columns={FeatureMethods[MethodName].columns}
               dataSource={FeatureMethods[MethodName].dataSource(
                 Data as unknown as CommonDataTypes[keyof CommonDataTypes]
               )}
               tableLayout="fixed"
-              scroll={{x: "max-content"}}
+              scroll={{ x: "max-content" }}
+              pagination={{
+                pageSize: 100,
+                pageSizeOptions: ["200", "500", "1000"], // 使用者可選 5、10、20
+                showSizeChanger: true, // 允許選擇行數
+              }}
             />
             <Button
               type="default"

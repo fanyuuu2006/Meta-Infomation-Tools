@@ -3,6 +3,7 @@ import { CommonDataTypes } from "@/lib/CommonType";
 import {
   FollowEachOtherUsers,
   GetFeedDatas,
+  GetThreadsDatas,
   GetUserDatas,
   isValidData,
   NoFollowersBackUsers,
@@ -12,6 +13,8 @@ import { ThreadsDataTypes } from "@/lib/Threads/ThreadsDataTypes";
 import {
   FeedDataColumns,
   FeedDataSource,
+  ThreadsDataColumns,
+  ThreadsDataSource,
   UserDataColumns,
   UserDataSource,
 } from "../common/TableDataDisplay";
@@ -240,5 +243,31 @@ export const ThreadsFeatureMethods: Record<string, Method> = {
     columns: FeedDataColumns,
     dataSource: (data) =>
       FeedDataSource(data as unknown as CommonDataTypes["FeedData"][]) as [],
+  },
+
+  LikedThreads: {
+    func: <K extends keyof CommonDataTypes>(
+      Datas: unknown[]
+    ): CommonDataTypes[K][] => {
+      const file1 = Datas[0] as ThreadsDataTypes["LikedThreads"];
+      if (
+        !isValidData<ThreadsDataTypes, "LikedThreads">(
+          file1,
+          (data: ThreadsDataTypes["LikedThreads"]) =>
+            "text_post_app_media_likes" in data
+        )
+      ) {
+        throw new Error("資料格式有誤");
+      }
+      return GetThreadsDatas(file1) as CommonDataTypes[K][];
+    },
+    fileNames: ["Liked Threads"],
+    listTitle: "(Threads) 您按讚的串文",
+
+    columns: ThreadsDataColumns,
+    dataSource: (data) =>
+      ThreadsDataSource(
+        data as unknown as CommonDataTypes["ThreadsData"][]
+      ) as [],
   },
 };
