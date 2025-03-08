@@ -127,37 +127,19 @@ export const GetBlockedUserDatas = (
     }
   );
 
-export const NoFollowersBackUsers = (
-  FollowersFile:
-    | InstagramDataTypes["Followers"]
-    | ThreadsDataTypes["Followers"],
-  FollowingFile: InstagramDataTypes["Following"] | ThreadsDataTypes["Following"]
+// file2 中不在 file1 的
+export const DifferentFollowUsers = <
+  K1 extends keyof (InstagramDataTypes | ThreadsDataTypes),
+  K2 extends keyof (InstagramDataTypes | ThreadsDataTypes)
+>(
+  file1: (InstagramDataTypes | ThreadsDataTypes)[K1],
+  file2: (InstagramDataTypes | ThreadsDataTypes)[K2]
 ): CommonDataTypes["UserData"][] => {
-  const FollowersUsersSet: Set<string> = new Set(
-    GetUserDatas(FollowersFile).map(
-      (FollowersUser) => FollowersUser.string_list_data[0].value
-    )
+  const FileSet: Set<string> = new Set(
+    GetUserDatas(file1).map((user1) => user1.string_list_data[0].value)
   );
-  return GetUserDatas(FollowingFile).filter(
-    (FollowingUser) =>
-      !FollowersUsersSet.has(FollowingUser.string_list_data[0].value)
-  );
-};
-
-export const NoFollowingBackUsers = (
-  FollowingFile:
-    | InstagramDataTypes["Following"]
-    | ThreadsDataTypes["Following"],
-  FollowersFile: InstagramDataTypes["Followers"] | ThreadsDataTypes["Followers"]
-): CommonDataTypes["UserData"][] => {
-  const FollowingUsersSet: Set<string> = new Set(
-    GetUserDatas(FollowingFile).map(
-      (FollowingUser) => FollowingUser.string_list_data[0].value
-    )
-  );
-  return GetUserDatas(FollowersFile).filter(
-    (FollowersUser) =>
-      !FollowingUsersSet.has(FollowersUser.string_list_data[0].value)
+  return GetUserDatas(file2).filter(
+    (user2) => !FileSet.has(user2.string_list_data[0].value)
   );
 };
 

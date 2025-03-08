@@ -5,12 +5,11 @@ import {
 } from "@/components/common/TableDataDisplay";
 import { CommonDataTypes } from "@/lib/CommonType";
 import {
+  DifferentFollowUsers,
   FollowEachOtherUsers,
   GetBlockedUserDatas,
   GetUserDatas,
   isValidData,
-  NoFollowersBackUsers,
-  NoFollowingBackUsers,
 } from "@/lib/HandleFunction";
 import { InstagramDataTypes } from "@/lib/Instagram/InstagramDataTypes";
 
@@ -34,7 +33,7 @@ export const InstagramFeatureMethods: Record<string, Method> = {
       ) {
         throw new Error("資料格式有誤");
       }
-      return NoFollowersBackUsers(file1, file2) as CommonDataTypes[K][];
+      return DifferentFollowUsers(file1, file2) as CommonDataTypes[K][];
     },
     fileNames: ["Followers", "Following"],
     listTitle: "(Instagram) 尚未回追您的用戶名單",
@@ -62,7 +61,7 @@ export const InstagramFeatureMethods: Record<string, Method> = {
       ) {
         throw new Error("資料格式有誤");
       }
-      return NoFollowingBackUsers(file1, file2) as CommonDataTypes[K][];
+      return DifferentFollowUsers(file1, file2) as CommonDataTypes[K][];
     },
     fileNames: ["Following", "Followers"],
     listTitle: "(Instagram) 您尚未回追的用戶名單",

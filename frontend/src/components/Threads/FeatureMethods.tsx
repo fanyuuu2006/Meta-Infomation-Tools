@@ -1,14 +1,13 @@
 import { Method } from "@/components/common/FileUploadSection";
 import { CommonDataTypes } from "@/lib/CommonType";
 import {
+  DifferentFollowUsers,
   FollowEachOtherUsers,
   GetFeedDatas,
   GetThreadsDatas,
   GetThreadsPostDatas,
   GetUserDatas,
   isValidData,
-  NoFollowersBackUsers,
-  NoFollowingBackUsers,
 } from "@/lib/HandleFunction";
 import { ThreadsDataTypes } from "@/lib/Threads/ThreadsDataTypes";
 import {
@@ -43,7 +42,7 @@ export const ThreadsFeatureMethods: Record<string, Method> = {
       ) {
         throw new Error("資料格式有誤");
       }
-      return NoFollowersBackUsers(file1, file2) as CommonDataTypes[K][];
+      return DifferentFollowUsers(file1, file2) as CommonDataTypes[K][];
     },
     fileNames: ["Followers", "Following"],
     listTitle: "(Threads) 尚未回追您的用戶名單",
@@ -73,7 +72,7 @@ export const ThreadsFeatureMethods: Record<string, Method> = {
       ) {
         throw new Error("資料格式有誤");
       }
-      return NoFollowingBackUsers(file1, file2) as CommonDataTypes[K][];
+      return DifferentFollowUsers(file1, file2) as CommonDataTypes[K][];
     },
     fileNames: ["Following", "Followers"],
     listTitle: "(Threads) 您尚未回追的用戶名單",
