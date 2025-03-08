@@ -107,8 +107,9 @@ export const IntroSection = () => {
           </OutsideLink>
           提供的可下載資訊。{"( Instagram & Threads )"}
         </div>
-        <div className="Title BottomLine">功能</div>
-
+        <div className="Title BottomLine">
+          功能 <div className="Hint">{"(除了這些還有更多)"}</div>
+        </div>
         <ul className="IntroSection-List Content">
           {Features.map((feature, index) => {
             return (
