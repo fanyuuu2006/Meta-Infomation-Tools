@@ -179,8 +179,12 @@ export const FollowEachOtherUsers = (
 
 export const GetThreadsDatas = (
   FeedFile: ThreadsDataTypes["LikedThreads"]
-): CommonDataTypes["ThreadsData"][] =>
-  FeedFile.text_post_app_media_likes;
+): CommonDataTypes["ThreadsData"][] => FeedFile.text_post_app_media_likes;
+
+export const GetThreadsPostDatas = (
+  FeedFile: ThreadsDataTypes["ThreadsViewed"]
+): CommonDataTypes["ThreadsPostData"][] =>
+  FeedFile.text_post_app_text_post_app_posts_seen;
 
 export const GetFeedDatas = (
   FeedFile: ThreadsDataTypes["InterestFeedsOnThreads"]

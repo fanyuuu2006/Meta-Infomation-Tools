@@ -50,6 +50,25 @@ export const ThreadsDataColumns: TableColumnProps[] = [
   },
 ];
 
+export const ThreadsPostDataColumns: TableColumnProps[] = [
+  {
+    title: "序號",
+    dataIndex: "Index",
+    key: "Index",
+  },
+  {
+    title: "發文用戶",
+    dataIndex: "UserID",
+    key: "UserID",
+  },
+  {
+    title: "備註",
+    dataIndex: "Note",
+    key: "Note",
+    render: (value) => DateFromTimeStamp(value),
+  },
+];
+
 export const FeedDataColumns: TableColumnProps[] = [
   {
     title: "序號",
@@ -110,6 +129,21 @@ export const ThreadsDataSource = (
       UserID: data.title,
       Href: data.string_list_data[0].href,
       Note: data.string_list_data[0].timestamp ?? 0,
+    };
+  });
+
+export const ThreadsPostDataSource = (
+  data: CommonDataTypes["ThreadsPostData"][]
+): {
+  Index: number;
+  UserID: CommonDataTypes["UserID"];
+  Note: CommonDataTypes["TimeStamp"];
+}[] =>
+  data.map((data: CommonDataTypes["ThreadsPostData"], index: number) => {
+    return {
+      Index: index + 1,
+      UserID: data.string_map_data.Author.value,
+      Note: data.string_map_data.Time.timestamp ?? 0,
     };
   });
 

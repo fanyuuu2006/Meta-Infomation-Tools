@@ -19,8 +19,18 @@ type RecentFollowRequests = {
   text_post_app_text_post_app_permanent_follow_requests: CommonDataTypes["UserData"][];
 };
 
+// 最近取消追蹤的用戶
+type RecentlyUnfollowedProfiles = {
+  text_post_app_text_post_app_unfollowed_users: CommonDataTypes["UserData"][];
+};
+
+// 按讚的串文
 type LikedThreads = {
   text_post_app_media_likes: CommonDataTypes["ThreadsData"][];
+};
+
+type ThreadsViewed = {
+  text_post_app_text_post_app_posts_seen: CommonDataTypes["ThreadsPostData"][];
 };
 
 // 用來描述用戶對不同 feed 的訂閱或興趣狀態
@@ -34,5 +44,7 @@ export type ThreadsDataTypes = {
   PendingFollowRequests: PendingFollowRequests;
   RecentFollowRequests: RecentFollowRequests;
   InterestFeedsOnThreads: InterestFeedsOnThreads;
+  RecentlyUnfollowedProfiles: RecentlyUnfollowedProfiles;
   LikedThreads: LikedThreads;
+  ThreadsViewed: ThreadsViewed;
 };

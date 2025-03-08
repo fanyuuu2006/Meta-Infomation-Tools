@@ -1,61 +1,58 @@
-type UserID = string; // 使用者ID
+type UserID = string;
 type HashtagName = string;
 type ValueTypes = string | UserID | HashtagName;
-type TimeStamp = number; // 自 1970 年 1 月 1 日 以來的秒數
+type TimeStamp = number;
 
 type MediaData = {
-  id: string; // 媒體的唯一識別碼
-  url: string; // 媒體的網址
-  caption: string; // 媒體的文字描述
-  timestamp?: TimeStamp; // 發佈時間戳
+  id: string;
+  url: string;
+  caption: string;
+  timestamp?: TimeStamp;
 };
 
-type StringData<v extends ValueTypes> = {
-  href: string; // 使用者網址
-  value: v;
-  timestamp?: TimeStamp; // 追蹤時間戳
+type StringData<V extends ValueTypes> = {
+  href: string;
+  value: V;
+  timestamp?: TimeStamp;
 };
 
-// 單一使用者資料
-type UserData = {
+type MediaMapData<K extends string> = Record<K, MediaData>;
+
+type StringMapData<K extends string> = Record<K, StringData<string>>;
+
+type BaseListData<T extends ValueTypes> = {
   title: string;
-  media_list_data: MediaData[]; // media_list_data
-  string_list_data: StringData<UserID>[]; // string_list_data
-};
-
-type HashtagData = {
-  title: string;
-  media_list_data: MediaData[]; // media_list_data
-  string_list_data: StringData<HashtagName>[]; // string_list_data
-};
-
-type ThreadsData = {
-  title: UserID;
   media_list_data: MediaData[];
-  string_list_data: StringData<string>[];
+  string_list_data: StringData<T>[];
 };
 
-// 動態消息
-type FeedData = {
+type BaseMapData<M extends string, S extends string> = {
   title: string;
-  media_map_data: Record<string, MediaData>;
-  string_map_data: {
-    "Owner username": StringData<UserID>;
-    "Feed name": StringData<string>;
-    "Feed type": StringData<string>; // feed 的類型 "composite_list"、"archived"、"saved"、"liked"、"following"、"for_you"
-    "Added topic names delimited by `|`": StringData<string>; // 新增的主題名稱
-    "Added usernames delimited by `|`": StringData<string>; // 新增的使用者名稱
-  };
+  media_map_data: MediaMapData<M>;
+  string_map_data: StringMapData<S>;
 };
 
+// **統一的資料類型**
 export type CommonDataTypes = {
   UserID: UserID;
   HashtagName: HashtagName;
   MediaData: MediaData;
   StringData: StringData<ValueTypes>;
   TimeStamp: TimeStamp;
-  UserData: UserData;
-  HashtagData: HashtagData;
-  ThreadsData:ThreadsData;
-  FeedData: FeedData;
+
+  UserData: BaseListData<UserID>;
+  HashtagData: BaseListData<HashtagName>;
+  ThreadsData: BaseListData<string>;
+
+  // 貼文
+  ThreadsPostData: BaseMapData<string, "Author" | "Time">;
+  // 動態消息
+  FeedData: BaseMapData<
+    string,
+    | "Owner username"
+    | "Feed name"
+    | "Feed type"
+    | "Added topic names delimited by `|`"
+    | "Added usernames delimited by `|`"
+  >;
 };

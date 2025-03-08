@@ -4,6 +4,7 @@ import {
   FollowEachOtherUsers,
   GetFeedDatas,
   GetThreadsDatas,
+  GetThreadsPostDatas,
   GetUserDatas,
   isValidData,
   NoFollowersBackUsers,
@@ -15,6 +16,8 @@ import {
   FeedDataSource,
   ThreadsDataColumns,
   ThreadsDataSource,
+  ThreadsPostDataColumns,
+  ThreadsPostDataSource,
   UserDataColumns,
   UserDataSource,
 } from "../common/TableDataDisplay";
@@ -247,6 +250,32 @@ export const ThreadsFeatureMethods: Record<string, Method> = {
       UserDataSource(data as unknown as CommonDataTypes["UserData"][]) as [],
   },
 
+  RecentlyUnfollowedProfiles: {
+    func: <K extends keyof CommonDataTypes>(
+      Datas: unknown[]
+    ): CommonDataTypes[K][] => {
+      const file1 = Datas[0] as ThreadsDataTypes["RecentlyUnfollowedProfiles"];
+      if (
+        !isValidData<ThreadsDataTypes, "RecentlyUnfollowedProfiles">(
+          file1,
+          (data: ThreadsDataTypes["RecentlyUnfollowedProfiles"]) =>
+            "text_post_app_text_post_app_unfollowed_users" in data
+        )
+      ) {
+        throw new Error("資料格式有誤");
+      }
+      return GetUserDatas<ThreadsDataTypes, "RecentlyUnfollowedProfiles">(
+        file1
+      ) as CommonDataTypes[K][];
+    },
+    fileNames: ["Recently Unfollowed Profiles"],
+    listTitle: "(Threads) 您最近取消追蹤的用戶",
+
+    columns: UserDataColumns,
+    dataSource: (data) =>
+      UserDataSource(data as unknown as CommonDataTypes["UserData"][]) as [],
+  },
+
   InterestFeedsOnThreads: {
     func: <K extends keyof CommonDataTypes>(
       Datas: unknown[]
@@ -294,6 +323,32 @@ export const ThreadsFeatureMethods: Record<string, Method> = {
     dataSource: (data) =>
       ThreadsDataSource(
         data as unknown as CommonDataTypes["ThreadsData"][]
+      ) as [],
+  },
+
+  ThreadsViewed: {
+    func: <K extends keyof CommonDataTypes>(
+      Datas: unknown[]
+    ): CommonDataTypes[K][] => {
+      const file1 = Datas[0] as ThreadsDataTypes["ThreadsViewed"];
+      if (
+        !isValidData<ThreadsDataTypes, "ThreadsViewed">(
+          file1,
+          (data: ThreadsDataTypes["ThreadsViewed"]) =>
+            "text_post_app_text_post_app_posts_seen" in data
+        )
+      ) {
+        throw new Error("資料格式有誤");
+      }
+      return GetThreadsPostDatas(file1) as CommonDataTypes[K][];
+    },
+    fileNames: ["Threads Viewed"],
+    listTitle: "(Threads) 瀏覽過的串文",
+
+    columns: ThreadsPostDataColumns,
+    dataSource: (data) =>
+      ThreadsPostDataSource(
+        data as unknown as CommonDataTypes["ThreadsPostData"][]
       ) as [],
   },
 };
