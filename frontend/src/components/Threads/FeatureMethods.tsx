@@ -10,6 +10,8 @@ import { ThreadsDataTypes } from "@/lib/Threads/ThreadsDataTypes";
 import {
   FeedDataColumns,
   FeedDataSource,
+  MediaPostDataColumns,
+  MediaPostDataSource,
   ThreadsPostDataColumns,
   ThreadsPostDataSource,
   UserDataColumns,
@@ -178,12 +180,13 @@ export const ThreadsFeatureMethods: Record<string, Method> = {
       const OldFollowers = (
         GetDatas(file2) as CommonDataTypes["UserData"][]
       ).map(
-        (user2: CommonDataTypes["UserData"]) => user2.string_list_data[0].value
+        (user2: CommonDataTypes["UserData"]) =>
+          user2.string_list_data?.[0].value
       );
 
       return (GetDatas(file2) as CommonDataTypes["UserData"][]).filter(
         (user1: CommonDataTypes["UserData"]) =>
-          !OldFollowers.includes(user1.string_list_data[0].value)
+          !OldFollowers.includes(user1.string_list_data?.[0].value)
       ) as CommonDataTypes[K][];
     },
     fileNames: ["New Followers", "Old Followers"],
@@ -208,9 +211,11 @@ export const ThreadsFeatureMethods: Record<string, Method> = {
       ) {
         throw new Error("資料格式有誤");
       }
-      return GetDatas<ThreadsDataTypes, "PendingFollowRequests", "UserData">(
-        file1
-      ) as CommonDataTypes[K][];
+      return GetDatas<
+        ThreadsDataTypes,
+        "PendingFollowRequests",
+        CommonDataTypes["UserData"]
+      >(file1) as CommonDataTypes[K][];
     },
     fileNames: ["Pending Follow Requests"],
     listTitle: "(Threads) 您尚未獲得回應的追蹤請求",
@@ -234,9 +239,11 @@ export const ThreadsFeatureMethods: Record<string, Method> = {
       ) {
         throw new Error("資料格式有誤");
       }
-      return GetDatas<ThreadsDataTypes, "RecentFollowRequests", "UserData">(
-        file1
-      ) as CommonDataTypes[K][];
+      return GetDatas<
+        ThreadsDataTypes,
+        "RecentFollowRequests",
+        CommonDataTypes["UserData"]
+      >(file1) as CommonDataTypes[K][];
     },
     fileNames: ["Recently Followed Requests"],
     listTitle: "(Threads) 您最近申請追蹤的用戶",
@@ -263,7 +270,7 @@ export const ThreadsFeatureMethods: Record<string, Method> = {
       return GetDatas<
         ThreadsDataTypes,
         "RecentlyUnfollowedProfiles",
-        "UserData"
+        CommonDataTypes["UserData"]
       >(file1) as CommonDataTypes[K][];
     },
     fileNames: ["Recently Unfollowed Profiles"],
@@ -288,9 +295,11 @@ export const ThreadsFeatureMethods: Record<string, Method> = {
       ) {
         throw new Error("資料格式有誤");
       }
-      return GetDatas<ThreadsDataTypes, "InterestFeedsOnThreads", "FeedData">(
-        file1
-      ) as CommonDataTypes[K][];
+      return GetDatas<
+        ThreadsDataTypes,
+        "InterestFeedsOnThreads",
+        CommonDataTypes["FeedData"]
+      >(file1) as CommonDataTypes[K][];
     },
     fileNames: ["Interest Feeds On Threads"],
     listTitle: "(Threads) 您對不同 動態消息 關注狀態",
@@ -314,9 +323,11 @@ export const ThreadsFeatureMethods: Record<string, Method> = {
       ) {
         throw new Error("資料格式有誤");
       }
-      return GetDatas<ThreadsDataTypes, "LikedThreads", "ThreadsData">(
-        file1
-      ) as CommonDataTypes[K][];
+      return GetDatas<
+        ThreadsDataTypes,
+        "LikedThreads",
+        CommonDataTypes["ThreadsData"]
+      >(file1) as CommonDataTypes[K][];
     },
     fileNames: ["Liked Threads"],
     listTitle: "(Threads) 您按讚的串文",
@@ -352,7 +363,7 @@ export const ThreadsFeatureMethods: Record<string, Method> = {
     columns: ThreadsPostDataColumns,
     dataSource: (data) =>
       ThreadsPostDataSource(
-        data as unknown as CommonDataTypes["ThreadsPostData"][]
+        data as unknown as CommonDataTypes["PostData"][]
       ) as [],
   },
 
@@ -375,7 +386,7 @@ export const ThreadsFeatureMethods: Record<string, Method> = {
       return GetDatas<
         ThreadsDataTypes,
         "YourPostsWithoutNotifications",
-        "ThreadsPostData"
+        CommonDataTypes["PostData"]
       >(file1) as CommonDataTypes[K][];
     },
     fileNames: ["Your Posts Without Notifications"],
@@ -384,7 +395,37 @@ export const ThreadsFeatureMethods: Record<string, Method> = {
     columns: ThreadsPostDataColumns,
     dataSource: (data) =>
       ThreadsPostDataSource(
-        data as unknown as CommonDataTypes["ThreadsPostData"][]
+        data as unknown as CommonDataTypes["PostData"][]
+      ) as [],
+  },
+
+  ThreadsAndReplies: {
+    func: <K extends keyof CommonDataTypes>(
+      Datas: unknown[]
+    ): CommonDataTypes[K][] => {
+      const file1 = Datas[0] as ThreadsDataTypes["ThreadsAndReplies"];
+      if (
+        !isValidData<ThreadsDataTypes, "ThreadsAndReplies">(
+          file1,
+          (data: ThreadsDataTypes["ThreadsAndReplies"]) =>
+            "text_post_app_text_posts" in data
+        )
+      ) {
+        throw new Error("資料格式有誤");
+      }
+      return GetDatas<
+        ThreadsDataTypes,
+        "ThreadsAndReplies",
+        CommonDataTypes["MediaPostData"]
+      >(file1) as CommonDataTypes[K][];
+    },
+    fileNames: ["Threads And Replies"],
+    listTitle: "(Threads) 您的串文與回覆",
+
+    columns: MediaPostDataColumns,
+    dataSource: (data) =>
+      MediaPostDataSource(
+        data as unknown as CommonDataTypes["MediaPostData"][]
       ) as [],
   },
 };

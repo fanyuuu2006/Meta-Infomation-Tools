@@ -5,7 +5,7 @@ import { TableColumnProps } from "antd";
 
 export const UserDataColumns: TableColumnProps[] = [
   {
-    title: "序號",
+    title: null,
     dataIndex: "Index",
     key: "Index",
   },
@@ -27,7 +27,7 @@ export const UserDataColumns: TableColumnProps[] = [
 
 export const ThreadsPostDataColumns: TableColumnProps[] = [
   {
-    title: "序號",
+    title: null,
     dataIndex: "Index",
     key: "Index",
   },
@@ -55,9 +55,49 @@ export const ThreadsPostDataColumns: TableColumnProps[] = [
   },
 ];
 
+export const MediaPostDataColumns: TableColumnProps[] = [
+  {
+    title: null,
+    dataIndex: "Index",
+    key: "Index",
+  },
+  {
+    title: "標題",
+    dataIndex: "Title",
+    key: "Title",
+  },
+  {
+    title: "URI",
+    dataIndex: "URI",
+    key: "URI",
+    render: (value) =>
+      value && (
+        <OutsideLink href={`https://www.threads.net/${value}`}>
+          前往
+        </OutsideLink>
+      ),
+  },
+  {
+    title: "創建時間",
+    dataIndex: "CreationTime",
+    key: "CreationTime",
+    render: (value: number) => DateFromTimeStamp(value), // 根據需要格式化時間戳
+  },
+  {
+    title: "來源應用",
+    dataIndex: "SourceApp",
+    key: "SourceApp",
+  },
+  {
+    title: "回覆控制",
+    dataIndex: "ReplyControl",
+    key: "ReplyControl",
+  },
+];
+
 export const FeedDataColumns: TableColumnProps[] = [
   {
-    title: "序號",
+    title: null,
     dataIndex: "Index",
     key: "Index",
   },
@@ -84,25 +124,25 @@ export const FeedDataColumns: TableColumnProps[] = [
 ];
 
 export const UserDataSource = (
-  data: CommonDataTypes["UserData"][]
+  datas: CommonDataTypes["UserData"][]
 ): {
   Index: number;
   Value: { UserID: CommonDataTypes["UserID"]; href: string };
   Note: CommonDataTypes["TimeStamp"];
 }[] =>
-  data.map((data: CommonDataTypes["UserData"], index: number) => {
+  datas.map((data: CommonDataTypes["UserData"], index: number) => {
     return {
       Index: index + 1,
       Value: {
-        UserID: data.string_list_data[0].value,
-        href: data.string_list_data[0].href,
+        UserID: data.string_list_data?.[0].value ?? "未知用戶",
+        href: data.string_list_data?.[0].href ?? "",
       },
-      Note: data.string_list_data[0].timestamp ?? 0,
+      Note: data.string_list_data?.[0].timestamp ?? 0,
     };
   });
 
 export const ThreadsPostDataSource = (
-  data: CommonDataTypes["ThreadsPostData" | "ThreadsData"][]
+  datas: CommonDataTypes["PostData" | "ThreadsData"][]
 ): {
   Index: number;
   UserID: CommonDataTypes["UserID"];
@@ -110,30 +150,70 @@ export const ThreadsPostDataSource = (
   Href: string;
   Note: CommonDataTypes["TimeStamp"];
 }[] =>
-  data.map(
-    (data: CommonDataTypes["ThreadsPostData" | "ThreadsData"], index: number) =>
-      "string_list_data" in data
-        ? {
-            Index: index + 1,
-            UserID: data.title,
-            Caption: "",
-            Href: data.string_list_data[0].href,
-            Note: data.string_list_data[0].timestamp ?? 0,
-          }
-        : {
-            Index: index + 1,
-            UserID: data.string_map_data?.Author?.value ?? "",
-            Caption: data.string_map_data?.Caption?.value ?? "",
-            Href: data.string_map_data?.Url?.value ?? "",
-            Note:
-              data.string_map_data?.Time?.timestamp ??
-              data.string_map_data?.["Creation Time"]?.timestamp ??
-              0,
-          }
-  );
+  datas
+    .map(
+      (
+        data: CommonDataTypes["PostData"] | CommonDataTypes["ThreadsData"],
+        index: number
+      ) =>
+        "string_list_data" in data
+          ? {
+              Index: index + 1,
+              UserID: data.title,
+              Caption: null,
+              Href: data.string_list_data?.[0].href,
+              Note: data.string_list_data?.[0].timestamp ?? 0,
+            }
+          : "string_map_data" in data
+          ? {
+              Index: index + 1,
+              UserID: data.string_map_data?.Author?.value ?? null,
+              Caption: data.string_map_data?.Caption?.value ?? null,
+              Href: data.string_map_data?.Url?.value ?? null,
+              Note:
+                data.string_map_data?.Time?.timestamp ??
+                data.string_map_data?.["Creation Time"]?.timestamp ??
+                null,
+            }
+          : null
+    )
+    .filter(
+      (
+        value
+      ): value is {
+        Index: number;
+        UserID: string;
+        Caption: string;
+        Href: string;
+        Note: number;
+      } => value !== null
+    );
+
+export const MediaPostDataSource = (
+  datas: CommonDataTypes["MediaPostData"][]
+): {
+  Index: number;
+  Title: string;
+  URI: string;
+  CreationTime: CommonDataTypes["TimeStamp"];
+  SourceApp: string;
+  ReplyControl: string;
+}[] =>
+  datas.flatMap((data: CommonDataTypes["MediaPostData"], index: number) => {
+    return data.media.map((media) => {
+      return {
+        Index: index + 1,
+        Title: media.title ?? "無標題",
+        URI: media.uri ?? "",
+        CreationTime: media.creation_timestamp ?? 0,
+        SourceApp: media.cross_post_source?.source_app ?? "",
+        ReplyControl: media.text_app_post?.reply_control ?? "",
+      };
+    });
+  });
 
 export const FeedDataSource = (
-  data: CommonDataTypes["FeedData"][]
+  datas: CommonDataTypes["FeedData"][]
 ): {
   Index: number;
   FeedName: string;
@@ -141,14 +221,15 @@ export const FeedDataSource = (
   AddedTopicNames: string;
   AddedUserNames: string;
 }[] =>
-  data.map((data: CommonDataTypes["FeedData"], index: number) => {
+  datas.map((data: CommonDataTypes["FeedData"], index: number) => {
     return {
       Index: index + 1,
-      FeedName: data.string_map_data["Feed name"].value,
-      FeedType: data.string_map_data["Feed type"].value,
+      FeedName: data.string_map_data?.["Feed name"].value ?? "",
+      FeedType: data.string_map_data?.["Feed type"].value ?? "",
       AddedTopicNames:
-        data.string_map_data["Added topic names delimited by `|`"].value,
+        data.string_map_data?.["Added topic names delimited by `|`"].value ??
+        "",
       AddedUserNames:
-        data.string_map_data["Added usernames delimited by `|`"].value,
+        data.string_map_data?.["Added usernames delimited by `|`"].value ?? "",
     };
   });

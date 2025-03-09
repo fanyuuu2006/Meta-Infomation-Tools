@@ -10,7 +10,7 @@ export type ThreadsDataTypes = {
     CommonDataTypes["UserData"]
   >; // 正在追蹤中的用戶
   PendingFollowRequests: TextKeyList<
-    " text_post_app_text_post_app_follow_requests_sent",
+    "text_post_app_text_post_app_follow_requests_sent",
     CommonDataTypes["UserData"]
   >; // 尚未獲得回應的追蹤請求
   RecentFollowRequests: TextKeyList<
@@ -31,10 +31,14 @@ export type ThreadsDataTypes = {
   >; // 按讚的串文
   ThreadsViewed: TextKeyList<
     "text_post_app_text_post_app_posts_seen",
-    CommonDataTypes["ThreadsPostData"]
+    CommonDataTypes["PostData"]
   >; // 看過的串文
   YourPostsWithoutNotifications: TextKeyList<
     "text_post_app_text_app_dyi_authored_post_disabled_notifications",
-    CommonDataTypes["ThreadsPostData"]
+    CommonDataTypes["PostData"]
   >; // 關閉通知的串文
+  ThreadsAndReplies: TextKeyList<
+    "text_post_app_text_posts",
+    CommonDataTypes["MediaPostData"]
+  >;
 };

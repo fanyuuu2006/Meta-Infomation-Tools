@@ -1,11 +1,11 @@
 import { TextKeyList, CommonDataTypes } from "../CommonType";
 
 type BlockedUserData = {
-  title: CommonDataTypes["UserID"];
+  title: string;
   string_list_data: [
     {
       href?: string;
-      timestamp: CommonDataTypes["TimeStamp"];
+      timestamp: number;
     }
   ];
 };

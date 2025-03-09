@@ -2,7 +2,7 @@ import { CommonDataTypes } from "./CommonType";
 import { InstagramDataTypes } from "./Instagram/InstagramDataTypes";
 import { ThreadsDataTypes } from "./Threads/ThreadsDataTypes";
 export const DateFromTimeStamp = (
-  timestamp: CommonDataTypes["TimeStamp"]
+  timestamp: number
 ): string => {
   const date = new Date(timestamp * 1000);
 
@@ -135,11 +135,11 @@ export const DifferentFollowUsers = <
 ): CommonDataTypes["UserData"][] => {
   const FileSet1: Set<string> = new Set(
     GetDatas<T, K1, CommonDataTypes["UserData"]>(file1).map(
-      (user1) => user1.string_list_data[0].value
+      (user1) => user1.string_list_data?.[0].value ?? ""
     )
   );
   return GetDatas<T, K2, CommonDataTypes["UserData"]>(file2).filter(
-    (user2) => !FileSet1.has(user2.string_list_data[0].value)
+    (user2) => !FileSet1.has(user2.string_list_data?.[0].value ?? "")
   );
 };
 
@@ -152,13 +152,13 @@ export const FollowEachOtherUsers = <
   const FollowersSet: Set<string> = new Set(
     GetDatas<T, "Followers", CommonDataTypes["UserData"]>(FollowersFile).map(
       (FollowersUser: CommonDataTypes["UserData"]) =>
-        FollowersUser.string_list_data[0].value
+        FollowersUser.string_list_data?.[0].value ?? ""
     )
   );
   return GetDatas<T, "Following", CommonDataTypes["UserData"]>(
     FollowingFile
   ).filter((FollowingUser) =>
-    FollowersSet.has(FollowingUser.string_list_data[0].value)
+    FollowersSet.has(FollowingUser.string_list_data?.[0].value ?? "")
   );
 };
 
