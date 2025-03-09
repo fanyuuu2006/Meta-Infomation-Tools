@@ -25,31 +25,6 @@ export const UserDataColumns: TableColumnProps[] = [
   },
 ];
 
-export const ThreadsDataColumns: TableColumnProps[] = [
-  {
-    title: "序號",
-    dataIndex: "Index",
-    key: "Index",
-  },
-  {
-    title: "發文用戶",
-    dataIndex: "UserID",
-    key: "UserID",
-  },
-  {
-    title: "連結",
-    dataIndex: "Href",
-    key: "Href",
-    render: (value) => <OutsideLink href={value}>前往</OutsideLink>,
-  },
-  {
-    title: "備註",
-    dataIndex: "Note",
-    key: "Note",
-    render: (value) => DateFromTimeStamp(value),
-  },
-];
-
 export const ThreadsPostDataColumns: TableColumnProps[] = [
   {
     title: "序號",
@@ -126,25 +101,8 @@ export const UserDataSource = (
     };
   });
 
-export const ThreadsDataSource = (
-  data: CommonDataTypes["ThreadsData"][]
-): {
-  Index: number;
-  UserID: CommonDataTypes["UserID"];
-  Href: string;
-  Note: CommonDataTypes["TimeStamp"];
-}[] =>
-  data.map((data: CommonDataTypes["ThreadsData"], index: number) => {
-    return {
-      Index: index + 1,
-      UserID: data.title,
-      Href: data.string_list_data[0].href,
-      Note: data.string_list_data[0].timestamp ?? 0,
-    };
-  });
-
 export const ThreadsPostDataSource = (
-  data: CommonDataTypes["ThreadsPostData"][]
+  data: CommonDataTypes["ThreadsPostData" | "ThreadsData"][]
 ): {
   Index: number;
   UserID: CommonDataTypes["UserID"];
@@ -152,18 +110,27 @@ export const ThreadsPostDataSource = (
   Href: string;
   Note: CommonDataTypes["TimeStamp"];
 }[] =>
-  data.map((data: CommonDataTypes["ThreadsPostData"], index: number) => {
-    return {
-      Index: index + 1,
-      UserID: data.string_map_data.Author?.value ?? "",
-      Caption: data.string_map_data.Caption?.value ?? "",
-      Href: data.string_map_data.Url?.value ?? "",
-      Note:
-        data.string_map_data.Time?.timestamp ??
-        data.string_map_data["Creation Time"]?.timestamp ??
-        0,
-    };
-  });
+  data.map(
+    (data: CommonDataTypes["ThreadsPostData" | "ThreadsData"], index: number) =>
+      "string_list_data" in data
+        ? {
+            Index: index + 1,
+            UserID: data.title,
+            Caption: "",
+            Href: data.string_list_data[0].href,
+            Note: data.string_list_data[0].timestamp ?? 0,
+          }
+        : {
+            Index: index + 1,
+            UserID: data.string_map_data?.Author?.value ?? "",
+            Caption: data.string_map_data?.Caption?.value ?? "",
+            Href: data.string_map_data?.Url?.value ?? "",
+            Note:
+              data.string_map_data?.Time?.timestamp ??
+              data.string_map_data?.["Creation Time"]?.timestamp ??
+              0,
+          }
+  );
 
 export const FeedDataSource = (
   data: CommonDataTypes["FeedData"][]

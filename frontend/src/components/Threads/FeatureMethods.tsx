@@ -10,8 +10,6 @@ import { ThreadsDataTypes } from "@/lib/Threads/ThreadsDataTypes";
 import {
   FeedDataColumns,
   FeedDataSource,
-  ThreadsDataColumns,
-  ThreadsDataSource,
   ThreadsPostDataColumns,
   ThreadsPostDataSource,
   UserDataColumns,
@@ -323,9 +321,9 @@ export const ThreadsFeatureMethods: Record<string, Method> = {
     fileNames: ["Liked Threads"],
     listTitle: "(Threads) 您按讚的串文",
 
-    columns: ThreadsDataColumns,
+    columns: ThreadsPostDataColumns,
     dataSource: (data) =>
-      ThreadsDataSource(
+      ThreadsPostDataSource(
         data as unknown as CommonDataTypes["ThreadsData"][]
       ) as [],
   },
@@ -368,7 +366,8 @@ export const ThreadsFeatureMethods: Record<string, Method> = {
         !isValidData<ThreadsDataTypes, "YourPostsWithoutNotifications">(
           file1,
           (data: ThreadsDataTypes["YourPostsWithoutNotifications"]) =>
-            "text_post_app_text_app_dyi_authored_post_disabled_notifications" in data
+            "text_post_app_text_app_dyi_authored_post_disabled_notifications" in
+            data
         )
       ) {
         throw new Error("資料格式有誤");
