@@ -357,4 +357,35 @@ export const ThreadsFeatureMethods: Record<string, Method> = {
         data as unknown as CommonDataTypes["ThreadsPostData"][]
       ) as [],
   },
+
+  YourPostsWithoutNotifications: {
+    func: <K extends keyof CommonDataTypes>(
+      Datas: unknown[]
+    ): CommonDataTypes[K][] => {
+      const file1 =
+        Datas[0] as ThreadsDataTypes["YourPostsWithoutNotifications"];
+      if (
+        !isValidData<ThreadsDataTypes, "YourPostsWithoutNotifications">(
+          file1,
+          (data: ThreadsDataTypes["YourPostsWithoutNotifications"]) =>
+            "text_post_app_text_app_dyi_authored_post_disabled_notifications" in data
+        )
+      ) {
+        throw new Error("資料格式有誤");
+      }
+      return GetDatas<
+        ThreadsDataTypes,
+        "YourPostsWithoutNotifications",
+        "ThreadsPostData"
+      >(file1) as CommonDataTypes[K][];
+    },
+    fileNames: ["Your Posts Without Notifications"],
+    listTitle: "(Threads) 您已關閉通知的串文",
+
+    columns: ThreadsPostDataColumns,
+    dataSource: (data) =>
+      ThreadsPostDataSource(
+        data as unknown as CommonDataTypes["ThreadsPostData"][]
+      ) as [],
+  },
 };

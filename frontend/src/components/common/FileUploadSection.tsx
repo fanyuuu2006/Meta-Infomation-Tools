@@ -197,7 +197,20 @@ export const FileUploadSection = ({
             /> */}
             <Table
               size="middle"
-              columns={FeatureMethods[MethodName].columns}
+              columns={FeatureMethods[MethodName].columns.filter(
+                (
+                  col // 過濾欄位
+                ) =>
+                  FeatureMethods[MethodName].dataSource(
+                    Data as unknown as CommonDataTypes[keyof CommonDataTypes]
+                  ).every(
+                    (row) =>
+                      row[col.dataIndex as string] != null &&
+                      (row[col.dataIndex as string] as string | number)
+                        .toString()
+                        .trim() !== ""
+                  )
+              )}
               dataSource={FeatureMethods[MethodName].dataSource(
                 Data as unknown as CommonDataTypes[keyof CommonDataTypes]
               )}
@@ -205,7 +218,7 @@ export const FileUploadSection = ({
               scroll={{ x: "max-content" }}
               pagination={{
                 pageSize: 100,
-                pageSizeOptions: ["200", "500", "1000"], // 使用者可選 5、10、20
+                pageSizeOptions: ["200", "500", "1000"], // 使用者可選
                 showSizeChanger: true, // 允許選擇行數
               }}
               rowClassName={"Content"}

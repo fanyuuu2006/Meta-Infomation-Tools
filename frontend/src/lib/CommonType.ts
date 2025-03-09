@@ -45,7 +45,10 @@ export type CommonDataTypes = {
   ThreadsData: BaseListData<string>;
 
   // 貼文
-  ThreadsPostData: BaseMapData<string, "Author" | "Time">;
+  ThreadsPostData: BaseMapData<
+    string,
+    "Author" | ("Time" | "Creation Time") | "Url" | "Creation Time" | "Caption"
+  >;
   // 動態消息
   FeedData: BaseMapData<
     string,

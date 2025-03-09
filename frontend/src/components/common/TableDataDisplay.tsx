@@ -62,6 +62,17 @@ export const ThreadsPostDataColumns: TableColumnProps[] = [
     key: "UserID",
   },
   {
+    title: "標題",
+    dataIndex: "Caption",
+    key: "Caption",
+  },
+  {
+    title: "連結",
+    dataIndex: "Href",
+    key: "Href",
+    render: (value) => value && <OutsideLink href={value}>前往</OutsideLink>,
+  },
+  {
     title: "備註",
     dataIndex: "Note",
     key: "Note",
@@ -137,13 +148,20 @@ export const ThreadsPostDataSource = (
 ): {
   Index: number;
   UserID: CommonDataTypes["UserID"];
+  Caption: string;
+  Href: string;
   Note: CommonDataTypes["TimeStamp"];
 }[] =>
   data.map((data: CommonDataTypes["ThreadsPostData"], index: number) => {
     return {
       Index: index + 1,
-      UserID: data.string_map_data.Author.value,
-      Note: data.string_map_data.Time.timestamp ?? 0,
+      UserID: data.string_map_data.Author?.value ?? "",
+      Caption: data.string_map_data.Caption?.value ?? "",
+      Href: data.string_map_data.Url?.value ?? "",
+      Note:
+        data.string_map_data.Time?.timestamp ??
+        data.string_map_data["Creation Time"]?.timestamp ??
+        0,
     };
   });
 

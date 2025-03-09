@@ -28,9 +28,14 @@ type RecentlyUnfollowedProfiles = {
 type LikedThreads = {
   text_post_app_media_likes: CommonDataTypes["ThreadsData"][];
 };
-
+// 看過的串文
 type ThreadsViewed = {
   text_post_app_text_post_app_posts_seen: CommonDataTypes["ThreadsPostData"][];
+};
+
+// 關閉通知的串文
+type YourPostsWithoutNotifications = {
+  text_post_app_text_app_dyi_authored_post_disabled_notifications: CommonDataTypes["ThreadsPostData"][];
 };
 
 // 用來描述用戶對不同 feed 的訂閱或興趣狀態
@@ -47,4 +52,5 @@ export type ThreadsDataTypes = {
   RecentlyUnfollowedProfiles: RecentlyUnfollowedProfiles;
   LikedThreads: LikedThreads;
   ThreadsViewed: ThreadsViewed;
+  YourPostsWithoutNotifications: YourPostsWithoutNotifications;
 };
