@@ -1,7 +1,7 @@
 import { OutsideLink } from "./OutsideLink";
 import { CommonDataTypes } from "@/lib/CommonType";
 import { DateFromTimeStamp } from "@/lib/HandleFunction";
-import { TableColumnProps } from "antd";
+import { TableColumnProps, Tooltip } from "antd";
 
 export const UserDataColumns: TableColumnProps[] = [
   {
@@ -65,17 +65,20 @@ export const MediaPostDataColumns: TableColumnProps[] = [
     title: "標題",
     dataIndex: "Title",
     key: "Title",
-  },
-  {
-    title: "URI",
-    dataIndex: "URI",
-    key: "URI",
-    render: (value) =>
-      value && (
-        <OutsideLink href={`https://www.threads.net/${value}`}>
-          前往
-        </OutsideLink>
-      ),
+    render: (text: string) => (
+      <Tooltip title={text}>
+        <span
+          style={{
+            overflow: "hidden",
+            textOverflow: "ellipsis",
+            display: "block",
+            maxWidth: "20vw", // 根據需要調整寬度
+          }}
+        >
+          {text}
+        </span>
+      </Tooltip>
+    ),
   },
   {
     title: "創建時間",
@@ -194,7 +197,6 @@ export const MediaPostDataSource = (
 ): {
   Index: number;
   Title: string;
-  URI: string;
   CreationTime: CommonDataTypes["TimeStamp"];
   SourceApp: string;
   ReplyControl: string;
@@ -204,7 +206,6 @@ export const MediaPostDataSource = (
       return {
         Index: index + 1,
         Title: media.title ?? "無標題",
-        URI: media.uri ?? "",
         CreationTime: media.creation_timestamp ?? 0,
         SourceApp: media.cross_post_source?.source_app ?? "",
         ReplyControl: media.text_app_post?.reply_control ?? "",

@@ -4,6 +4,7 @@ import "@/styles/globals.css";
 import "antd/dist/reset.css"; // antd v5 的全局樣式
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://meta-infomation-tools.vercel.app/'),
   title: "Meta 資訊處理工具",
   description: "專門處理你的 Meta 應用程式資訊",
   authors: [
