@@ -126,17 +126,19 @@ export const GetBlockedUserDatas = (
 
 // file2 中不在 file1 的
 export const DifferentFollowUsers = <
-  T extends InstagramDataTypes | ThreadsDataTypes
+  T extends InstagramDataTypes | ThreadsDataTypes,
+  K1 extends keyof T,
+  K2 extends keyof T
 >(
-  file1: T[keyof T],
-  file2: T[keyof T]
+  file1: T[K1],
+  file2: T[K2]
 ): CommonDataTypes["UserData"][] => {
   const FileSet1: Set<string> = new Set(
-    GetDatas<T, keyof T, CommonDataTypes["UserData"]>(file1).map(
+    GetDatas<T, K1, CommonDataTypes["UserData"]>(file1).map(
       (user1) => user1.string_list_data[0].value
     )
   );
-  return GetDatas<T, keyof T, CommonDataTypes["UserData"]>(file2).filter(
+  return GetDatas<T, K2, CommonDataTypes["UserData"]>(file2).filter(
     (user2) => !FileSet1.has(user2.string_list_data[0].value)
   );
 };
@@ -159,3 +161,35 @@ export const FollowEachOtherUsers = <
     FollowersSet.has(FollowingUser.string_list_data[0].value)
   );
 };
+
+/*
+export const CheckAndProcess = <
+  T extends InstagramDataTypes | ThreadsDataTypes,
+  K extends keyof T
+>(
+  Datas: { data: T[K]; CheckFunction: (Data: T[K]) => Data is T[K] }[],
+  ProcessFunction: (...data: T[K][]) => CommonDataTypes[keyof CommonDataTypes][]
+): CommonDataTypes[keyof CommonDataTypes][] => {
+  if (!Datas.every((value) => value.CheckFunction(value.data))) {
+    throw new Error("資料格式有誤");
+  }
+
+  return ProcessFunction(...Datas.map((value) => value.data));
+};
+// file2 中不在 file1 的
+export const DifferentFollowUsers = <
+  T1 extends InstagramDataTypes | ThreadsDataTypes,
+  T2 extends InstagramDataTypes | ThreadsDataTypes
+>(
+  file1: T1[keyof T1],
+  file2: T2[keyof T2]
+): CommonDataTypes["UserData"][] => {
+  const FileSet1: Set<string> = new Set(
+    GetDatas<T1, keyof T1, CommonDataTypes["UserData"]>(file1).map(
+      (user1) => user1.string_list_data[0].value
+    )
+  );
+  return GetDatas<T2, keyof T2, CommonDataTypes["UserData"]>(file2).filter(
+    (user2) => !FileSet1.has(user2.string_list_data[0].value)
+  );
+};*/

@@ -49,14 +49,6 @@ export const FileUploadSection = ({
   const [Files, setFiles] = useState<
     DataFile<keyof (InstagramDataTypes | ThreadsDataTypes)>[]
   >([]);
-
-  // const [SearchQuery, setSearchQuery] = useState<string>("");
-  // const FilteredData = Data.filter((user) => {
-  //   return user.string_list_data[0].value
-  //     .toLowerCase()
-  //     .includes(SearchQuery.toLowerCase());
-  // });
-
   const HandleChange = async (
     index: number,
     {
@@ -188,13 +180,7 @@ export const FileUploadSection = ({
             <div className="Label BottomLine">
               {FeatureMethods[MethodName].listTitle}
             </div>
-            {/* <Input
-              placeholder="搜尋"
-              value={SearchQuery}
-              onChange={(e) => {
-                setSearchQuery(e.target.value);
-              }}
-            /> */}
+
             <Table
               size="middle"
               columns={FeatureMethods[MethodName].columns.filter(

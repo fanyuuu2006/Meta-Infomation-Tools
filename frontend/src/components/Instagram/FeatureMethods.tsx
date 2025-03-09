@@ -421,3 +421,192 @@ export const InstagramFeatureMethods: Record<string, Method> = {
       UserDataSource(data as unknown as CommonDataTypes["UserData"][]) as [],
   },
 };
+
+/* export const InstagramFeatureMethods: Record<string, Method> = {
+  NoFollowersBack: {
+    func: <K extends keyof CommonDataTypes>(
+      Datas: unknown[]
+    ): CommonDataTypes[K][] =>
+      CheckAndProcess(
+        [
+          {
+            data: Datas[0] as InstagramDataTypes["Followers"],
+            CheckFunction: (data) => Array.isArray(data),
+          },
+          {
+            data: Datas[1] as InstagramDataTypes["Following"],
+            CheckFunction: (data) => "relationships_following" in data,
+          },
+        ],
+        (file1, file2) => DifferentFollowUsers(file1, file2)
+      ) as CommonDataTypes[K][],
+    fileNames: ["Followers", "Following"],
+    listTitle: "(Instagram) 尚未回追您的用戶名單",
+    columns: UserDataColumns,
+    dataSource: (data) =>
+      UserDataSource(data as unknown as CommonDataTypes["UserData"][]) as [],
+  },
+
+  NoFollowingBack: {
+    func: <K extends keyof CommonDataTypes>(
+      Datas: unknown[]
+    ): CommonDataTypes[K][] =>
+      CheckAndProcess(
+        [
+          {
+            data: Datas[0] as InstagramDataTypes["Following"],
+            CheckFunction: (data) => "relationships_following" in data,
+          },
+          {
+            data: Datas[1] as InstagramDataTypes["Followers"],
+            CheckFunction: (data) => Array.isArray(data),
+          },
+        ],
+        (file1, file2) => DifferentFollowUsers(file1, file2)
+      ) as CommonDataTypes[K][],
+    fileNames: ["Following", "Followers"],
+    listTitle: "(Instagram) 您尚未回追的用戶名單",
+    columns: UserDataColumns,
+    dataSource: (data) =>
+      UserDataSource(data as unknown as CommonDataTypes["UserData"][]) as [],
+  },
+
+  Followers: {
+    func: <K extends keyof CommonDataTypes>(
+      Datas: unknown[]
+    ): CommonDataTypes[K][] =>
+      CheckAndProcess(
+        [
+          {
+            data: Datas[0] as InstagramDataTypes["Followers"],
+            CheckFunction: (data) => Array.isArray(data),
+          },
+        ],
+        (file1) => GetDatas(file1)
+      ) as CommonDataTypes[K][],
+    fileNames: ["Followers"],
+    listTitle: "(Instagram) 您的粉絲用戶名單",
+    columns: UserDataColumns,
+    dataSource: (data) =>
+      UserDataSource(data as unknown as CommonDataTypes["UserData"][]) as [],
+  },
+
+  Following: {
+    func: <K extends keyof CommonDataTypes>(
+      Datas: unknown[]
+    ): CommonDataTypes[K][] =>
+      CheckAndProcess(
+        [
+          {
+            data: Datas[0] as InstagramDataTypes["Following"],
+            CheckFunction: (data) => "relationships_following" in data,
+          },
+        ],
+        (file1) => GetDatas(file1)
+      ) as CommonDataTypes[K][],
+    fileNames: ["Following"],
+    listTitle: "(Instagram) 您追蹤的用戶名單",
+    columns: UserDataColumns,
+    dataSource: (data) =>
+      UserDataSource(data as unknown as CommonDataTypes["UserData"][]) as [],
+  },
+
+  FollowEachOther: {
+    func: <K extends keyof CommonDataTypes>(
+      Datas: unknown[]
+    ): CommonDataTypes[K][] =>
+      CheckAndProcess(
+        [
+          {
+            data: Datas[0] as InstagramDataTypes["Followers"],
+            CheckFunction: (data) => Array.isArray(data),
+          },
+          {
+            data: Datas[1] as InstagramDataTypes["Following"],
+            CheckFunction: (data) => "relationships_following" in data,
+          },
+        ],
+        (file1, file2) =>
+          FollowEachOtherUsers(
+            file1 as InstagramDataTypes["Followers"],
+            file2 as InstagramDataTypes["Following"]
+          )
+      ) as CommonDataTypes[K][],
+    fileNames: ["Followers", "Following"],
+    listTitle: "(Instagram) 與您互相追蹤的用戶名單",
+    columns: UserDataColumns,
+    dataSource: (data) =>
+      UserDataSource(data as unknown as CommonDataTypes["UserData"][]) as [],
+  },
+
+  NewFollowers: {
+    func: <K extends keyof CommonDataTypes>(
+      Datas: unknown[]
+    ): CommonDataTypes[K][] =>
+      CheckAndProcess(
+        [
+          {
+            data: Datas[0] as InstagramDataTypes["Followers"],
+            CheckFunction: (data) => Array.isArray(data),
+          },
+          {
+            data: Datas[1] as InstagramDataTypes["Followers"],
+            CheckFunction: (data) => Array.isArray(data),
+          },
+        ],
+        (file1, file2) => DifferentFollowUsers(file2, file1)
+      ) as CommonDataTypes[K][],
+    fileNames: ["New Followers", "Old Followers"],
+    listTitle: "(Instagram) 您的新粉絲的用戶名單",
+    columns: UserDataColumns,
+    dataSource: (data) =>
+      UserDataSource(data as unknown as CommonDataTypes["UserData"][]) as [],
+  },
+
+  UnFollowers: {
+    func: <K extends keyof CommonDataTypes>(
+      Datas: unknown[]
+    ): CommonDataTypes[K][] =>
+      CheckAndProcess(
+        [
+          {
+            data: Datas[0] as InstagramDataTypes["Followers"],
+            CheckFunction: (data) => Array.isArray(data),
+          },
+          {
+            data: Datas[1] as InstagramDataTypes["Followers"],
+            CheckFunction: (data) => Array.isArray(data),
+          },
+        ],
+        (file1, file2) => DifferentFollowUsers(file1, file2)
+      ) as CommonDataTypes[K][],
+    fileNames: ["New Followers", "Old Followers"],
+    listTitle: "(Instagram) 退追您粉絲的用戶名單",
+    columns: UserDataColumns,
+    dataSource: (data) =>
+      UserDataSource(data as unknown as CommonDataTypes["UserData"][]) as [],
+  },
+
+  CloseFriends: {
+    func: <K extends keyof CommonDataTypes>(
+      Datas: unknown[]
+    ): CommonDataTypes[K][] =>
+      CheckAndProcess<InstagramDataTypes, "CloseFriends">(
+        [
+          {
+            data: Datas[0] as InstagramDataTypes["CloseFriends"],
+            CheckFunction: (data): data is InstagramDataTypes["CloseFriends"] =>
+              "relationships_close_friends" in data,
+          },
+        ],
+        (file1) =>
+          GetDatas<InstagramDataTypes, "CloseFriends", "UserData">(file1)
+      ) as CommonDataTypes[K][],
+    fileNames: ["Close Friends"],
+    listTitle: "(Instagram) 您的摯友名單",
+
+    columns: UserDataColumns,
+    dataSource: (data) =>
+      UserDataSource(data as unknown as CommonDataTypes["UserData"][]) as [],
+  },
+*/
