@@ -526,6 +526,32 @@ export const InstagramFeatureMethods: Record<string, Method> = {
     dataSource: (data) =>
       PostCommentDataSource(data as CommonDataTypes["CommentData"][]) as [],
   },
+
+  Quizzes: {
+    func: (Datas: unknown[]): CommonDataTypes[keyof CommonDataTypes][] => {
+      const file1 = Datas[0] as InstagramDataTypes["Quizzes"];
+      if (
+        !isValidData<InstagramDataTypes, "Quizzes">(
+          file1,
+          (data: InstagramDataTypes["Quizzes"]) =>
+            "story_activities_quizzes" in data
+        )
+      ) {
+        throw new Error("資料格式有誤");
+      }
+      return GetDatas<
+        InstagramDataTypes,
+        "Quizzes",
+        CommonDataTypes["CommentData"]
+      >(file1);
+    },
+    fileNames: ["Quizzes"],
+    listTitle: "(Instagram) 您在問答活動的回應",
+
+    columns: PostCommentDataColumns,
+    dataSource: (data) =>
+      PostCommentDataSource(data as CommonDataTypes["CommentData"][]) as [],
+  },
 };
 
 /* export const InstagramFeatureMethods: Record<string, Method> = {

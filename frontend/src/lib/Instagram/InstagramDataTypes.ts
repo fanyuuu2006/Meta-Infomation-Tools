@@ -60,4 +60,8 @@ export type InstagramDataTypes = {
     "story_activities_story_likes",
     CommonDataTypes["CommentData"]
   >;
+  Quizzes: TextKeyList<
+    "story_activities_quizzes",
+    CommonDataTypes["CommentData"]
+  >;
 };
