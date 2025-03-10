@@ -26,9 +26,9 @@ export type DataFile<K extends keyof (InstagramDataTypes | ThreadsDataTypes)> =
   };
 
 export type Method = {
-  func: <K extends keyof CommonDataTypes>(
+  func:(
     Datas: unknown[]
-  ) => CommonDataTypes[K][];
+  ) => CommonDataTypes[keyof CommonDataTypes][];
   fileNames: string[]; // 儲存需要的檔案名稱
   listTitle: string;
   columns: TableColumnProps[];

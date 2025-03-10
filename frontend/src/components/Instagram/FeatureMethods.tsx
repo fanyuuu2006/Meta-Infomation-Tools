@@ -15,9 +15,7 @@ import { InstagramDataTypes } from "@/lib/Instagram/InstagramDataTypes";
 
 export const InstagramFeatureMethods: Record<string, Method> = {
   NoFollowersBack: {
-    func: <K extends keyof CommonDataTypes>(
-      Datas: unknown[]
-    ): CommonDataTypes[K][] => {
+    func: (Datas: unknown[]): CommonDataTypes[keyof CommonDataTypes][] => {
       const file1 = Datas[0] as InstagramDataTypes["Followers"];
       const file2 = Datas[1] as InstagramDataTypes["Following"];
       if (
@@ -33,7 +31,7 @@ export const InstagramFeatureMethods: Record<string, Method> = {
       ) {
         throw new Error("資料格式有誤");
       }
-      return DifferentFollowUsers(file1, file2) as CommonDataTypes[K][];
+      return DifferentFollowUsers(file1, file2);
     },
     fileNames: ["Followers", "Following"],
     listTitle: "(Instagram) 尚未回追您的用戶名單",
@@ -43,9 +41,7 @@ export const InstagramFeatureMethods: Record<string, Method> = {
   },
 
   NoFollowingBack: {
-    func: <K extends keyof CommonDataTypes>(
-      Datas: unknown[]
-    ): CommonDataTypes[K][] => {
+    func: (Datas: unknown[]): CommonDataTypes[keyof CommonDataTypes][] => {
       const file1 = Datas[0] as InstagramDataTypes["Following"];
       const file2 = Datas[1] as InstagramDataTypes["Followers"];
       if (
@@ -61,7 +57,7 @@ export const InstagramFeatureMethods: Record<string, Method> = {
       ) {
         throw new Error("資料格式有誤");
       }
-      return DifferentFollowUsers(file1, file2) as CommonDataTypes[K][];
+      return DifferentFollowUsers(file1, file2);
     },
     fileNames: ["Following", "Followers"],
     listTitle: "(Instagram) 您尚未回追的用戶名單",
@@ -71,9 +67,7 @@ export const InstagramFeatureMethods: Record<string, Method> = {
   },
 
   Followers: {
-    func: <K extends keyof CommonDataTypes>(
-      Datas: unknown[]
-    ): CommonDataTypes[K][] => {
+    func: (Datas: unknown[]): CommonDataTypes[keyof CommonDataTypes][] => {
       const file1 = Datas[0] as InstagramDataTypes["Followers"];
       if (
         !isValidData<InstagramDataTypes, "Followers">(
@@ -87,7 +81,7 @@ export const InstagramFeatureMethods: Record<string, Method> = {
         InstagramDataTypes,
         "Followers",
         CommonDataTypes["UserData"]
-      >(file1) as CommonDataTypes[K][];
+      >(file1);
     },
     fileNames: ["Followers"],
     listTitle: "(Instagram) 您的粉絲用戶名單",
@@ -97,9 +91,7 @@ export const InstagramFeatureMethods: Record<string, Method> = {
   },
 
   Following: {
-    func: <K extends keyof CommonDataTypes>(
-      Datas: unknown[]
-    ): CommonDataTypes[K][] => {
+    func: (Datas: unknown[]): CommonDataTypes[keyof CommonDataTypes][] => {
       const file1 = Datas[0] as InstagramDataTypes["Following"];
       if (
         !isValidData<InstagramDataTypes, "Following">(
@@ -114,7 +106,7 @@ export const InstagramFeatureMethods: Record<string, Method> = {
         InstagramDataTypes,
         "Following",
         CommonDataTypes["UserData"]
-      >(file1) as CommonDataTypes[K][];
+      >(file1);
     },
     fileNames: ["Following"],
     listTitle: "(Instagram) 您追蹤的用戶名單",
@@ -124,9 +116,7 @@ export const InstagramFeatureMethods: Record<string, Method> = {
   },
 
   FollowEachOther: {
-    func: <K extends keyof CommonDataTypes>(
-      Datas: unknown[]
-    ): CommonDataTypes[K][] => {
+    func: (Datas: unknown[]): CommonDataTypes[keyof CommonDataTypes][] => {
       const file1 = Datas[0] as InstagramDataTypes["Followers"];
       const file2 = Datas[1] as InstagramDataTypes["Following"];
       if (
@@ -142,7 +132,7 @@ export const InstagramFeatureMethods: Record<string, Method> = {
       ) {
         throw new Error("資料格式有誤");
       }
-      return FollowEachOtherUsers(file1, file2) as CommonDataTypes[K][];
+      return FollowEachOtherUsers(file1, file2);
     },
     fileNames: ["Followers", "Following"],
     listTitle: "(Instagram) 與您互相追蹤的用戶名單",
@@ -152,9 +142,7 @@ export const InstagramFeatureMethods: Record<string, Method> = {
   },
 
   NewFollowers: {
-    func: <K extends keyof CommonDataTypes>(
-      Datas: unknown[]
-    ): CommonDataTypes[K][] => {
+    func: (Datas: unknown[]): CommonDataTypes[keyof CommonDataTypes][] => {
       const file1 = Datas[0] as InstagramDataTypes["Followers"];
       const file2 = Datas[1] as InstagramDataTypes["Followers"];
       if (
@@ -168,7 +156,7 @@ export const InstagramFeatureMethods: Record<string, Method> = {
         throw new Error("資料格式有誤");
       }
 
-      return DifferentFollowUsers(file2, file1) as CommonDataTypes[K][];
+      return DifferentFollowUsers(file2, file1);
     },
     fileNames: ["New Followers", "Old Followers"],
     listTitle: "(Instagram) 您的新粉絲的用戶名單",
@@ -178,9 +166,7 @@ export const InstagramFeatureMethods: Record<string, Method> = {
   },
 
   UnFollowers: {
-    func: <K extends keyof CommonDataTypes>(
-      Datas: unknown[]
-    ): CommonDataTypes[K][] => {
+    func: (Datas: unknown[]): CommonDataTypes[keyof CommonDataTypes][] => {
       const file1 = Datas[0] as InstagramDataTypes["Followers"];
       const file2 = Datas[1] as InstagramDataTypes["Followers"];
       if (
@@ -194,7 +180,7 @@ export const InstagramFeatureMethods: Record<string, Method> = {
         throw new Error("資料格式有誤");
       }
 
-      return DifferentFollowUsers(file1, file2) as CommonDataTypes[K][];
+      return DifferentFollowUsers(file1, file2);
     },
     fileNames: ["New Followers", "Old Followers"],
     listTitle: "(Instagram) 退追您粉絲的用戶名單",
@@ -204,9 +190,7 @@ export const InstagramFeatureMethods: Record<string, Method> = {
   },
 
   CloseFriends: {
-    func: <K extends keyof CommonDataTypes>(
-      Datas: unknown[]
-    ): CommonDataTypes[K][] => {
+    func: (Datas: unknown[]): CommonDataTypes[keyof CommonDataTypes][] => {
       const file1 = Datas[0] as InstagramDataTypes["CloseFriends"];
       if (
         !isValidData<InstagramDataTypes, "CloseFriends">(
@@ -221,7 +205,7 @@ export const InstagramFeatureMethods: Record<string, Method> = {
         InstagramDataTypes,
         "CloseFriends",
         CommonDataTypes["UserData"]
-      >(file1) as CommonDataTypes[K][];
+      >(file1);
     },
     fileNames: ["Close Friends"],
     listTitle: "(Instagram) 您的摯友名單",
@@ -232,9 +216,7 @@ export const InstagramFeatureMethods: Record<string, Method> = {
   },
 
   BlockedUsers: {
-    func: <K extends keyof CommonDataTypes>(
-      Datas: unknown[]
-    ): CommonDataTypes[K][] => {
+    func: (Datas: unknown[]): CommonDataTypes[keyof CommonDataTypes][] => {
       const file1 = Datas[0] as InstagramDataTypes["BlockedUsers"];
       if (
         !isValidData<InstagramDataTypes, "BlockedUsers">(
@@ -245,7 +227,7 @@ export const InstagramFeatureMethods: Record<string, Method> = {
       ) {
         throw new Error("資料格式有誤");
       }
-      return GetBlockedUserDatas(file1) as CommonDataTypes[K][];
+      return GetBlockedUserDatas(file1);
     },
     fileNames: ["Blocked Profiles"],
     listTitle: "(Instagram) 您的封鎖名單",
@@ -256,9 +238,7 @@ export const InstagramFeatureMethods: Record<string, Method> = {
   },
 
   RecentlyUnfollowedProfiles: {
-    func: <K extends keyof CommonDataTypes>(
-      Datas: unknown[]
-    ): CommonDataTypes[K][] => {
+    func: (Datas: unknown[]): CommonDataTypes[keyof CommonDataTypes][] => {
       const file1 =
         Datas[0] as InstagramDataTypes["RecentlyUnfollowedProfiles"];
       if (
@@ -274,7 +254,7 @@ export const InstagramFeatureMethods: Record<string, Method> = {
         InstagramDataTypes,
         "RecentlyUnfollowedProfiles",
         CommonDataTypes["UserData"]
-      >(file1) as CommonDataTypes[K][];
+      >(file1);
     },
     fileNames: ["Recently Unfollowed Profiles"],
     listTitle: "(Instagram) 您最近取消追蹤的用戶",
@@ -285,9 +265,7 @@ export const InstagramFeatureMethods: Record<string, Method> = {
   },
 
   RecentFollowRequests: {
-    func: <K extends keyof CommonDataTypes>(
-      Datas: unknown[]
-    ): CommonDataTypes[K][] => {
+    func: (Datas: unknown[]): CommonDataTypes[keyof CommonDataTypes][] => {
       const file1 = Datas[0] as InstagramDataTypes["RecentFollowRequests"];
       if (
         !isValidData<InstagramDataTypes, "RecentFollowRequests">(
@@ -302,7 +280,7 @@ export const InstagramFeatureMethods: Record<string, Method> = {
         InstagramDataTypes,
         "RecentFollowRequests",
         CommonDataTypes["UserData"]
-      >(file1) as CommonDataTypes[K][];
+      >(file1);
     },
     fileNames: ["Recently Followed Requests"],
     listTitle: "(Instagram) 您最近申請追蹤的用戶",
@@ -313,9 +291,7 @@ export const InstagramFeatureMethods: Record<string, Method> = {
   },
 
   PendingFollowRequests: {
-    func: <K extends keyof CommonDataTypes>(
-      Datas: unknown[]
-    ): CommonDataTypes[K][] => {
+    func: (Datas: unknown[]): CommonDataTypes[keyof CommonDataTypes][] => {
       const file1 = Datas[0] as InstagramDataTypes["PendingFollowRequests"];
       if (
         !isValidData<InstagramDataTypes, "PendingFollowRequests">(
@@ -330,7 +306,7 @@ export const InstagramFeatureMethods: Record<string, Method> = {
         InstagramDataTypes,
         "PendingFollowRequests",
         CommonDataTypes["UserData"]
-      >(file1) as CommonDataTypes[K][];
+      >(file1);
     },
     fileNames: ["Pending Follow Requests"],
     listTitle: "(Instagram) 您尚未獲得回應的追蹤請求",
@@ -341,9 +317,7 @@ export const InstagramFeatureMethods: Record<string, Method> = {
   },
 
   RemovedSuggestions: {
-    func: <K extends keyof CommonDataTypes>(
-      Datas: unknown[]
-    ): CommonDataTypes[K][] => {
+    func: (Datas: unknown[]): CommonDataTypes[keyof CommonDataTypes][] => {
       const file1 = Datas[0] as InstagramDataTypes["RemovedSuggestions"];
       if (
         !isValidData<InstagramDataTypes, "RemovedSuggestions">(
@@ -358,7 +332,7 @@ export const InstagramFeatureMethods: Record<string, Method> = {
         InstagramDataTypes,
         "RemovedSuggestions",
         CommonDataTypes["UserData"]
-      >(file1) as CommonDataTypes[K][];
+      >(file1);
     },
     fileNames: ["Removed Suggestions"],
     listTitle: "(Instagram) 被您移除的「推薦用戶」",
@@ -368,9 +342,7 @@ export const InstagramFeatureMethods: Record<string, Method> = {
   },
 
   FollowingHashtags: {
-    func: <K extends keyof CommonDataTypes>(
-      Datas: unknown[]
-    ): CommonDataTypes[K][] => {
+    func: (Datas: unknown[]): CommonDataTypes[keyof CommonDataTypes][] => {
       const file1 = Datas[0] as InstagramDataTypes["FollowingHashtags"];
       if (
         !isValidData<InstagramDataTypes, "FollowingHashtags">(
@@ -385,7 +357,7 @@ export const InstagramFeatureMethods: Record<string, Method> = {
         InstagramDataTypes,
         "FollowingHashtags",
         CommonDataTypes["HashtagData"]
-      >(file1) as CommonDataTypes[K][];
+      >(file1);
     },
     fileNames: ["Following Hashtags"],
     listTitle: "(Instagram) 您關注的標籤",
@@ -395,9 +367,7 @@ export const InstagramFeatureMethods: Record<string, Method> = {
   },
 
   HideStoryFrom: {
-    func: <K extends keyof CommonDataTypes>(
-      Datas: unknown[]
-    ): CommonDataTypes[K][] => {
+    func: (Datas: unknown[]): CommonDataTypes[keyof CommonDataTypes][] => {
       const file1 = Datas[0] as InstagramDataTypes["HideStoryFrom"];
       if (
         !isValidData<InstagramDataTypes, "HideStoryFrom">(
@@ -412,7 +382,7 @@ export const InstagramFeatureMethods: Record<string, Method> = {
         InstagramDataTypes,
         "HideStoryFrom",
         CommonDataTypes["UserData"]
-      >(file1) as CommonDataTypes[K][];
+      >(file1);
     },
     fileNames: ["Hide Story From"],
     listTitle: "(Instagram) 您隱藏限時動態的對象",
@@ -424,9 +394,9 @@ export const InstagramFeatureMethods: Record<string, Method> = {
 
 /* export const InstagramFeatureMethods: Record<string, Method> = {
   NoFollowersBack: {
-    func: <K extends keyof CommonDataTypes>(
+    func: (
       Datas: unknown[]
-    ): CommonDataTypes[K][] =>
+    ): CommonDataTypes[keyof CommonDataTypes][] =>
       CheckAndProcess(
         [
           {
@@ -439,7 +409,7 @@ export const InstagramFeatureMethods: Record<string, Method> = {
           },
         ],
         (file1, file2) => DifferentFollowUsers(file1, file2)
-      ) as CommonDataTypes[K][],
+      ),
     fileNames: ["Followers", "Following"],
     listTitle: "(Instagram) 尚未回追您的用戶名單",
     columns: UserDataColumns,
@@ -448,9 +418,9 @@ export const InstagramFeatureMethods: Record<string, Method> = {
   },
 
   NoFollowingBack: {
-    func: <K extends keyof CommonDataTypes>(
+    func: (
       Datas: unknown[]
-    ): CommonDataTypes[K][] =>
+    ): CommonDataTypes[keyof CommonDataTypes][] =>
       CheckAndProcess(
         [
           {
@@ -463,7 +433,7 @@ export const InstagramFeatureMethods: Record<string, Method> = {
           },
         ],
         (file1, file2) => DifferentFollowUsers(file1, file2)
-      ) as CommonDataTypes[K][],
+      ),
     fileNames: ["Following", "Followers"],
     listTitle: "(Instagram) 您尚未回追的用戶名單",
     columns: UserDataColumns,
@@ -472,9 +442,9 @@ export const InstagramFeatureMethods: Record<string, Method> = {
   },
 
   Followers: {
-    func: <K extends keyof CommonDataTypes>(
+    func: (
       Datas: unknown[]
-    ): CommonDataTypes[K][] =>
+    ): CommonDataTypes[keyof CommonDataTypes][] =>
       CheckAndProcess(
         [
           {
@@ -483,7 +453,7 @@ export const InstagramFeatureMethods: Record<string, Method> = {
           },
         ],
         (file1) => GetDatas(file1)
-      ) as CommonDataTypes[K][],
+      ),
     fileNames: ["Followers"],
     listTitle: "(Instagram) 您的粉絲用戶名單",
     columns: UserDataColumns,
@@ -492,9 +462,9 @@ export const InstagramFeatureMethods: Record<string, Method> = {
   },
 
   Following: {
-    func: <K extends keyof CommonDataTypes>(
+    func: (
       Datas: unknown[]
-    ): CommonDataTypes[K][] =>
+    ): CommonDataTypes[keyof CommonDataTypes][] =>
       CheckAndProcess(
         [
           {
@@ -503,7 +473,7 @@ export const InstagramFeatureMethods: Record<string, Method> = {
           },
         ],
         (file1) => GetDatas(file1)
-      ) as CommonDataTypes[K][],
+      ),
     fileNames: ["Following"],
     listTitle: "(Instagram) 您追蹤的用戶名單",
     columns: UserDataColumns,
@@ -512,9 +482,9 @@ export const InstagramFeatureMethods: Record<string, Method> = {
   },
 
   FollowEachOther: {
-    func: <K extends keyof CommonDataTypes>(
+    func: (
       Datas: unknown[]
-    ): CommonDataTypes[K][] =>
+    ): CommonDataTypes[keyof CommonDataTypes][] =>
       CheckAndProcess(
         [
           {
@@ -531,7 +501,7 @@ export const InstagramFeatureMethods: Record<string, Method> = {
             file1 as InstagramDataTypes["Followers"],
             file2 as InstagramDataTypes["Following"]
           )
-      ) as CommonDataTypes[K][],
+      ),
     fileNames: ["Followers", "Following"],
     listTitle: "(Instagram) 與您互相追蹤的用戶名單",
     columns: UserDataColumns,
@@ -540,9 +510,9 @@ export const InstagramFeatureMethods: Record<string, Method> = {
   },
 
   NewFollowers: {
-    func: <K extends keyof CommonDataTypes>(
+    func: (
       Datas: unknown[]
-    ): CommonDataTypes[K][] =>
+    ): CommonDataTypes[keyof CommonDataTypes][] =>
       CheckAndProcess(
         [
           {
@@ -555,7 +525,7 @@ export const InstagramFeatureMethods: Record<string, Method> = {
           },
         ],
         (file1, file2) => DifferentFollowUsers(file2, file1)
-      ) as CommonDataTypes[K][],
+      ),
     fileNames: ["New Followers", "Old Followers"],
     listTitle: "(Instagram) 您的新粉絲的用戶名單",
     columns: UserDataColumns,
@@ -564,9 +534,9 @@ export const InstagramFeatureMethods: Record<string, Method> = {
   },
 
   UnFollowers: {
-    func: <K extends keyof CommonDataTypes>(
+    func: (
       Datas: unknown[]
-    ): CommonDataTypes[K][] =>
+    ): CommonDataTypes[keyof CommonDataTypes][] =>
       CheckAndProcess(
         [
           {
@@ -579,7 +549,7 @@ export const InstagramFeatureMethods: Record<string, Method> = {
           },
         ],
         (file1, file2) => DifferentFollowUsers(file1, file2)
-      ) as CommonDataTypes[K][],
+      ),
     fileNames: ["New Followers", "Old Followers"],
     listTitle: "(Instagram) 退追您粉絲的用戶名單",
     columns: UserDataColumns,
@@ -588,9 +558,9 @@ export const InstagramFeatureMethods: Record<string, Method> = {
   },
 
   CloseFriends: {
-    func: <K extends keyof CommonDataTypes>(
+    func: (
       Datas: unknown[]
-    ): CommonDataTypes[K][] =>
+    ): CommonDataTypes[keyof CommonDataTypes][] =>
       CheckAndProcess<InstagramDataTypes, "CloseFriends">(
         [
           {
@@ -601,7 +571,7 @@ export const InstagramFeatureMethods: Record<string, Method> = {
         ],
         (file1) =>
           GetDatas<InstagramDataTypes, "CloseFriends", "UserData">(file1)
-      ) as CommonDataTypes[K][],
+      ),
     fileNames: ["Close Friends"],
     listTitle: "(Instagram) 您的摯友名單",
 

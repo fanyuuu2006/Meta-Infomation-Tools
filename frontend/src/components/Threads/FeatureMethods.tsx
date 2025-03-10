@@ -22,9 +22,7 @@ import {
 
 export const ThreadsFeatureMethods: Record<string, Method> = {
   NoFollowersBack: {
-    func: <K extends keyof CommonDataTypes>(
-      Datas: unknown[]
-    ): CommonDataTypes[K][] => {
+    func: (Datas: unknown[]): CommonDataTypes[keyof CommonDataTypes][] => {
       const file1 = Datas[0] as ThreadsDataTypes["Followers"];
       const file2 = Datas[1] as ThreadsDataTypes["Following"];
       if (
@@ -41,7 +39,7 @@ export const ThreadsFeatureMethods: Record<string, Method> = {
       ) {
         throw new Error("資料格式有誤");
       }
-      return DifferentFollowUsers(file1, file2) as CommonDataTypes[K][];
+      return DifferentFollowUsers(file1, file2);
     },
     fileNames: ["Followers", "Following"],
     listTitle: "(Threads) 尚未回追您的用戶名單",
@@ -52,9 +50,7 @@ export const ThreadsFeatureMethods: Record<string, Method> = {
   },
 
   NoFollowingBack: {
-    func: <K extends keyof CommonDataTypes>(
-      Datas: unknown[]
-    ): CommonDataTypes[K][] => {
+    func: (Datas: unknown[]): CommonDataTypes[keyof CommonDataTypes][] => {
       const file1 = Datas[0] as ThreadsDataTypes["Following"];
       const file2 = Datas[1] as ThreadsDataTypes["Followers"];
       if (
@@ -71,7 +67,7 @@ export const ThreadsFeatureMethods: Record<string, Method> = {
       ) {
         throw new Error("資料格式有誤");
       }
-      return DifferentFollowUsers(file1, file2) as CommonDataTypes[K][];
+      return DifferentFollowUsers(file1, file2);
     },
     fileNames: ["Following", "Followers"],
     listTitle: "(Threads) 您尚未回追的用戶名單",
@@ -82,9 +78,7 @@ export const ThreadsFeatureMethods: Record<string, Method> = {
   },
 
   Followers: {
-    func: <K extends keyof CommonDataTypes>(
-      Datas: unknown[]
-    ): CommonDataTypes[K][] => {
+    func: (Datas: unknown[]): CommonDataTypes[keyof CommonDataTypes][] => {
       const file1 = Datas[0] as ThreadsDataTypes["Followers"];
       if (
         !isValidData<ThreadsDataTypes, "Followers">(
@@ -95,7 +89,7 @@ export const ThreadsFeatureMethods: Record<string, Method> = {
       ) {
         throw new Error("資料格式有誤");
       }
-      return GetDatas(file1) as CommonDataTypes[K][];
+      return GetDatas(file1);
     },
     fileNames: ["Followers"],
     listTitle: "(Threads) 您的粉絲用戶名單",
@@ -106,9 +100,7 @@ export const ThreadsFeatureMethods: Record<string, Method> = {
   },
 
   Following: {
-    func: <K extends keyof CommonDataTypes>(
-      Datas: unknown[]
-    ): CommonDataTypes[K][] => {
+    func: (Datas: unknown[]): CommonDataTypes[keyof CommonDataTypes][] => {
       const file1 = Datas[0] as ThreadsDataTypes["Following"];
       if (
         !isValidData<ThreadsDataTypes, "Following">(
@@ -119,7 +111,7 @@ export const ThreadsFeatureMethods: Record<string, Method> = {
       ) {
         throw new Error("資料格式有誤");
       }
-      return GetDatas(file1) as CommonDataTypes[K][];
+      return GetDatas(file1);
     },
     fileNames: ["Following"],
     listTitle: "(Threads) 您追蹤的用戶名單",
@@ -130,9 +122,7 @@ export const ThreadsFeatureMethods: Record<string, Method> = {
   },
 
   FollowEachOther: {
-    func: <K extends keyof CommonDataTypes>(
-      Datas: unknown[]
-    ): CommonDataTypes[K][] => {
+    func: (Datas: unknown[]): CommonDataTypes[keyof CommonDataTypes][] => {
       const file1 = Datas[0] as ThreadsDataTypes["Followers"];
       const file2 = Datas[1] as ThreadsDataTypes["Following"];
       if (
@@ -149,7 +139,7 @@ export const ThreadsFeatureMethods: Record<string, Method> = {
       ) {
         throw new Error("資料格式有誤");
       }
-      return FollowEachOtherUsers(file1, file2) as CommonDataTypes[K][];
+      return FollowEachOtherUsers(file1, file2);
     },
     fileNames: ["Followers", "Following"],
     listTitle: "(Threads) 與您互相追蹤的用戶名單",
@@ -160,9 +150,7 @@ export const ThreadsFeatureMethods: Record<string, Method> = {
   },
 
   NewFollowers: {
-    func: <K extends keyof CommonDataTypes>(
-      Datas: unknown[]
-    ): CommonDataTypes[K][] => {
+    func: (Datas: unknown[]): CommonDataTypes[keyof CommonDataTypes][] => {
       const file1 = Datas[0] as ThreadsDataTypes["Followers"];
       const file2 = Datas[1] as ThreadsDataTypes["Followers"];
       if (
@@ -189,7 +177,7 @@ export const ThreadsFeatureMethods: Record<string, Method> = {
       return (GetDatas(file2) as CommonDataTypes["UserData"][]).filter(
         (user1: CommonDataTypes["UserData"]) =>
           !OldFollowers.includes(user1.string_list_data?.[0].value)
-      ) as CommonDataTypes[K][];
+      );
     },
     fileNames: ["New Followers", "Old Followers"],
     listTitle: "(Threads) 您的新粉絲的用戶名單",
@@ -200,9 +188,7 @@ export const ThreadsFeatureMethods: Record<string, Method> = {
   },
 
   PendingFollowRequests: {
-    func: <K extends keyof CommonDataTypes>(
-      Datas: unknown[]
-    ): CommonDataTypes[K][] => {
+    func: (Datas: unknown[]): CommonDataTypes[keyof CommonDataTypes][] => {
       const file1 = Datas[0] as ThreadsDataTypes["PendingFollowRequests"];
       if (
         !isValidData<ThreadsDataTypes, "PendingFollowRequests">(
@@ -217,7 +203,7 @@ export const ThreadsFeatureMethods: Record<string, Method> = {
         ThreadsDataTypes,
         "PendingFollowRequests",
         CommonDataTypes["UserData"]
-      >(file1) as CommonDataTypes[K][];
+      >(file1);
     },
     fileNames: ["Pending Follow Requests"],
     listTitle: "(Threads) 您尚未獲得回應的追蹤請求",
@@ -228,9 +214,7 @@ export const ThreadsFeatureMethods: Record<string, Method> = {
   },
 
   RecentFollowRequests: {
-    func: <K extends keyof CommonDataTypes>(
-      Datas: unknown[]
-    ): CommonDataTypes[K][] => {
+    func: (Datas: unknown[]): CommonDataTypes[keyof CommonDataTypes][] => {
       const file1 = Datas[0] as ThreadsDataTypes["RecentFollowRequests"];
       if (
         !isValidData<ThreadsDataTypes, "RecentFollowRequests">(
@@ -245,7 +229,7 @@ export const ThreadsFeatureMethods: Record<string, Method> = {
         ThreadsDataTypes,
         "RecentFollowRequests",
         CommonDataTypes["UserData"]
-      >(file1) as CommonDataTypes[K][];
+      >(file1);
     },
     fileNames: ["Recently Followed Requests"],
     listTitle: "(Threads) 您最近申請追蹤的用戶",
@@ -256,9 +240,7 @@ export const ThreadsFeatureMethods: Record<string, Method> = {
   },
 
   RecentlyUnfollowedProfiles: {
-    func: <K extends keyof CommonDataTypes>(
-      Datas: unknown[]
-    ): CommonDataTypes[K][] => {
+    func: (Datas: unknown[]): CommonDataTypes[keyof CommonDataTypes][] => {
       const file1 = Datas[0] as ThreadsDataTypes["RecentlyUnfollowedProfiles"];
       if (
         !isValidData<ThreadsDataTypes, "RecentlyUnfollowedProfiles">(
@@ -273,7 +255,7 @@ export const ThreadsFeatureMethods: Record<string, Method> = {
         ThreadsDataTypes,
         "RecentlyUnfollowedProfiles",
         CommonDataTypes["UserData"]
-      >(file1) as CommonDataTypes[K][];
+      >(file1);
     },
     fileNames: ["Recently Unfollowed Profiles"],
     listTitle: "(Threads) 您最近取消追蹤的用戶",
@@ -284,9 +266,7 @@ export const ThreadsFeatureMethods: Record<string, Method> = {
   },
 
   InterestFeedsOnThreads: {
-    func: <K extends keyof CommonDataTypes>(
-      Datas: unknown[]
-    ): CommonDataTypes[K][] => {
+    func: (Datas: unknown[]): CommonDataTypes[keyof CommonDataTypes][] => {
       const file1 = Datas[0] as ThreadsDataTypes["InterestFeedsOnThreads"];
       if (
         !isValidData<ThreadsDataTypes, "InterestFeedsOnThreads">(
@@ -301,7 +281,7 @@ export const ThreadsFeatureMethods: Record<string, Method> = {
         ThreadsDataTypes,
         "InterestFeedsOnThreads",
         CommonDataTypes["FeedData"]
-      >(file1) as CommonDataTypes[K][];
+      >(file1);
     },
     fileNames: ["Interest Feeds On Threads"],
     listTitle: "(Threads) 您對不同 動態消息 關注狀態",
@@ -312,9 +292,7 @@ export const ThreadsFeatureMethods: Record<string, Method> = {
   },
 
   LikedThreads: {
-    func: <K extends keyof CommonDataTypes>(
-      Datas: unknown[]
-    ): CommonDataTypes[K][] => {
+    func: (Datas: unknown[]): CommonDataTypes[keyof CommonDataTypes][] => {
       const file1 = Datas[0] as ThreadsDataTypes["LikedThreads"];
       if (
         !isValidData<ThreadsDataTypes, "LikedThreads">(
@@ -329,7 +307,7 @@ export const ThreadsFeatureMethods: Record<string, Method> = {
         ThreadsDataTypes,
         "LikedThreads",
         CommonDataTypes["ThreadsData"]
-      >(file1) as CommonDataTypes[K][];
+      >(file1);
     },
     fileNames: ["Liked Threads"],
     listTitle: "(Threads) 您按讚的串文",
@@ -342,9 +320,7 @@ export const ThreadsFeatureMethods: Record<string, Method> = {
   },
 
   ThreadsViewed: {
-    func: <K extends keyof CommonDataTypes>(
-      Datas: unknown[]
-    ): CommonDataTypes[K][] => {
+    func: (Datas: unknown[]): CommonDataTypes[keyof CommonDataTypes][] => {
       const file1 = Datas[0] as ThreadsDataTypes["ThreadsViewed"];
       if (
         !isValidData<ThreadsDataTypes, "ThreadsViewed">(
@@ -357,7 +333,7 @@ export const ThreadsFeatureMethods: Record<string, Method> = {
       }
       return GetDatas<ThreadsDataTypes, "ThreadsViewed", "ThreadsPostData">(
         file1
-      ) as CommonDataTypes[K][];
+      );
     },
     fileNames: ["Threads Viewed"],
     listTitle: "(Threads) 瀏覽過的串文作者與時間",
@@ -370,9 +346,7 @@ export const ThreadsFeatureMethods: Record<string, Method> = {
   },
 
   YourPostsWithoutNotifications: {
-    func: <K extends keyof CommonDataTypes>(
-      Datas: unknown[]
-    ): CommonDataTypes[K][] => {
+    func: (Datas: unknown[]): CommonDataTypes[keyof CommonDataTypes][] => {
       const file1 =
         Datas[0] as ThreadsDataTypes["YourPostsWithoutNotifications"];
       if (
@@ -389,7 +363,7 @@ export const ThreadsFeatureMethods: Record<string, Method> = {
         ThreadsDataTypes,
         "YourPostsWithoutNotifications",
         CommonDataTypes["PostData"]
-      >(file1) as CommonDataTypes[K][];
+      >(file1);
     },
     fileNames: ["Your Posts Without Notifications"],
     listTitle: "(Threads) 您已關閉通知的串文",
@@ -402,9 +376,7 @@ export const ThreadsFeatureMethods: Record<string, Method> = {
   },
 
   ThreadsAndReplies: {
-    func: <K extends keyof CommonDataTypes>(
-      Datas: unknown[]
-    ): CommonDataTypes[K][] => {
+    func: (Datas: unknown[]): CommonDataTypes[keyof CommonDataTypes][] => {
       const file1 = Datas[0] as ThreadsDataTypes["ThreadsAndReplies"];
       if (
         !isValidData<ThreadsDataTypes, "ThreadsAndReplies">(
@@ -419,7 +391,7 @@ export const ThreadsFeatureMethods: Record<string, Method> = {
         ThreadsDataTypes,
         "ThreadsAndReplies",
         CommonDataTypes["MediaPostData"]
-      >(file1) as CommonDataTypes[K][];
+      >(file1);
     },
     fileNames: ["Threads And Replies"],
     listTitle: "(Threads) 您的串文與回覆",
@@ -432,9 +404,7 @@ export const ThreadsFeatureMethods: Record<string, Method> = {
   },
 
   AppsAndWebsites: {
-    func: <K extends keyof CommonDataTypes>(
-      Datas: unknown[]
-    ): CommonDataTypes[K][] => {
+    func: (Datas: unknown[]): CommonDataTypes[keyof CommonDataTypes][] => {
       const file1 = Datas[0] as ThreadsDataTypes["AppsAndWebsites"];
       if (
         !isValidData<ThreadsDataTypes, "AppsAndWebsites">(
@@ -449,7 +419,7 @@ export const ThreadsFeatureMethods: Record<string, Method> = {
         ThreadsDataTypes,
         "AppsAndWebsites",
         CommonDataTypes["AppData"]
-      >(file1) as CommonDataTypes[K][];
+      >(file1);
     },
     fileNames: ["Apps And Websites"],
     listTitle: "(Threads) 您連結的應用程式與網站",
