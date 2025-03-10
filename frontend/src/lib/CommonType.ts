@@ -29,7 +29,7 @@ export type TextAppPost = {
 
 // 貼文媒體資訊
 export type MediaData = {
-  uri?: string; //統一資源識別符 應該是 URL
+  uri?: string; //統一資源識別符 應該是 URL media/posts/202407/451751540_1005558564631602_820332478116517495_n_18306097531084398.webp
   creation_timestamp?: TimeStamp;
   media_metadata?: MediaMetadata;
   title?: string;
@@ -72,6 +72,7 @@ export type CommonDataTypes = {
   UserData: BaseListData;
   HashtagData: BaseListData;
   ThreadsData: BaseListData;
+  AppData: BaseMapData<string, "Expired on" | "Last active on" | "App user ID">;
 
   // 貼文
   PostData: BaseMapData<

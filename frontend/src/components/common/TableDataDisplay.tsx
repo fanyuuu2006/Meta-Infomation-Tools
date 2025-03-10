@@ -5,7 +5,7 @@ import { TableColumnProps, Tooltip } from "antd";
 
 export const UserDataColumns: TableColumnProps[] = [
   {
-    title: null,
+    title: "",
     dataIndex: "Index",
     key: "Index",
   },
@@ -25,9 +25,76 @@ export const UserDataColumns: TableColumnProps[] = [
   },
 ];
 
+export const UserDataSource = (
+  datas: CommonDataTypes["UserData"][]
+): {
+  Index: number;
+  Value: { UserID: CommonDataTypes["UserID"]; href: string };
+  Note: CommonDataTypes["TimeStamp"];
+}[] =>
+  datas.map((data: CommonDataTypes["UserData"], index: number) => {
+    return {
+      Index: index + 1,
+      Value: {
+        UserID: data.string_list_data?.[0].value ?? "未知用戶",
+        href: data.string_list_data?.[0].href ?? "",
+      },
+      Note: data.string_list_data?.[0].timestamp ?? 0,
+    };
+  });
+
+export const AppDataColumns: TableColumnProps[] = [
+  {
+    title: "",
+    dataIndex: "Index",
+    key: "Index",
+  },
+  {
+    title: "名稱",
+    dataIndex: "Title",
+    key: "Title",
+  },
+  {
+    title: "過期時間",
+    dataIndex: "AppUserID",
+    key: "AppUserID",
+  },
+  {
+    title: "最後使用時間",
+    dataIndex: "LastActiveOn",
+    key: "LastActiveOn",
+    render: (value) => DateFromTimeStamp(value),
+  },
+  {
+    title: "過期時間",
+    dataIndex: "ExpiredOn",
+    key: "ExpiredOn",
+    render: (value) => DateFromTimeStamp(value),
+  },
+];
+
+export const AppDataSource = (
+  datas: CommonDataTypes["AppData"][]
+): {
+  Index: number;
+  Title: string;
+  AppUserID: string;
+  ExpiredOn: number;
+  LastActiveOn: number;
+}[] =>
+  datas.map((data: CommonDataTypes["AppData"], index: number) => {
+    return {
+      Index: index + 1,
+      Title: data.title ?? "未知",
+      AppUserID: data.string_map_data?.["App user ID"].value ?? "未知",
+      ExpiredOn: data.string_map_data?.["Expired on"].timestamp ?? 0,
+      LastActiveOn: data.string_map_data?.["Last active on"].timestamp ?? 0,
+    };
+  });
+
 export const ThreadsPostDataColumns: TableColumnProps[] = [
   {
-    title: null,
+    title: "",
     dataIndex: "Index",
     key: "Index",
   },
@@ -54,95 +121,6 @@ export const ThreadsPostDataColumns: TableColumnProps[] = [
     render: (value) => DateFromTimeStamp(value),
   },
 ];
-
-export const MediaPostDataColumns: TableColumnProps[] = [
-  {
-    title: null,
-    dataIndex: "Index",
-    key: "Index",
-  },
-  {
-    title: "標題",
-    dataIndex: "Title",
-    key: "Title",
-    render: (text: string) => (
-      <Tooltip title={text}>
-        <span
-          style={{
-            overflow: "hidden",
-            textOverflow: "ellipsis",
-            display: "block",
-            maxWidth: "20vw", // 根據需要調整寬度
-          }}
-        >
-          {text}
-        </span>
-      </Tooltip>
-    ),
-  },
-  {
-    title: "創建時間",
-    dataIndex: "CreationTime",
-    key: "CreationTime",
-    render: (value: number) => DateFromTimeStamp(value), // 根據需要格式化時間戳
-  },
-  {
-    title: "來源應用",
-    dataIndex: "SourceApp",
-    key: "SourceApp",
-  },
-  {
-    title: "回覆控制",
-    dataIndex: "ReplyControl",
-    key: "ReplyControl",
-  },
-];
-
-export const FeedDataColumns: TableColumnProps[] = [
-  {
-    title: null,
-    dataIndex: "Index",
-    key: "Index",
-  },
-  {
-    title: "動態消息",
-    dataIndex: "FeedName",
-    key: "FeedName",
-  },
-  {
-    title: "動態類型",
-    dataIndex: "FeedType",
-    key: "FeedType",
-  },
-  {
-    title: "主題",
-    dataIndex: "AddedTopicNames",
-    key: "AddedTopicNames",
-  },
-  {
-    title: "用戶",
-    dataIndex: "AddedUserNames",
-    key: "AddedUserNames",
-  },
-];
-
-export const UserDataSource = (
-  datas: CommonDataTypes["UserData"][]
-): {
-  Index: number;
-  Value: { UserID: CommonDataTypes["UserID"]; href: string };
-  Note: CommonDataTypes["TimeStamp"];
-}[] =>
-  datas.map((data: CommonDataTypes["UserData"], index: number) => {
-    return {
-      Index: index + 1,
-      Value: {
-        UserID: data.string_list_data?.[0].value ?? "未知用戶",
-        href: data.string_list_data?.[0].href ?? "",
-      },
-      Note: data.string_list_data?.[0].timestamp ?? 0,
-    };
-  });
 
 export const ThreadsPostDataSource = (
   datas: CommonDataTypes["PostData" | "ThreadsData"][]
@@ -192,6 +170,49 @@ export const ThreadsPostDataSource = (
       } => value !== null
     );
 
+export const MediaPostDataColumns: TableColumnProps[] = [
+  {
+    title: "",
+    dataIndex: "Index",
+    key: "Index",
+  },
+  {
+    title: "標題",
+    dataIndex: "Title",
+    key: "Title",
+    render: (text: string) => (
+      <Tooltip title={text}>
+        <span
+          style={{
+            overflow: "hidden",
+            textOverflow: "ellipsis",
+            display: "block",
+            maxWidth: "20vw", // 根據需要調整寬度
+          }}
+        >
+          {text}
+        </span>
+      </Tooltip>
+    ),
+  },
+  {
+    title: "創建時間",
+    dataIndex: "CreationTime",
+    key: "CreationTime",
+    render: (value: number) => DateFromTimeStamp(value), // 根據需要格式化時間戳
+  },
+  {
+    title: "來源應用",
+    dataIndex: "SourceApp",
+    key: "SourceApp",
+  },
+  {
+    title: "回覆控制",
+    dataIndex: "ReplyControl",
+    key: "ReplyControl",
+  },
+];
+
 export const MediaPostDataSource = (
   datas: CommonDataTypes["MediaPostData"][]
 ): {
@@ -212,6 +233,34 @@ export const MediaPostDataSource = (
       };
     });
   });
+
+export const FeedDataColumns: TableColumnProps[] = [
+  {
+    title: null,
+    dataIndex: "Index",
+    key: "Index",
+  },
+  {
+    title: "動態消息",
+    dataIndex: "FeedName",
+    key: "FeedName",
+  },
+  {
+    title: "動態類型",
+    dataIndex: "FeedType",
+    key: "FeedType",
+  },
+  {
+    title: "主題",
+    dataIndex: "AddedTopicNames",
+    key: "AddedTopicNames",
+  },
+  {
+    title: "用戶",
+    dataIndex: "AddedUserNames",
+    key: "AddedUserNames",
+  },
+];
 
 export const FeedDataSource = (
   datas: CommonDataTypes["FeedData"][]

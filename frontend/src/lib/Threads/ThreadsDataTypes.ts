@@ -41,4 +41,8 @@ export type ThreadsDataTypes = {
     "text_post_app_text_posts",
     CommonDataTypes["MediaPostData"]
   >;
+  AppsAndWebsites: TextKeyList<
+    "text_post_app_text_app_apps_and_websites",
+    CommonDataTypes["AppData"]
+  >;
 };

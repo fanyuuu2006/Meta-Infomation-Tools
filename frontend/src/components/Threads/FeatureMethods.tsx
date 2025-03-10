@@ -8,6 +8,8 @@ import {
 } from "@/lib/HandleFunction";
 import { ThreadsDataTypes } from "@/lib/Threads/ThreadsDataTypes";
 import {
+  AppDataColumns,
+  AppDataSource,
   FeedDataColumns,
   FeedDataSource,
   MediaPostDataColumns,
@@ -427,5 +429,33 @@ export const ThreadsFeatureMethods: Record<string, Method> = {
       MediaPostDataSource(
         data as unknown as CommonDataTypes["MediaPostData"][]
       ) as [],
+  },
+
+  AppsAndWebsites: {
+    func: <K extends keyof CommonDataTypes>(
+      Datas: unknown[]
+    ): CommonDataTypes[K][] => {
+      const file1 = Datas[0] as ThreadsDataTypes["AppsAndWebsites"];
+      if (
+        !isValidData<ThreadsDataTypes, "AppsAndWebsites">(
+          file1,
+          (data: ThreadsDataTypes["AppsAndWebsites"]) =>
+            "text_post_app_text_app_apps_and_websites" in data
+        )
+      ) {
+        throw new Error("資料格式有誤");
+      }
+      return GetDatas<
+        ThreadsDataTypes,
+        "AppsAndWebsites",
+        CommonDataTypes["AppData"]
+      >(file1) as CommonDataTypes[K][];
+    },
+    fileNames: ["Apps And Websites"],
+    listTitle: "(Threads) 您連結的應用程式與網站",
+
+    columns: AppDataColumns,
+    dataSource: (data) =>
+      AppDataSource(data as unknown as CommonDataTypes["AppData"][]) as [],
   },
 };
