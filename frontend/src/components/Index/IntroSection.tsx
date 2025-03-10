@@ -2,7 +2,7 @@ import "@/styles/Index/IntroSection.css";
 import React from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
-import { Space, Button } from "antd";
+import { Space, Button, Tooltip } from "antd";
 import {
   CheckSquareOutlined,
   GithubOutlined,
@@ -35,7 +35,7 @@ const GitHubBadges: {
   {
     name: "創建於",
     src: "https://img.shields.io/github/created-at/fanyuuu2006/Meta-Infomation-Tools?style=flat-square",
-    width: 125,
+    width: 100,
     height: 18,
   },
   {
@@ -79,14 +79,15 @@ export const IntroSection = () => {
         <div className="IntroSection-Badge-Div IntroSection-Content">
           {GitHubBadges.map((badge, index) => {
             const image = (
-              <Image
-                alt={badge.name}
-                title={badge.name}
-                src={badge.src}
-                width={badge.width}
-                height={badge.height}
-                unoptimized
-              />
+              <Tooltip title={badge.name}>
+                <Image
+                  alt={badge.name}
+                  src={badge.src}
+                  width={badge.width}
+                  height={badge.height}
+                  unoptimized
+                />
+              </Tooltip>
             );
 
             return badge.href ? (
