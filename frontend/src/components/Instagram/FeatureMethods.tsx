@@ -500,6 +500,32 @@ export const InstagramFeatureMethods: Record<string, Method> = {
     dataSource: (data) =>
       PostCommentDataSource(data as CommonDataTypes["CommentData"][]) as [],
   },
+
+  StoryLikes: {
+    func: (Datas: unknown[]): CommonDataTypes[keyof CommonDataTypes][] => {
+      const file1 = Datas[0] as InstagramDataTypes["StoryLikes"];
+      if (
+        !isValidData<InstagramDataTypes, "StoryLikes">(
+          file1,
+          (data: InstagramDataTypes["StoryLikes"]) =>
+            "story_activities_story_likes" in data
+        )
+      ) {
+        throw new Error("資料格式有誤");
+      }
+      return GetDatas<
+        InstagramDataTypes,
+        "StoryLikes",
+        CommonDataTypes["CommentData"]
+      >(file1);
+    },
+    fileNames: ["Story Likes"],
+    listTitle: "(Instagram) 您按讚的限時動態",
+
+    columns: PostCommentDataColumns,
+    dataSource: (data) =>
+      PostCommentDataSource(data as CommonDataTypes["CommentData"][]) as [],
+  },
 };
 
 /* export const InstagramFeatureMethods: Record<string, Method> = {
