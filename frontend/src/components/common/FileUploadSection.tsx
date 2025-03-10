@@ -33,6 +33,29 @@ export type Method = {
   dataSource: (data: CommonDataTypes[keyof CommonDataTypes]) => [];
 };
 
+// export interface MethodProp<T, R> {
+//   key: string;
+//   fileNames: string[];
+//   listTitle: string;
+//   isValidData: (file: unknown, key: string) => file is T;
+//   process: (...files: T[]) => R;
+//   columns: TableColumnProps[];
+//   dataSource: (data: R[]) => Record<string, string | number>[];
+// }
+
+// export const CreateMethods = (props: MethodProp[]): Record<string, Method> =>{
+//   return props.reduce(
+//     (res, prop) =>{
+//       res[prop.key] = {
+//         func: (Datas: unknown[]) => {
+//           const files
+//         }
+//       }
+//       return res
+//     }
+//   , {} as Record<string, Method>)
+// }
+
 export const FileUploadSection = ({
   FeatureMethods,
 }: {
@@ -191,8 +214,8 @@ export const FileUploadSection = ({
                     (row) =>
                       row[col.dataIndex as string] === null ||
                       (row[col.dataIndex as string] as string | number)
-                        .toString()
-                        .trim() === ""
+                        ?.toString()
+                        ?.trim() === ""
                   )
               )}
               dataSource={FeatureMethods[MethodName].dataSource(

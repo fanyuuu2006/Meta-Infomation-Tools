@@ -55,4 +55,5 @@ export type InstagramDataTypes = {
     "topics_your_topics",
     CommonDataTypes["TopicData"]
   >;
+  Polls: TextKeyList<"story_activities_polls", CommonDataTypes["CommentData"]>;
 };

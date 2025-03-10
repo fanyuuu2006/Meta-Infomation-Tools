@@ -474,6 +474,32 @@ export const InstagramFeatureMethods: Record<string, Method> = {
     dataSource: (data) =>
       TopicDataSource(data as CommonDataTypes["TopicData"][]) as [],
   },
+
+  Polls: {
+    func: (Datas: unknown[]): CommonDataTypes[keyof CommonDataTypes][] => {
+      const file1 = Datas[0] as InstagramDataTypes["Polls"];
+      if (
+        !isValidData<InstagramDataTypes, "Polls">(
+          file1,
+          (data: InstagramDataTypes["Polls"]) =>
+            "story_activities_polls" in data
+        )
+      ) {
+        throw new Error("資料格式有誤");
+      }
+      return GetDatas<
+        InstagramDataTypes,
+        "Polls",
+        CommonDataTypes["CommentData"]
+      >(file1);
+    },
+    fileNames: ["Polls"],
+    listTitle: "(Instagram) 您在投票活動的回應",
+
+    columns: PostCommentDataColumns,
+    dataSource: (data) =>
+      PostCommentDataSource(data as CommonDataTypes["CommentData"][]) as [],
+  },
 };
 
 /* export const InstagramFeatureMethods: Record<string, Method> = {

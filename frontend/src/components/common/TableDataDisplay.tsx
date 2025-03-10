@@ -141,7 +141,7 @@ export const PostCommentDataSource = (
           ? {
               Index: index + 1,
               UserID: data.title,
-              Caption: null,
+              Caption: data.string_list_data?.[0].value ?? "",
               Href: data.string_list_data?.[0].href,
               Note: data.string_list_data?.[0].timestamp ?? 0,
             }
