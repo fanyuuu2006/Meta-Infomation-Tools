@@ -23,7 +23,7 @@ export type ThreadsDataTypes = {
   >; // 最近取消追蹤的用戶
   InterestFeedsOnThreads: TextKeyList<
     "text_post_app_text_app_interest_feeds",
-    CommonDataTypes["FeedData"]
+    CommonDataTypes["TopicData"]
   >; // 用來描述用戶對不同 feed 的訂閱或興趣狀態
   LikedThreads: TextKeyList<
     "text_post_app_media_likes",

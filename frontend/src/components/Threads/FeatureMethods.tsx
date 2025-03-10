@@ -10,8 +10,8 @@ import { ThreadsDataTypes } from "@/lib/Threads/ThreadsDataTypes";
 import {
   AppDataColumns,
   AppDataSource,
-  FeedDataColumns,
-  FeedDataSource,
+  TopicDataColumns,
+  TopicDataSource,
   MediaPostDataColumns,
   MediaPostDataSource,
   PostCommentDataColumns,
@@ -280,15 +280,15 @@ export const ThreadsFeatureMethods: Record<string, Method> = {
       return GetDatas<
         ThreadsDataTypes,
         "InterestFeedsOnThreads",
-        CommonDataTypes["FeedData"]
+        CommonDataTypes["TopicData"]
       >(file1);
     },
     fileNames: ["Interest Feeds On Threads"],
     listTitle: "(Threads) 您對不同 動態消息 關注狀態",
 
-    columns: FeedDataColumns,
+    columns: TopicDataColumns,
     dataSource: (data) =>
-      FeedDataSource(data as CommonDataTypes["FeedData"][]) as [],
+      TopicDataSource(data as CommonDataTypes["TopicData"][]) as [],
   },
 
   LikedThreads: {

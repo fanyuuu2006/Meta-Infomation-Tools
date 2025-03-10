@@ -234,7 +234,7 @@ export const MediaPostDataSource = (
     });
   });
 
-export const FeedDataColumns: TableColumnProps[] = [
+export const TopicDataColumns: TableColumnProps[] = [
   {
     title: null,
     dataIndex: "Index",
@@ -242,13 +242,13 @@ export const FeedDataColumns: TableColumnProps[] = [
   },
   {
     title: "動態消息",
-    dataIndex: "FeedName",
-    key: "FeedName",
+    dataIndex: "TopicName",
+    key: "TopicName",
   },
   {
     title: "動態類型",
-    dataIndex: "FeedType",
-    key: "FeedType",
+    dataIndex: "TopicType",
+    key: "TopicType",
   },
   {
     title: "主題",
@@ -262,24 +262,27 @@ export const FeedDataColumns: TableColumnProps[] = [
   },
 ];
 
-export const FeedDataSource = (
-  datas: CommonDataTypes["FeedData"][]
+export const TopicDataSource = (
+  datas: CommonDataTypes["TopicData"][]
 ): {
   Index: number;
-  FeedName: string;
-  FeedType: string;
+  TopicName: string;
+  TopicType: string;
   AddedTopicNames: string;
   AddedUserNames: string;
 }[] =>
-  datas.map((data: CommonDataTypes["FeedData"], index: number) => {
+  datas.map((data: CommonDataTypes["TopicData"], index: number) => {
     return {
       Index: index + 1,
-      FeedName: data.string_map_data?.["Feed name"].value ?? "",
-      FeedType: data.string_map_data?.["Feed type"].value ?? "",
+      TopicName:
+        data.string_map_data?.["Feed name"]?.value ??
+        data.string_map_data?.["Name"]?.value ??
+        "",
+      TopicType: data.string_map_data?.["Feed type"]?.value ?? "",
       AddedTopicNames:
-        data.string_map_data?.["Added topic names delimited by `|`"].value ??
+        data.string_map_data?.["Added topic names delimited by `|`"]?.value ??
         "",
       AddedUserNames:
-        data.string_map_data?.["Added usernames delimited by `|`"].value ?? "",
+        data.string_map_data?.["Added usernames delimited by `|`"]?.value ?? "",
     };
   });

@@ -2,6 +2,8 @@ import { Method } from "@/components/common/FileUploadSection";
 import {
   PostCommentDataColumns,
   PostCommentDataSource,
+  TopicDataColumns,
+  TopicDataSource,
   UserDataColumns,
   UserDataSource,
 } from "@/components/common/TableDataDisplay";
@@ -445,6 +447,32 @@ export const InstagramFeatureMethods: Record<string, Method> = {
       PostCommentDataSource(
         data as unknown as CommonDataTypes["CommentData"][]
       ) as [],
+  },
+
+  RecommendedTopics: {
+    func: (Datas: unknown[]): CommonDataTypes[keyof CommonDataTypes][] => {
+      const file1 = Datas[0] as InstagramDataTypes["RecommendedTopics"];
+      if (
+        !isValidData<InstagramDataTypes, "RecommendedTopics">(
+          file1,
+          (data: InstagramDataTypes["RecommendedTopics"]) =>
+            "topics_your_topics" in data
+        )
+      ) {
+        throw new Error("資料格式有誤");
+      }
+      return GetDatas<
+        InstagramDataTypes,
+        "RecommendedTopics",
+        CommonDataTypes["TopicData"]
+      >(file1);
+    },
+    fileNames: ["Recommended Topics"],
+    listTitle: "(Instagram) 為您推薦的主題",
+
+    columns: TopicDataColumns,
+    dataSource: (data) =>
+      TopicDataSource(data as CommonDataTypes["TopicData"][]) as [],
   },
 };
 

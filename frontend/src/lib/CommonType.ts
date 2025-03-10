@@ -81,10 +81,11 @@ export type CommonDataTypes = {
   >;
   MediaPostData: Record<"media", MediaData[]>;
 
-  // 動態消息
-  FeedData: BaseMapData<
+  // 主題 動態消息
+  TopicData: BaseMapData<
     string,
     | "Owner username"
+    | "Name"
     | "Feed name"
     | "Feed type"
     | "Added topic names delimited by `|`"

@@ -51,4 +51,8 @@ export type InstagramDataTypes = {
     CommonDataTypes["CommentData"]
   >;
   LikedPosts: TextKeyList<"likes_media_likes", CommonDataTypes["CommentData"]>;
+  RecommendedTopics: TextKeyList<
+    "topics_your_topics",
+    CommonDataTypes["TopicData"]
+  >;
 };
