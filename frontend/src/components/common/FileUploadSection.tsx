@@ -26,9 +26,7 @@ export type DataFile<K extends keyof (InstagramDataTypes | ThreadsDataTypes)> =
   };
 
 export type Method = {
-  func:(
-    Datas: unknown[]
-  ) => CommonDataTypes[keyof CommonDataTypes][];
+  func: (Datas: unknown[]) => CommonDataTypes[keyof CommonDataTypes][];
   fileNames: string[]; // 儲存需要的檔案名稱
   listTitle: string;
   columns: TableColumnProps[];
@@ -201,7 +199,7 @@ export const FileUploadSection = ({
                 Data as unknown as CommonDataTypes[keyof CommonDataTypes]
               )}
               tableLayout="fixed"
-              scroll={{ x: "max-content"}}
+              scroll={{ x: "max-content" }}
               pagination={{
                 pageSize: 100,
               }}

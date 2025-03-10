@@ -27,7 +27,7 @@ export type ThreadsDataTypes = {
   >; // 用來描述用戶對不同 feed 的訂閱或興趣狀態
   LikedThreads: TextKeyList<
     "text_post_app_media_likes",
-    CommonDataTypes["ThreadsData"]
+    CommonDataTypes["CommentData"]
   >; // 按讚的串文
   ThreadsViewed: TextKeyList<
     "text_post_app_text_post_app_posts_seen",

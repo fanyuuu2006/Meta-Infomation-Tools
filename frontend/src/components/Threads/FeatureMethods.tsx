@@ -14,8 +14,8 @@ import {
   FeedDataSource,
   MediaPostDataColumns,
   MediaPostDataSource,
-  ThreadsPostDataColumns,
-  ThreadsPostDataSource,
+  PostCommentDataColumns,
+  PostCommentDataSource,
   UserDataColumns,
   UserDataSource,
 } from "../common/TableDataDisplay";
@@ -46,7 +46,7 @@ export const ThreadsFeatureMethods: Record<string, Method> = {
 
     columns: UserDataColumns,
     dataSource: (data) =>
-      UserDataSource(data as unknown as CommonDataTypes["UserData"][]) as [],
+      UserDataSource(data as CommonDataTypes["UserData"][]) as [],
   },
 
   NoFollowingBack: {
@@ -74,7 +74,7 @@ export const ThreadsFeatureMethods: Record<string, Method> = {
 
     columns: UserDataColumns,
     dataSource: (data) =>
-      UserDataSource(data as unknown as CommonDataTypes["UserData"][]) as [],
+      UserDataSource(data as CommonDataTypes["UserData"][]) as [],
   },
 
   Followers: {
@@ -96,7 +96,7 @@ export const ThreadsFeatureMethods: Record<string, Method> = {
 
     columns: UserDataColumns,
     dataSource: (data) =>
-      UserDataSource(data as unknown as CommonDataTypes["UserData"][]) as [],
+      UserDataSource(data as CommonDataTypes["UserData"][]) as [],
   },
 
   Following: {
@@ -118,7 +118,7 @@ export const ThreadsFeatureMethods: Record<string, Method> = {
 
     columns: UserDataColumns,
     dataSource: (data) =>
-      UserDataSource(data as unknown as CommonDataTypes["UserData"][]) as [],
+      UserDataSource(data as CommonDataTypes["UserData"][]) as [],
   },
 
   FollowEachOther: {
@@ -146,7 +146,7 @@ export const ThreadsFeatureMethods: Record<string, Method> = {
 
     columns: UserDataColumns,
     dataSource: (data) =>
-      UserDataSource(data as unknown as CommonDataTypes["UserData"][]) as [],
+      UserDataSource(data as CommonDataTypes["UserData"][]) as [],
   },
 
   NewFollowers: {
@@ -184,7 +184,7 @@ export const ThreadsFeatureMethods: Record<string, Method> = {
 
     columns: UserDataColumns,
     dataSource: (data) =>
-      UserDataSource(data as unknown as CommonDataTypes["UserData"][]) as [],
+      UserDataSource(data as CommonDataTypes["UserData"][]) as [],
   },
 
   PendingFollowRequests: {
@@ -210,7 +210,7 @@ export const ThreadsFeatureMethods: Record<string, Method> = {
 
     columns: UserDataColumns,
     dataSource: (data) =>
-      UserDataSource(data as unknown as CommonDataTypes["UserData"][]) as [],
+      UserDataSource(data as CommonDataTypes["UserData"][]) as [],
   },
 
   RecentFollowRequests: {
@@ -236,7 +236,7 @@ export const ThreadsFeatureMethods: Record<string, Method> = {
 
     columns: UserDataColumns,
     dataSource: (data) =>
-      UserDataSource(data as unknown as CommonDataTypes["UserData"][]) as [],
+      UserDataSource(data as CommonDataTypes["UserData"][]) as [],
   },
 
   RecentlyUnfollowedProfiles: {
@@ -262,7 +262,7 @@ export const ThreadsFeatureMethods: Record<string, Method> = {
 
     columns: UserDataColumns,
     dataSource: (data) =>
-      UserDataSource(data as unknown as CommonDataTypes["UserData"][]) as [],
+      UserDataSource(data as CommonDataTypes["UserData"][]) as [],
   },
 
   InterestFeedsOnThreads: {
@@ -288,7 +288,7 @@ export const ThreadsFeatureMethods: Record<string, Method> = {
 
     columns: FeedDataColumns,
     dataSource: (data) =>
-      FeedDataSource(data as unknown as CommonDataTypes["FeedData"][]) as [],
+      FeedDataSource(data as CommonDataTypes["FeedData"][]) as [],
   },
 
   LikedThreads: {
@@ -306,16 +306,16 @@ export const ThreadsFeatureMethods: Record<string, Method> = {
       return GetDatas<
         ThreadsDataTypes,
         "LikedThreads",
-        CommonDataTypes["ThreadsData"]
+        CommonDataTypes["CommentData"]
       >(file1);
     },
     fileNames: ["Liked Threads"],
     listTitle: "(Threads) 您按讚的串文",
 
-    columns: ThreadsPostDataColumns,
+    columns: PostCommentDataColumns,
     dataSource: (data) =>
-      ThreadsPostDataSource(
-        data as unknown as CommonDataTypes["ThreadsData"][]
+      PostCommentDataSource(
+        data as CommonDataTypes["CommentData"][]
       ) as [],
   },
 
@@ -338,10 +338,10 @@ export const ThreadsFeatureMethods: Record<string, Method> = {
     fileNames: ["Threads Viewed"],
     listTitle: "(Threads) 瀏覽過的串文作者與時間",
 
-    columns: ThreadsPostDataColumns,
+    columns: PostCommentDataColumns,
     dataSource: (data) =>
-      ThreadsPostDataSource(
-        data as unknown as CommonDataTypes["PostData"][]
+      PostCommentDataSource(
+        data as CommonDataTypes["PostData"][]
       ) as [],
   },
 
@@ -368,10 +368,10 @@ export const ThreadsFeatureMethods: Record<string, Method> = {
     fileNames: ["Your Posts Without Notifications"],
     listTitle: "(Threads) 您已關閉通知的串文",
 
-    columns: ThreadsPostDataColumns,
+    columns: PostCommentDataColumns,
     dataSource: (data) =>
-      ThreadsPostDataSource(
-        data as unknown as CommonDataTypes["PostData"][]
+      PostCommentDataSource(
+        data as CommonDataTypes["PostData"][]
       ) as [],
   },
 
@@ -399,7 +399,7 @@ export const ThreadsFeatureMethods: Record<string, Method> = {
     columns: MediaPostDataColumns,
     dataSource: (data) =>
       MediaPostDataSource(
-        data as unknown as CommonDataTypes["MediaPostData"][]
+        data as CommonDataTypes["MediaPostData"][]
       ) as [],
   },
 
@@ -426,6 +426,6 @@ export const ThreadsFeatureMethods: Record<string, Method> = {
 
     columns: AppDataColumns,
     dataSource: (data) =>
-      AppDataSource(data as unknown as CommonDataTypes["AppData"][]) as [],
+      AppDataSource(data as CommonDataTypes["AppData"][]) as [],
   },
 };

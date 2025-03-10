@@ -1,11 +1,11 @@
 import { TextKeyList, CommonDataTypes } from "../CommonType";
 
 type BlockedUserData = {
-  title: string;
+  title: CommonDataTypes["UserID"];
   string_list_data: [
     {
       href?: string;
-      timestamp: number;
+      timestamp: CommonDataTypes["TimeStamp"];
     }
   ];
 };
@@ -46,4 +46,9 @@ export type InstagramDataTypes = {
     "relationships_hide_stories_from",
     CommonDataTypes["UserData"]
   >; // 隱藏限時動態名單
+  LikedComments: TextKeyList<
+    "likes_comment_likes",
+    CommonDataTypes["CommentData"]
+  >;
+  LikedPosts: TextKeyList<"likes_media_likes", CommonDataTypes["CommentData"]>;
 };

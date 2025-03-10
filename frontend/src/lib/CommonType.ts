@@ -70,8 +70,8 @@ export type CommonDataTypes = {
   TimeStamp: TimeStamp;
 
   UserData: BaseListData;
+  CommentData: BaseListData;
   HashtagData: BaseListData;
-  ThreadsData: BaseListData;
   AppData: BaseMapData<string, "Expired on" | "Last active on" | "App user ID">;
 
   // 貼文

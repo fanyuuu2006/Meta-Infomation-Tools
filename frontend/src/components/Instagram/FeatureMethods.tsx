@@ -1,5 +1,7 @@
 import { Method } from "@/components/common/FileUploadSection";
 import {
+  PostCommentDataColumns,
+  PostCommentDataSource,
   UserDataColumns,
   UserDataSource,
 } from "@/components/common/TableDataDisplay";
@@ -37,7 +39,7 @@ export const InstagramFeatureMethods: Record<string, Method> = {
     listTitle: "(Instagram) 尚未回追您的用戶名單",
     columns: UserDataColumns,
     dataSource: (data) =>
-      UserDataSource(data as unknown as CommonDataTypes["UserData"][]) as [],
+      UserDataSource(data as CommonDataTypes["UserData"][]) as [],
   },
 
   NoFollowingBack: {
@@ -63,7 +65,7 @@ export const InstagramFeatureMethods: Record<string, Method> = {
     listTitle: "(Instagram) 您尚未回追的用戶名單",
     columns: UserDataColumns,
     dataSource: (data) =>
-      UserDataSource(data as unknown as CommonDataTypes["UserData"][]) as [],
+      UserDataSource(data as CommonDataTypes["UserData"][]) as [],
   },
 
   Followers: {
@@ -87,7 +89,7 @@ export const InstagramFeatureMethods: Record<string, Method> = {
     listTitle: "(Instagram) 您的粉絲用戶名單",
     columns: UserDataColumns,
     dataSource: (data) =>
-      UserDataSource(data as unknown as CommonDataTypes["UserData"][]) as [],
+      UserDataSource(data as CommonDataTypes["UserData"][]) as [],
   },
 
   Following: {
@@ -112,7 +114,7 @@ export const InstagramFeatureMethods: Record<string, Method> = {
     listTitle: "(Instagram) 您追蹤的用戶名單",
     columns: UserDataColumns,
     dataSource: (data) =>
-      UserDataSource(data as unknown as CommonDataTypes["UserData"][]) as [],
+      UserDataSource(data as CommonDataTypes["UserData"][]) as [],
   },
 
   FollowEachOther: {
@@ -138,7 +140,7 @@ export const InstagramFeatureMethods: Record<string, Method> = {
     listTitle: "(Instagram) 與您互相追蹤的用戶名單",
     columns: UserDataColumns,
     dataSource: (data) =>
-      UserDataSource(data as unknown as CommonDataTypes["UserData"][]) as [],
+      UserDataSource(data as CommonDataTypes["UserData"][]) as [],
   },
 
   NewFollowers: {
@@ -162,7 +164,7 @@ export const InstagramFeatureMethods: Record<string, Method> = {
     listTitle: "(Instagram) 您的新粉絲的用戶名單",
     columns: UserDataColumns,
     dataSource: (data) =>
-      UserDataSource(data as unknown as CommonDataTypes["UserData"][]) as [],
+      UserDataSource(data as CommonDataTypes["UserData"][]) as [],
   },
 
   UnFollowers: {
@@ -186,7 +188,7 @@ export const InstagramFeatureMethods: Record<string, Method> = {
     listTitle: "(Instagram) 退追您粉絲的用戶名單",
     columns: UserDataColumns,
     dataSource: (data) =>
-      UserDataSource(data as unknown as CommonDataTypes["UserData"][]) as [],
+      UserDataSource(data as CommonDataTypes["UserData"][]) as [],
   },
 
   CloseFriends: {
@@ -212,7 +214,7 @@ export const InstagramFeatureMethods: Record<string, Method> = {
 
     columns: UserDataColumns,
     dataSource: (data) =>
-      UserDataSource(data as unknown as CommonDataTypes["UserData"][]) as [],
+      UserDataSource(data as CommonDataTypes["UserData"][]) as [],
   },
 
   BlockedUsers: {
@@ -234,7 +236,7 @@ export const InstagramFeatureMethods: Record<string, Method> = {
 
     columns: UserDataColumns,
     dataSource: (data) =>
-      UserDataSource(data as unknown as CommonDataTypes["UserData"][]) as [],
+      UserDataSource(data as CommonDataTypes["UserData"][]) as [],
   },
 
   RecentlyUnfollowedProfiles: {
@@ -261,7 +263,7 @@ export const InstagramFeatureMethods: Record<string, Method> = {
 
     columns: UserDataColumns,
     dataSource: (data) =>
-      UserDataSource(data as unknown as CommonDataTypes["UserData"][]) as [],
+      UserDataSource(data as CommonDataTypes["UserData"][]) as [],
   },
 
   RecentFollowRequests: {
@@ -287,7 +289,7 @@ export const InstagramFeatureMethods: Record<string, Method> = {
 
     columns: UserDataColumns,
     dataSource: (data) =>
-      UserDataSource(data as unknown as CommonDataTypes["UserData"][]) as [],
+      UserDataSource(data as CommonDataTypes["UserData"][]) as [],
   },
 
   PendingFollowRequests: {
@@ -313,7 +315,7 @@ export const InstagramFeatureMethods: Record<string, Method> = {
 
     columns: UserDataColumns,
     dataSource: (data) =>
-      UserDataSource(data as unknown as CommonDataTypes["UserData"][]) as [],
+      UserDataSource(data as CommonDataTypes["UserData"][]) as [],
   },
 
   RemovedSuggestions: {
@@ -338,7 +340,7 @@ export const InstagramFeatureMethods: Record<string, Method> = {
     listTitle: "(Instagram) 被您移除的「推薦用戶」",
     columns: UserDataColumns,
     dataSource: (data) =>
-      UserDataSource(data as unknown as CommonDataTypes["UserData"][]) as [],
+      UserDataSource(data as CommonDataTypes["UserData"][]) as [],
   },
 
   FollowingHashtags: {
@@ -363,7 +365,7 @@ export const InstagramFeatureMethods: Record<string, Method> = {
     listTitle: "(Instagram) 您關注的標籤",
     columns: UserDataColumns,
     dataSource: (data) =>
-      UserDataSource(data as unknown as CommonDataTypes["UserData"][]) as [],
+      UserDataSource(data as CommonDataTypes["UserData"][]) as [],
   },
 
   HideStoryFrom: {
@@ -388,7 +390,61 @@ export const InstagramFeatureMethods: Record<string, Method> = {
     listTitle: "(Instagram) 您隱藏限時動態的對象",
     columns: UserDataColumns,
     dataSource: (data) =>
-      UserDataSource(data as unknown as CommonDataTypes["UserData"][]) as [],
+      UserDataSource(data as CommonDataTypes["UserData"][]) as [],
+  },
+
+  LikedPosts: {
+    func: (Datas: unknown[]): CommonDataTypes[keyof CommonDataTypes][] => {
+      const file1 = Datas[0] as InstagramDataTypes["LikedPosts"];
+      if (
+        !isValidData<InstagramDataTypes, "LikedPosts">(
+          file1,
+          (data: InstagramDataTypes["LikedPosts"]) =>
+            "likes_media_likes" in data
+        )
+      ) {
+        throw new Error("資料格式有誤");
+      }
+      return GetDatas<
+        InstagramDataTypes,
+        "LikedPosts",
+        CommonDataTypes["UserData"]
+      >(file1);
+    },
+    fileNames: ["Liked Posts"],
+    listTitle: "(Instagram) 您按讚的貼文",
+    columns: PostCommentDataColumns,
+    dataSource: (data) =>
+      PostCommentDataSource(
+        data as unknown as CommonDataTypes["CommentData"][]
+      ) as [],
+  },
+
+  LikedComments: {
+    func: (Datas: unknown[]): CommonDataTypes[keyof CommonDataTypes][] => {
+      const file1 = Datas[0] as InstagramDataTypes["LikedComments"];
+      if (
+        !isValidData<InstagramDataTypes, "LikedComments">(
+          file1,
+          (data: InstagramDataTypes["LikedComments"]) =>
+            "likes_comment_likes" in data
+        )
+      ) {
+        throw new Error("資料格式有誤");
+      }
+      return GetDatas<
+        InstagramDataTypes,
+        "LikedComments",
+        CommonDataTypes["UserData"]
+      >(file1);
+    },
+    fileNames: ["Liked Comments"],
+    listTitle: "(Instagram) 您按讚的留言",
+    columns: PostCommentDataColumns,
+    dataSource: (data) =>
+      PostCommentDataSource(
+        data as unknown as CommonDataTypes["CommentData"][]
+      ) as [],
   },
 };
 
@@ -414,7 +470,7 @@ export const InstagramFeatureMethods: Record<string, Method> = {
     listTitle: "(Instagram) 尚未回追您的用戶名單",
     columns: UserDataColumns,
     dataSource: (data) =>
-      UserDataSource(data as unknown as CommonDataTypes["UserData"][]) as [],
+      UserDataSource(data as CommonDataTypes["UserData"][]) as [],
   },
 
   NoFollowingBack: {
@@ -438,7 +494,7 @@ export const InstagramFeatureMethods: Record<string, Method> = {
     listTitle: "(Instagram) 您尚未回追的用戶名單",
     columns: UserDataColumns,
     dataSource: (data) =>
-      UserDataSource(data as unknown as CommonDataTypes["UserData"][]) as [],
+      UserDataSource(data as CommonDataTypes["UserData"][]) as [],
   },
 
   Followers: {
@@ -458,7 +514,7 @@ export const InstagramFeatureMethods: Record<string, Method> = {
     listTitle: "(Instagram) 您的粉絲用戶名單",
     columns: UserDataColumns,
     dataSource: (data) =>
-      UserDataSource(data as unknown as CommonDataTypes["UserData"][]) as [],
+      UserDataSource(data as CommonDataTypes["UserData"][]) as [],
   },
 
   Following: {
@@ -478,7 +534,7 @@ export const InstagramFeatureMethods: Record<string, Method> = {
     listTitle: "(Instagram) 您追蹤的用戶名單",
     columns: UserDataColumns,
     dataSource: (data) =>
-      UserDataSource(data as unknown as CommonDataTypes["UserData"][]) as [],
+      UserDataSource(data as CommonDataTypes["UserData"][]) as [],
   },
 
   FollowEachOther: {
@@ -506,7 +562,7 @@ export const InstagramFeatureMethods: Record<string, Method> = {
     listTitle: "(Instagram) 與您互相追蹤的用戶名單",
     columns: UserDataColumns,
     dataSource: (data) =>
-      UserDataSource(data as unknown as CommonDataTypes["UserData"][]) as [],
+      UserDataSource(data as CommonDataTypes["UserData"][]) as [],
   },
 
   NewFollowers: {
@@ -530,7 +586,7 @@ export const InstagramFeatureMethods: Record<string, Method> = {
     listTitle: "(Instagram) 您的新粉絲的用戶名單",
     columns: UserDataColumns,
     dataSource: (data) =>
-      UserDataSource(data as unknown as CommonDataTypes["UserData"][]) as [],
+      UserDataSource(data as CommonDataTypes["UserData"][]) as [],
   },
 
   UnFollowers: {
@@ -554,7 +610,7 @@ export const InstagramFeatureMethods: Record<string, Method> = {
     listTitle: "(Instagram) 退追您粉絲的用戶名單",
     columns: UserDataColumns,
     dataSource: (data) =>
-      UserDataSource(data as unknown as CommonDataTypes["UserData"][]) as [],
+      UserDataSource(data as CommonDataTypes["UserData"][]) as [],
   },
 
   CloseFriends: {
@@ -577,6 +633,6 @@ export const InstagramFeatureMethods: Record<string, Method> = {
 
     columns: UserDataColumns,
     dataSource: (data) =>
-      UserDataSource(data as unknown as CommonDataTypes["UserData"][]) as [],
+      UserDataSource(data as CommonDataTypes["UserData"][]) as [],
   },
 */

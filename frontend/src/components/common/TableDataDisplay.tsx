@@ -92,7 +92,7 @@ export const AppDataSource = (
     };
   });
 
-export const ThreadsPostDataColumns: TableColumnProps[] = [
+export const PostCommentDataColumns: TableColumnProps[] = [
   {
     title: "",
     dataIndex: "Index",
@@ -122,8 +122,8 @@ export const ThreadsPostDataColumns: TableColumnProps[] = [
   },
 ];
 
-export const ThreadsPostDataSource = (
-  datas: CommonDataTypes["PostData" | "ThreadsData"][]
+export const PostCommentDataSource = (
+  datas: CommonDataTypes["PostData" | "CommentData"][]
 ): {
   Index: number;
   UserID: CommonDataTypes["UserID"];
@@ -134,7 +134,7 @@ export const ThreadsPostDataSource = (
   datas
     .map(
       (
-        data: CommonDataTypes["PostData"] | CommonDataTypes["ThreadsData"],
+        data: CommonDataTypes["PostData"] | CommonDataTypes["CommentData"],
         index: number
       ) =>
         "string_list_data" in data
