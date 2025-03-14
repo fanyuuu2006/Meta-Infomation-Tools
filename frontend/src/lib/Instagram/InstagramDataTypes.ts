@@ -2,12 +2,10 @@ import { TextKeyList, CommonDataTypes } from "../CommonType";
 
 type BlockedUserData = {
   title: CommonDataTypes["UserID"];
-  string_list_data: [
-    {
-      href?: string;
-      timestamp: CommonDataTypes["TimeStamp"];
-    }
-  ];
+  string_list_data: {
+    href?: string;
+    timestamp: CommonDataTypes["TimeStamp"];
+  }[];
 };
 
 export type InstagramDataTypes = {
