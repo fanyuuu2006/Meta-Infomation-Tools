@@ -68,4 +68,5 @@ export type InstagramDataTypes = {
     "saved_saved_collections",
     CommonDataTypes["PostData"]
   >;
+  SavedPosts: TextKeyList<"saved_saved_media", CommonDataTypes["PostData"]>;
 };

@@ -85,6 +85,7 @@ export type CommonDataTypes = {
     | "Update Time"
     | "Name"
     | "Added Time"
+    | "Saved on"
   >;
   MediaPostData: Record<"media", MediaData[]>;
 

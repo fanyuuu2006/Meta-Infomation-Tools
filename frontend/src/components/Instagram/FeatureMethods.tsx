@@ -578,6 +578,32 @@ export const InstagramFeatureMethods: Record<string, Method> = {
     dataSource: (data) =>
       PostCommentDataSource(data as CommonDataTypes["PostData"][]) as [],
   },
+
+  SavedPosts: {
+    func: (Datas: unknown[]): CommonDataTypes[keyof CommonDataTypes][] => {
+      const file1 = Datas[0] as InstagramDataTypes["SavedPosts"];
+      if (
+        !isValidData<InstagramDataTypes, "SavedPosts">(
+          file1,
+          (data: InstagramDataTypes["SavedPosts"]) =>
+            "saved_saved_media" in data
+        )
+      ) {
+        throw new Error("資料格式有誤");
+      }
+      return GetDatas<
+        InstagramDataTypes,
+        "SavedPosts",
+        CommonDataTypes["PostData"]
+      >(file1);
+    },
+    fileNames: ["Saved Posts"],
+    listTitle: "(Instagram) 您的珍藏 ②",
+
+    columns: PostCommentDataColumns,
+    dataSource: (data) =>
+      PostCommentDataSource(data as CommonDataTypes["PostData"][]) as [],
+  },
 };
 
 /* export const InstagramFeatureMethods: Record<string, Method> = {
