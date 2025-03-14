@@ -1,5 +1,39 @@
 type TimeStamp = number;
 
+export type InformationType =
+  | "Posts"
+  | "Comments"
+  | "Likes"
+  | "Messages"
+  | "Photos"
+  | "Videos";
+
+export type LabelData<S> = {
+  label?: S;
+  timestamp_value?: TimeStamp;
+  value?: string;
+  vec?: InformationType[];
+};
+
+// 下載請求
+export type DownloadRequest = {
+  timestamp?: TimeStamp;
+  media?: MediaData[];
+  label_values?: LabelData<
+    | "Request completion time" // 請求完成時間
+    | "How many times did you try to download the file?" // 下載次數
+    | "Start date" // 數據範圍的起始時間
+    | "End date" // 數據範圍的結束時間
+    | "Information types"
+    | "Media quality"
+    | "Output format" // 輸出格式
+    | "Have you seen this archive?" // 用戶是否查看過這份資料
+    | "Have we notified you that your request is taking a long time to process?"
+    | "Where you requested your data from"
+  >[];
+  fbid: string; // Facebook User ID
+};
+
 // 相機元數據
 export type CameraMetadata = {
   has_camera_metadata: boolean;
@@ -74,18 +108,20 @@ export type CommonDataTypes = {
   AppData: BaseMapData<string, "Expired on" | "Last active on" | "App user ID">;
 
   // 貼文
-  PostCommentData:BaseListData| BaseMapData<
-    string,
-    | "Author"
-    | "Time"
-    | "Creation Time"
-    | "Url"
-    | "Caption"
-    | "Update Time"
-    | "Name"
-    | "Added Time"
-    | "Saved on"
-  >;
+  PostCommentData:
+    | BaseListData
+    | BaseMapData<
+        string,
+        | "Author"
+        | "Time"
+        | "Creation Time"
+        | "Url"
+        | "Caption"
+        | "Update Time"
+        | "Name"
+        | "Added Time"
+        | "Saved on"
+      >;
   MediaPostData: Record<"media", MediaData[]>;
 
   // 主題 動態消息
