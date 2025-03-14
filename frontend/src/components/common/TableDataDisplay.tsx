@@ -123,7 +123,7 @@ export const PostCommentDataColumns: TableColumnProps[] = [
 ];
 
 export const PostCommentDataSource = (
-  datas: CommonDataTypes["PostData" | "CommentData"][]
+  datas: CommonDataTypes["PostCommentData"][]
 ): {
   Index: number;
   UserID: CommonDataTypes["UserID"];
@@ -132,41 +132,37 @@ export const PostCommentDataSource = (
   Note: CommonDataTypes["TimeStamp"];
 }[] =>
   datas
-    .map(
-      (
-        data: CommonDataTypes["PostData"] | CommonDataTypes["CommentData"],
-        index: number
-      ) =>
-        "string_list_data" in data
-          ? {
-              Index: index + 1,
-              UserID: data.title,
-              Caption: data.string_list_data?.[0].value ?? "",
-              Href: data.string_list_data?.[0].href,
-              Note: data.string_list_data?.[0].timestamp ?? 0,
-            }
-          : "string_map_data" in data
-          ? {
-              Index: index + 1,
-              UserID:
-                data.string_map_data?.Author?.value ??
-                data.string_map_data?.Name?.value ??
-                null,
-              Caption: data.string_map_data?.Caption?.value ?? null,
-              Href:
-                data.string_map_data?.Url?.value ??
-                data.string_map_data?.Name?.href ??
-                data.string_map_data?.["Saved on"]?.href ??
-                null,
-              Note:
-                data.string_map_data?.Time?.timestamp ??
-                data.string_map_data?.["Creation Time"]?.timestamp ??
-                data.string_map_data?.["Update Time"]?.timestamp ??
-                data.string_map_data?.["Added Time"]?.timestamp ??
-                data.string_map_data?.["Saved on"]?.timestamp ??
-                null,
-            }
-          : null
+    .map((data: CommonDataTypes["PostCommentData"], index: number) =>
+      "string_list_data" in data
+        ? {
+            Index: index + 1,
+            UserID: data.title,
+            Caption: data.string_list_data?.[0].value ?? "",
+            Href: data.string_list_data?.[0].href,
+            Note: data.string_list_data?.[0].timestamp ?? 0,
+          }
+        : "string_map_data" in data
+        ? {
+            Index: index + 1,
+            UserID:
+              data.string_map_data?.Author?.value ??
+              data.string_map_data?.Name?.value ??
+              null,
+            Caption: data.string_map_data?.Caption?.value ?? null,
+            Href:
+              data.string_map_data?.Url?.value ??
+              data.string_map_data?.Name?.href ??
+              data.string_map_data?.["Saved on"]?.href ??
+              null,
+            Note:
+              data.string_map_data?.Time?.timestamp ??
+              data.string_map_data?.["Creation Time"]?.timestamp ??
+              data.string_map_data?.["Update Time"]?.timestamp ??
+              data.string_map_data?.["Added Time"]?.timestamp ??
+              data.string_map_data?.["Saved on"]?.timestamp ??
+              null,
+          }
+        : null
     )
     .filter(
       (

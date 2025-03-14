@@ -418,7 +418,7 @@ export const InstagramFeatureMethods: Record<string, Method> = {
     columns: PostCommentDataColumns,
     dataSource: (data) =>
       PostCommentDataSource(
-        data as unknown as CommonDataTypes["CommentData"][]
+        data as unknown as CommonDataTypes["PostCommentData"][]
       ) as [],
   },
 
@@ -445,7 +445,7 @@ export const InstagramFeatureMethods: Record<string, Method> = {
     columns: PostCommentDataColumns,
     dataSource: (data) =>
       PostCommentDataSource(
-        data as unknown as CommonDataTypes["CommentData"][]
+        data as unknown as CommonDataTypes["PostCommentData"][]
       ) as [],
   },
 
@@ -490,7 +490,7 @@ export const InstagramFeatureMethods: Record<string, Method> = {
       return GetDatas<
         InstagramDataTypes,
         "Polls",
-        CommonDataTypes["CommentData"]
+        CommonDataTypes["PostCommentData"]
       >(file1);
     },
     fileNames: ["Polls"],
@@ -498,7 +498,7 @@ export const InstagramFeatureMethods: Record<string, Method> = {
 
     columns: PostCommentDataColumns,
     dataSource: (data) =>
-      PostCommentDataSource(data as CommonDataTypes["CommentData"][]) as [],
+      PostCommentDataSource(data as CommonDataTypes["PostCommentData"][]) as [],
   },
 
   StoryLikes: {
@@ -516,7 +516,7 @@ export const InstagramFeatureMethods: Record<string, Method> = {
       return GetDatas<
         InstagramDataTypes,
         "StoryLikes",
-        CommonDataTypes["CommentData"]
+        CommonDataTypes["PostCommentData"]
       >(file1);
     },
     fileNames: ["Story Likes"],
@@ -524,7 +524,7 @@ export const InstagramFeatureMethods: Record<string, Method> = {
 
     columns: PostCommentDataColumns,
     dataSource: (data) =>
-      PostCommentDataSource(data as CommonDataTypes["CommentData"][]) as [],
+      PostCommentDataSource(data as CommonDataTypes["PostCommentData"][]) as [],
   },
 
   Quizzes: {
@@ -542,7 +542,7 @@ export const InstagramFeatureMethods: Record<string, Method> = {
       return GetDatas<
         InstagramDataTypes,
         "Quizzes",
-        CommonDataTypes["CommentData"]
+        CommonDataTypes["PostCommentData"]
       >(file1);
     },
     fileNames: ["Quizzes"],
@@ -550,7 +550,7 @@ export const InstagramFeatureMethods: Record<string, Method> = {
 
     columns: PostCommentDataColumns,
     dataSource: (data) =>
-      PostCommentDataSource(data as CommonDataTypes["CommentData"][]) as [],
+      PostCommentDataSource(data as CommonDataTypes["PostCommentData"][]) as [],
   },
 
   SavedCollections: {
@@ -568,7 +568,7 @@ export const InstagramFeatureMethods: Record<string, Method> = {
       return GetDatas<
         InstagramDataTypes,
         "SavedCollections",
-        CommonDataTypes["PostData"]
+        CommonDataTypes["PostCommentData"]
       >(file1);
     },
     fileNames: ["Saved Collections"],
@@ -576,7 +576,7 @@ export const InstagramFeatureMethods: Record<string, Method> = {
 
     columns: PostCommentDataColumns,
     dataSource: (data) =>
-      PostCommentDataSource(data as CommonDataTypes["PostData"][]) as [],
+      PostCommentDataSource(data as CommonDataTypes["PostCommentData"][]) as [],
   },
 
   SavedPosts: {
@@ -594,7 +594,7 @@ export const InstagramFeatureMethods: Record<string, Method> = {
       return GetDatas<
         InstagramDataTypes,
         "SavedPosts",
-        CommonDataTypes["PostData"]
+        CommonDataTypes["PostCommentData"]
       >(file1);
     },
     fileNames: ["Saved Posts"],
@@ -602,7 +602,7 @@ export const InstagramFeatureMethods: Record<string, Method> = {
 
     columns: PostCommentDataColumns,
     dataSource: (data) =>
-      PostCommentDataSource(data as CommonDataTypes["PostData"][]) as [],
+      PostCommentDataSource(data as CommonDataTypes["PostCommentData"][]) as [],
   },
 };
 

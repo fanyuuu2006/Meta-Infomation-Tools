@@ -46,25 +46,25 @@ export type InstagramDataTypes = {
   >; // 隱藏限時動態名單
   LikedComments: TextKeyList<
     "likes_comment_likes",
-    CommonDataTypes["CommentData"]
+    CommonDataTypes["PostCommentData"]
   >;
-  LikedPosts: TextKeyList<"likes_media_likes", CommonDataTypes["CommentData"]>;
+  LikedPosts: TextKeyList<"likes_media_likes", CommonDataTypes["PostCommentData"]>;
   RecommendedTopics: TextKeyList<
     "topics_your_topics",
     CommonDataTypes["TopicData"]
   >;
-  Polls: TextKeyList<"story_activities_polls", CommonDataTypes["CommentData"]>;
+  Polls: TextKeyList<"story_activities_polls", CommonDataTypes["PostCommentData"]>;
   StoryLikes: TextKeyList<
     "story_activities_story_likes",
-    CommonDataTypes["CommentData"]
+    CommonDataTypes["PostCommentData"]
   >;
   Quizzes: TextKeyList<
     "story_activities_quizzes",
-    CommonDataTypes["CommentData"]
+    CommonDataTypes["PostCommentData"]
   >;
   SavedCollections: TextKeyList<
     "saved_saved_collections",
-    CommonDataTypes["PostData"]
+    CommonDataTypes["PostCommentData"]
   >;
-  SavedPosts: TextKeyList<"saved_saved_media", CommonDataTypes["PostData"]>;
+  SavedPosts: TextKeyList<"saved_saved_media", CommonDataTypes["PostCommentData"]>;
 };
