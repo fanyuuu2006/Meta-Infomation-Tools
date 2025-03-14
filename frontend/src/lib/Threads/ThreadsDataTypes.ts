@@ -43,6 +43,6 @@ export type ThreadsDataTypes = {
   >;
   AppsAndWebsites: TextKeyList<
     "text_post_app_text_app_apps_and_websites",
-    CommonDataTypes["AppData"]
+    CommonDataTypes["AppData"] 
   >;
 };
