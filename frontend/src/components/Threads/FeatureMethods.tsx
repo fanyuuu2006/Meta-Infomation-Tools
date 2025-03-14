@@ -306,7 +306,7 @@ export const ThreadsFeatureMethods: Record<string, Method> = {
       return GetDatas<
         ThreadsDataTypes,
         "LikedThreads",
-        CommonDataTypes["CommentData"]
+        CommonDataTypes["PostCommentData"]
       >(file1);
     },
     fileNames: ["Liked Threads"],
@@ -315,7 +315,7 @@ export const ThreadsFeatureMethods: Record<string, Method> = {
     columns: PostCommentDataColumns,
     dataSource: (data) =>
       PostCommentDataSource(
-        data as CommonDataTypes["CommentData"][]
+        data as CommonDataTypes["PostCommentData"][]
       ) as [],
   },
 
@@ -341,7 +341,7 @@ export const ThreadsFeatureMethods: Record<string, Method> = {
     columns: PostCommentDataColumns,
     dataSource: (data) =>
       PostCommentDataSource(
-        data as CommonDataTypes["PostData"][]
+        data as CommonDataTypes["PostCommentData"][]
       ) as [],
   },
 
@@ -362,7 +362,7 @@ export const ThreadsFeatureMethods: Record<string, Method> = {
       return GetDatas<
         ThreadsDataTypes,
         "YourPostsWithoutNotifications",
-        CommonDataTypes["PostData"]
+        CommonDataTypes["PostCommentData"]
       >(file1);
     },
     fileNames: ["Your Posts Without Notifications"],
@@ -371,7 +371,7 @@ export const ThreadsFeatureMethods: Record<string, Method> = {
     columns: PostCommentDataColumns,
     dataSource: (data) =>
       PostCommentDataSource(
-        data as CommonDataTypes["PostData"][]
+        data as CommonDataTypes["PostCommentData"][]
       ) as [],
   },
 
