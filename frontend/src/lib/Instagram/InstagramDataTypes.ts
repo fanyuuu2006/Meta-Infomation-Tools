@@ -64,4 +64,8 @@ export type InstagramDataTypes = {
     "story_activities_quizzes",
     CommonDataTypes["CommentData"]
   >;
+  SavedCollections: TextKeyList<
+    "saved_saved_collections",
+    CommonDataTypes["PostData"]
+  >;
 };

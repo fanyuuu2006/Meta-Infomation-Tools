@@ -77,7 +77,14 @@ export type CommonDataTypes = {
   // 貼文
   PostData: BaseMapData<
     string,
-    "Author" | "Time" | "Creation Time" | "Url" | "Caption"
+    | "Author"
+    | "Time"
+    | "Creation Time"
+    | "Url"
+    | "Caption"
+    | "Update Time"
+    | "Name"
+    | "Added Time"
   >;
   MediaPostData: Record<"media", MediaData[]>;
 

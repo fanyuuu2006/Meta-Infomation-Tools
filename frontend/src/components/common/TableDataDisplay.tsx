@@ -148,12 +148,20 @@ export const PostCommentDataSource = (
           : "string_map_data" in data
           ? {
               Index: index + 1,
-              UserID: data.string_map_data?.Author?.value ?? null,
+              UserID:
+                data.string_map_data?.Author?.value ??
+                data.string_map_data?.Name?.value ??
+                null,
               Caption: data.string_map_data?.Caption?.value ?? null,
-              Href: data.string_map_data?.Url?.value ?? null,
+              Href:
+                data.string_map_data?.Url?.value ??
+                data.string_map_data?.Name?.href ??
+                null,
               Note:
                 data.string_map_data?.Time?.timestamp ??
                 data.string_map_data?.["Creation Time"]?.timestamp ??
+                data.string_map_data?.["Update Time"]?.timestamp ??
+                data.string_map_data?.["Added Time"]?.timestamp ??
                 null,
             }
           : null
